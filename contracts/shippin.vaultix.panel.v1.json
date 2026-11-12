@@ -29,7 +29,7 @@
                      ],
     "api":  {
                 "stability":  "draft",
-                "boundary":  "Legacy panel compatibility contract. The product store is core/. panel/internal/vault remains legacy/test code and must not become a second product vault. The native core API contract is contracts/vaultix.core.v1.json. Do not expose legacy raw-value routes to models.",
+                "boundary":  "Legacy panel compatibility contract. The product store is platform/engine/. panel/internal/vault remains legacy/test code and must not become a second product vault. The native core API contract is contracts/vaultix.core.v1.json. Do not expose legacy raw-value routes to models.",
                 "routes":  [
                                {
                                    "method":  "GET",

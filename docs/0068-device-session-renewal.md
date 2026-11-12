@@ -121,7 +121,7 @@ and round-trip success at 65,535 bytes. Receipt:
 `.cache/headless-ai-login/.cache/nomen-renewal-boundary-tests.jsonl`.
 
 The standalone engine and root CLI remain separate artifacts. This packet
-changes no `core/` application source or database schema. Earlier 0067 image
+changes no `platform/engine/` application source or database schema. Earlier 0067 image
 evidence remains historical; the accepted image above was rebuilt with the
 current committed-source revision. No GitHub Actions or registry build was used.
 
@@ -132,7 +132,7 @@ The implementation trace found two distinct existing boundaries. The TS
 `services/auth/apiauth/authenticator.go` verify application tokens and existing
 user sessions; the Go path also checks account locks and active organization
 membership. The existing browser OIDC service in
-`core/backend/src/shippin/services/oidc/oidc-config-service.ts` uses a configured
+`platform/engine/backend/src/shippin/services/oidc/oidc-config-service.ts` uses a configured
 confidential client and looks up aliases by external subject, organization and
 OIDC alias type. That browser flow is not a public-device access-token verifier.
 These were dependency traces, not whole-module authorship acceptance.

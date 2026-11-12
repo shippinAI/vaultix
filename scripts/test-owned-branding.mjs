@@ -17,18 +17,18 @@ assert.equal(scan(root).status, 0, "The actual Vaultix checkout must pass before
 mkdirSync(resolve(root, ".cache"), { recursive: true });
 const fixture = mkdtempSync(resolve(root, ".cache/owned-branding-"));
 for (const path of [
-  "scripts/check-owned.sh", "core/PIN", "core/SHIPPIN.md", "core/frontend/index.html",
-  "compose/vaultix.yml", "core/Dockerfile.standalone-vaultix", "core/Dockerfile.ghcr",
-  ".github/workflows/ghcr.yml", "core/backend/src/lib/config/env.ts",
+  "scripts/check-owned.sh", "platform/engine/PIN", "core/SHIPPIN.md", "platform/engine/frontend/index.html",
+  "compose/vaultix.yml", "platform/engine/Dockerfile.standalone-vaultix", "platform/engine/Dockerfile.ghcr",
+  ".github/workflows/ghcr.yml", "platform/engine/backend/src/lib/config/env.ts",
   "docs/0015-frozen-no-connection.md", "panel/internal/vault/engine.go",
   ...["vaultix-mark.svg", "vaultix-wordmark.svg", "vaultix-loading.svg", "vaultix-social.png"]
-    .map(name => `core/frontend/public/images/${name}`)
+    .map(name => `platform/engine/frontend/public/images/${name}`)
 ]) {
   mkdirSync(dirname(resolve(fixture, path)), { recursive: true });
   copyFileSync(resolve(root, path), resolve(fixture, path));
 }
-mkdirSync(resolve(fixture, "core/frontend/src"), { recursive: true });
-const probe = resolve(fixture, "core/frontend/src/brand-proof.tsx");
+mkdirSync(resolve(fixture, "platform/engine/frontend/src"), { recursive: true });
+const probe = resolve(fixture, "platform/engine/frontend/src/brand-proof.tsx");
 writeFileSync(probe, 'export const label = "Vaultix — vaultix.cloud — DevSCIF.com";\n');
 assert.equal(scan(fixture).status, 0, "Owned product names must remain accepted");
 for (const label of ["Infisical", "INFISICAL", "infisical.com", "support@infisical.com"]) {

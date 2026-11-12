@@ -52,7 +52,7 @@ data-access code, so freezing them on the inherited names would break fresh inst
    `TableName` entries and 13 tables that raw-SQL migrations create) records each inherited
    name and its `vx_` name. `node scripts/map-table-namespaces.mjs --check` proves the map
    follows the rules, `TableName` matches it, and the runtime list
-   `core/backend/src/db/table-namespaces.ts` is current.
+   `platform/engine/backend/src/db/table-namespaces.ts` is current.
 2. **Every migration uses the new names** through `TableName`, so a fresh database gets
    `vx_` tables from the start. Raw SQL inside migrations was rewritten to match. The 13
    raw-SQL tables are still created under their inherited names and renamed afterwards.
@@ -75,7 +75,7 @@ data-access code, so freezing them on the inherited names would break fresh inst
    so going back means restoring the checkpoint (below).
 5. **Columns keep their names.** Junction tables named their foreign-key columns after the
    tables they join (`secret_tagsId`, `secrets_v2Id`); those stay, through
-   `core/backend/src/db/junction-columns.ts`, on fresh and upgraded stores alike.
+   `platform/engine/backend/src/db/junction-columns.ts`, on fresh and upgraded stores alike.
 6. **Generated names follow their table.** Names PostgreSQL generated from a table's name
    (`_pkey`, `_key`, `_fkey`, `_check`, `_excl`, `_idx`, `_seq`) and the `<table>_updatedAt`
    trigger are renamed with it, using PostgreSQL's own truncation rule, so an upgraded store has

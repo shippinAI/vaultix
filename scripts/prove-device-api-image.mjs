@@ -30,7 +30,7 @@ const run = "vaultix-device-api-" + randomBytes(8).toString("hex");
 try {
   phase = "compile disposable grant issuer";
   const source = resolve(evidence, "source");
-  cpSync("core/backend-go", source, { recursive: true });
+  cpSync("platform/engine/backend-go", source, { recursive: true });
   function normalize(dir, relative = "") {
     for (const e of readdirSync(dir, { withFileTypes: true })) {
       const p = resolve(dir, e.name),

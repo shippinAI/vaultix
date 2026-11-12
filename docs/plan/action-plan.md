@@ -25,9 +25,9 @@ There are 17 workstreams, 57 tasks, and 13 packages. Counts are row mappings, no
 
 ## Current architecture
 
-Vaultix is a multi-tenant secrets manager. The running product is the TypeScript API and React UI in `core/`, built by `core/Dockerfile.standalone-vaultix`, with PostgreSQL and Dragonfly. `https://vaultix.cloud` answered read-only checks on 2026-11-08: invite-only, mail off, core MCP present, `GET /api/v1/vaultix/auth/config` missing, panel trust and health missing. The deployed git revision was not identifiable.
+Vaultix is a multi-tenant secrets manager. The running product is the TypeScript API and React UI in `platform/engine/`, built by `platform/engine/Dockerfile.standalone-vaultix`, with PostgreSQL and Dragonfly. `https://vaultix.cloud` answered read-only checks on 2026-11-08: invite-only, mail off, core MCP present, `GET /api/v1/vaultix/auth/config` missing, panel trust and health missing. The deployed git revision was not identifiable.
 
-Go code in `core/backend-go` is a partial rewrite. The public process does not forward business routes to it. The CLI in `cmd/vaultix` and `internal/` can read and write secret values through `/api/v3/secrets/raw`. Core MCP cannot. The optional panel has a different MCP.
+Go code in `platform/engine/backend-go` is a partial rewrite. The public process does not forward business routes to it. The CLI in `cmd/vaultix` and `internal/` can read and write secret values through `/api/v3/secrets/raw`. Core MCP cannot. The optional panel has a different MCP.
 
 ## Proposed architecture
 
@@ -76,13 +76,13 @@ Goal: an assistant can use the core connector with a credential that lists secre
 
 | Path | Change |
 | --- | --- |
-| `core/backend/src/shippin/services/permission/` | Test a custom role that grants `secrets:describeSecret` and does not grant `secrets:readValue`. Do not edit the Viewer rule set |
-| `core/backend/src/server/routes/v3/deprecated-secret-router.ts` and the raw service it calls | Assert that role is denied. Response body has no `secretValue` |
-| `core/backend/src/services/vaultix/reference-service.ts` | Same role can list references. Payload fields stay id, name, version, createdAt, updatedAt |
-| `core/backend/src/server/routes/vaultix-router.ts` | No new tools. Session behavior either documented or narrowed to match the contract |
-| `core/backend/src/services/vaultix/catalog.ts` and `mcp.ts` | Connection text names core HTTP and `vaultix mcp`. It says the panel MCP is not the connector |
+| `platform/engine/backend/src/shippin/services/permission/` | Test a custom role that grants `secrets:describeSecret` and does not grant `secrets:readValue`. Do not edit the Viewer rule set |
+| `platform/engine/backend/src/server/routes/v3/deprecated-secret-router.ts` and the raw service it calls | Assert that role is denied. Response body has no `secretValue` |
+| `platform/engine/backend/src/services/vaultix/reference-service.ts` | Same role can list references. Payload fields stay id, name, version, createdAt, updatedAt |
+| `platform/engine/backend/src/server/routes/vaultix-router.ts` | No new tools. Session behavior either documented or narrowed to match the contract |
+| `platform/engine/backend/src/services/vaultix/catalog.ts` and `mcp.ts` | Connection text names core HTTP and `vaultix mcp`. It says the panel MCP is not the connector |
 | `contracts/vaultix.core.v1.json` | One sentence for when a session id exists |
-| `core/ai/README.md`, `core/ai/clyffy/SKILL.md` | Same boundary. No token samples |
+| `platform/engine/ai/README.md`, `platform/engine/ai/clyffy/SKILL.md` | Same boundary. No token samples |
 | `internal/cli/mcp.go`, `internal/api/mcp.go`, `internal/api/secrets.go` | Stdio proxy unchanged in behavior. A test shows the raw client is a different call from MCP |
 
 ### Pass
@@ -95,8 +95,8 @@ All of these are true on one commit:
 4. A planted value, comment, and custom metadata string are absent from the reference JSON.
 5. The contract and the router agree about sessions. A unit test fails if they diverge.
 6. Tool annotations for the eight tools stay read-only. No new tool name appears.
-7. `cd core/backend && npm run test:unit -- src/services/vaultix src/server/routes/vaultix-router.test.ts src/server/routes/vaultix-reference-router.test.ts` passes, including the new denial test.
-8. `cd core/backend && node --max-old-space-size=6144 ./node_modules/.bin/tsc --noEmit` passes.
+7. `cd platform/engine/backend && npm run test:unit -- src/services/vaultix src/server/routes/vaultix-router.test.ts src/server/routes/vaultix-reference-router.test.ts` passes, including the new denial test.
+8. `cd platform/engine/backend && node --max-old-space-size=6144 ./node_modules/.bin/tsc --noEmit` passes.
 9. `go test ./internal/api ./internal/cli` passes.
 10. The connection paragraph tells a Grok or other MCP client to use `POST /api/v1/vaultix/mcp` or stdio `vaultix mcp`, and to keep the bearer in the host secret store or the CLI credential file.
 
@@ -118,13 +118,13 @@ A short receipt in the PR: commit, commands, pass counts, and the sentence "View
 | Need | Used by | Audit result on this machine |
 | --- | --- | --- |
 | Node 22 and npm `>=11.10.0` | Backend and frontend | npm 11.10.0 installed outside the repo. System npm 10.9.9 is too old for `engines` |
-| `cd core/backend && npm ci` and frontend `npm ci` | Unit, lint, typecheck, build | Both installs passed |
+| `cd platform/engine/backend && npm ci` and frontend `npm ci` | Unit, lint, typecheck, build | Both installs passed |
 | Backend unit tests | Package 01 | 2208 passed, 23 skipped, 1 file skipped. The skipped file name was not in the dot report |
 | Backend `tsc` with a 6 GB heap | Package 01 | Passed |
 | Frontend `tsc` and `npm run build` | UI packages | Passed only with an 8 GB heap. Default heap aborted, exit 134 |
 | Frontend and backend `npm run lint` | Any UI or API PR | Failed. Frontend 72 errors and 5 warnings. Backend 26 errors and 4 warnings. Mostly Prettier. Do not autofix inside an unrelated package |
 | Docker | Image, tenant, smoke, Go integration | `docker: command not found`. Go integration panicked `rootless Docker not found` |
-| Loopback Postgres, Redis, and `core/.env.test` | `node scripts/prepare-local-integration.mjs`, then `node scripts/run-local-auth-e2e.mjs password`, `machine`, and `references` | Password 6 passed, universal-auth 12 passed, reference boundary 5 passed. The rest of `npm run test:e2e` was not run. `max_locks_per_transaction` must be at least 256. |
+| Loopback Postgres, Redis, and `platform/engine/.env.test` | `node scripts/prepare-local-integration.mjs`, then `node scripts/run-local-auth-e2e.mjs password`, `machine`, and `references` | Password 6 passed, universal-auth 12 passed, reference boundary 5 passed. The rest of `npm run test:e2e` was not run. `max_locks_per_transaction` must be at least 256. |
 | `node scripts/map-capabilities.mjs --check` | Catalog edits | Failed: stale `catalog.json` |
 | `node scripts/test-capability-map.mjs` | Catalog structure | Passed |
 | Operator mail, keys, and DNS | Packages 07 and 08 | Not available in this plan. Live `emailConfigured` was false |
@@ -173,7 +173,7 @@ Receipt: contract says stateless; router can issue a session; catalog check is s
 
 ### identity
 
-Authoritative files: `core/backend/src/server/routes/v3/login-router.ts`, signup and auth-token services, `core/backend-go/internal/services/auth/device/`, `internal/cli/auth_cmds.go`, `internal/oidc/`.
+Authoritative files: `platform/engine/backend/src/server/routes/v3/login-router.ts`, signup and auth-token services, `platform/engine/backend-go/internal/services/auth/device/`, `internal/cli/auth_cmds.go`, `internal/oidc/`.
 
 Decisions: built-in password, universal-auth, and token login work with Nomen absent. Interactive terminal SSO uses a configured issuer and is not required for headless access. The Go device grant stays flag-off and is not the public Node route. `GET /api/v1/vaultix/auth/config` returned 404 on the public host when last checked; this branch serves it.
 
@@ -187,7 +187,7 @@ Receipt: `internal/cli/login_mode_test.go` locks terminal SSO and non-interactiv
 
 ### authorization
 
-Authoritative files: `core/backend/src/shippin/services/permission/default-roles.ts`, `permission-service.ts`, Go `internal/services/permission`.
+Authoritative files: `platform/engine/backend/src/shippin/services/permission/default-roles.ts`, `permission-service.ts`, Go `internal/services/permission`.
 
 Decisions: assistant least privilege is a custom role, not a Viewer edit, until Jesse says otherwise. Cross-tenant denial is an image test, not a unit-test claim.
 
@@ -201,7 +201,7 @@ Receipt: Viewer includes both `describeSecret` and `readValue` at `default-roles
 
 ### ui
 
-Authoritative files: `core/frontend/src/pages/`, `core/frontend/src/hooks/api/vaultix/`, `docs/0025`, `docs/0050`.
+Authoritative files: `platform/engine/frontend/src/pages/`, `platform/engine/frontend/src/hooks/api/vaultix/`, `docs/0025`, `docs/0050`.
 
 Decisions: `/` is the product. `/help` is optional. Lessons do not submit forms. Accessibility for the whole UI is package 09, not package 01.
 
@@ -215,7 +215,7 @@ Receipt: live `/` returned the Vite shell. Sign-in was not exercised.
 
 ### secrets
 
-Authoritative files: `core/backend/src/services/vaultix/reference-service.ts`, `secret-v2-bridge-dal.ts` `findReferencePage`, `internal/api/secrets.go`, `core/backend-go/internal/services/secretmanager/reference/`.
+Authoritative files: `platform/engine/backend/src/services/vaultix/reference-service.ts`, `secret-v2-bridge-dal.ts` `findReferencePage`, `internal/api/secrets.go`, `platform/engine/backend-go/internal/services/secretmanager/reference/`.
 
 Decisions: reference SQL selects id, key, version, timestamps, and tag slugs for permission checks. Raw GET returns values for the CLI. Go reads are not the public owner.
 
@@ -231,7 +231,7 @@ Receipt: `findReferencePage` comment says the path must not load ciphertext.
 
 ### ai
 
-Authoritative files: `core/backend/src/services/vaultix/mcp.ts`, `catalog.ts`, `core/ai/clyffy/SKILL.md`, `internal/cli/mcp.go`.
+Authoritative files: `platform/engine/backend/src/services/vaultix/mcp.ts`, `catalog.ts`, `platform/engine/ai/clyffy/SKILL.md`, `internal/cli/mcp.go`.
 
 Decisions: core MCP is the connector. Mutations stay off (`ai.mutations-hold`) until writes and inject exist. A Grok bot is an external client of this MCP. Historical `docs/0009` and `docs/0012` are superseded for the tool list.
 
@@ -273,7 +273,7 @@ Receipt: root `go test ./...` passed, including `internal/cli`.
 
 ### automation
 
-Authoritative files: `core/backend/src/queue/`, secret-rotation and dynamic-secret services.
+Authoritative files: `platform/engine/backend/src/queue/`, secret-rotation and dynamic-secret services.
 
 Decisions: BullMQ for events, cron manager for schedules, as the backend guide already says. No second queue framework.
 
@@ -287,7 +287,7 @@ Receipt: none from this audit beyond code presence. Capability evidence is `Not 
 
 ### integrations
 
-Authoritative files: `core/backend/src/services/app-connection/`, `core/backend/src/shippin/routes/v1/app-connection-routers/`.
+Authoritative files: `platform/engine/backend/src/services/app-connection/`, `platform/engine/backend/src/shippin/routes/v1/app-connection-routers/`.
 
 Decisions: each provider is its own acceptance. The xAI template is a stored API key, not the Grok connector.
 
@@ -301,7 +301,7 @@ Receipt: many routers exist. No provider outage test was run.
 
 ### audit
 
-Authoritative files: `core/backend/src/shippin/services/audit-log/`, Go audit producer tests if a slice moves.
+Authoritative files: `platform/engine/backend/src/shippin/services/audit-log/`, Go audit producer tests if a slice moves.
 
 Decisions: audit rows store actor and action, not secret values. High-cardinality tenant ids stay out of metric labels.
 
@@ -315,7 +315,7 @@ Receipt: live status said `auditLogStorageDisabled` false. That flag is not an e
 
 ### kms
 
-Authoritative files: `core/backend/src/services/kms/`, `core/backend/src/shippin/services` HSM and external KMS modules.
+Authoritative files: `platform/engine/backend/src/services/kms/`, `platform/engine/backend/src/shippin/services` HSM and external KMS modules.
 
 Decisions: losing `ENCRYPTION_KEY` makes the database unreadable. Key custody is operator work. HSM connectors are not accepted.
 
@@ -329,7 +329,7 @@ Receipt: capability `K03` is existing and not accepted end to end.
 
 ### pki
 
-Authoritative files: `core/backend/src` certificate and PKI services, `core/frontend/src/pages/cert-manager/`.
+Authoritative files: `platform/engine/backend/src` certificate and PKI services, `platform/engine/frontend/src/pages/cert-manager/`.
 
 Decisions: card and dashboard tests in old docs are not issuance proofs.
 
@@ -343,13 +343,13 @@ Receipt: none beyond code presence.
 
 ### pam
 
-Authoritative files: `core/backend/src/shippin/services/pam/`, `core/wasm/` for the remote-desktop decoder.
+Authoritative files: `platform/engine/backend/src/shippin/services/pam/`, `platform/engine/wasm/` for the remote-desktop decoder.
 
 Decisions: PAM sessions are not MCP tools. Recordings must not flow into the assistant.
 
 Dependencies: approvals and audit.
 
-Constraints: read `core/backend/src/shippin/services/pam/CLAUDE.md` before an edit. This plan does not expand it.
+Constraints: read `platform/engine/backend/src/shippin/services/pam/CLAUDE.md` before an edit. This plan does not expand it.
 
 Next task: `pam.sessions`.
 
@@ -357,7 +357,7 @@ Receipt: none from a live session.
 
 ### scanning
 
-Authoritative files: secret-scanning services and `core/backend/src/server/plugins/secret-scanner.ts`.
+Authoritative files: secret-scanning services and `platform/engine/backend/src/server/plugins/secret-scanner.ts`.
 
 Decisions: findings shown to a model are redacted. Live status reported `secretScanningConfigured` false.
 

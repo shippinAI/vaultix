@@ -61,7 +61,7 @@ This is reachability/status evidence, not an authenticated hosted workflow.
 ## CLI capability reconciliation
 
 The root native dispatcher was read in full. Retained documentation under
-`core/docs/cli/commands` describes a broader CLI than that dispatcher implements.
+`platform/engine/docs/cli/commands` describes a broader CLI than that dispatcher implements.
 Those pages are source requirements, not evidence that the commands work. The
 [current first-party command index](https://vaultix.cloud/docs/cli/reference),
 reviewed on 2026-10-30, also includes command families absent from the native
@@ -97,7 +97,7 @@ names, old `--api` scripts, metadata-only MCP, server revocation, renewal lockin
 rejected renewal and logout. Device approval in that harness uses a labelled
 fixture issuer; tokens are still authorized by the real disposable application.
 
-Build `core/Dockerfile.standalone-vaultix` through the local self-hosted builder
+Build `platform/engine/Dockerfile.standalone-vaultix` through the local self-hosted builder
 and retain its application, cache, tenant, recovery and admission receipts.
 No live credentials or operator data belong in these tests. Record exact
 candidate/image/CLI identities separately before publication. This packet does

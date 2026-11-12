@@ -17,10 +17,10 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const mode = process.argv[2];
 assert.ok(["--initialize", "--render", "--check"].includes(mode), "Usage: node scripts/map-table-namespaces.mjs --initialize|--render|--check");
 
-const modelsPath = resolve(root, "core/backend/src/db/schemas/models.ts");
+const modelsPath = resolve(root, "platform/engine/backend/src/db/schemas/models.ts");
 const mapPath = resolve(root, "docs/schema/table-namespaces.json");
-const renamesPath = resolve(root, "core/backend/src/db/table-namespaces.ts");
-const migrationsPath = resolve(root, "core/backend/src/db/migrations");
+const renamesPath = resolve(root, "platform/engine/backend/src/db/table-namespaces.ts");
+const migrationsPath = resolve(root, "platform/engine/backend/src/db/migrations");
 
 // A Windows checkout may carry CRLF; the comparison is about content, not line endings.
 const read = path => readFileSync(path, "utf8").replace(/^﻿/, "").replace(/\r\n/g, "\n");
@@ -91,6 +91,6 @@ if (mode === "--initialize") {
     if (byKey.has(entry.key)) assert.equal(entry.value, byKey.get(entry.key), `TableName.${entry.key} must be ${byKey.get(entry.key)}`);
     else assert.ok(entry.value.startsWith(`${TABLE_PREFIX}_`) && Object.keys(TABLE_GROUPS).some(group => entry.value.startsWith(`${TABLE_PREFIX}_${group}_`)), `New TableName.${entry.key} must be vx_<group>_<entity>`);
   }
-  assert.equal(read(renamesPath), renderRenames(map.tables), "core/backend/src/db/table-namespaces.ts is stale");
+  assert.equal(read(renamesPath), renderRenames(map.tables), "platform/engine/backend/src/db/table-namespaces.ts is stale");
   console.log(JSON.stringify({ tables: map.tables.length, checked: true }));
 }

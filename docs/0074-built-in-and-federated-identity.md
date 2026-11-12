@@ -40,7 +40,7 @@ absorb it, not replace it with a mandatory external login:
 
 | Boundary | Observed source and behavior | Required continuation |
 | --- | --- | --- |
-| Owner, signup and login | `core/backend/src/server/routes/v1/admin-router.ts`, `v3/signup-router.ts`, `v3/login-router.ts`; existing auth/signup/login services and actual login UI | Preserve setup, invitations, email verification, password/SRP compatibility and method policy; migrate complete native use cases |
+| Owner, signup and login | `platform/engine/backend/src/server/routes/v1/admin-router.ts`, `v3/signup-router.ts`, `v3/login-router.ts`; existing auth/signup/login services and actual login UI | Preserve setup, invitations, email verification, password/SRP compatibility and method policy; migrate complete native use cases |
 | Sessions and recovery | `services/auth-token/auth-token-service.ts`, existing session tables, user/account-recovery modules, native `auth/apiauth` | Preserve refresh/reuse handling, session versions, lockout, account restrictions and recovery; test both independent and federated provenance |
 | MFA | Existing TOTP, email, passkey and recovery-code modules; native password/TOTP proof work | Keep required-method selection and factor lifecycle; shared durable replay is a scoped improvement, not complete native MFA migration |
 | Machine identity | Existing identity, membership-identity and universal/token/JWT/OIDC/cloud/Kubernetes/LDAP/SPIFFE/TLS routes | Preserve each method's credentials, expiry, limits, tenant binding and revocation; a human-login test cannot close workload parity |

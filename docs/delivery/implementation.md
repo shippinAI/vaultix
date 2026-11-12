@@ -30,17 +30,17 @@ only and does not deploy that commit.
 
 | Source owner | Observed behavior | Implementation consequence |
 | --- | --- | --- |
-| `core/backend-go/internal/services/auth/device/service.go` and `types.go` | Start, inspect, approve, deny, cancel, poll and cleanup exist; first-party client/scope, database time and transactional one-use consumption are explicit | Compose these owners; do not write another grant store or issuer |
-| `core/backend-go/internal/services/auth/device/access.go`, `apiauth/device_access.go` | Dedicated device validator hydrates current actor from canonical accounts/session/tenant policy | Use this validator on all selected resource routes; no unsigned actor headers or browser-token relabeling |
-| `core/backend-go/internal/server/api/platform_services.go` | Optional device access verifier is constructed; grant/session issuer is not exposed by this composition | Add grant/session dependencies and lifecycle alongside existing services |
-| `core/backend-go/internal/services/secretmanager/reference/reference.go` | Metadata-only SQL/permission service exists; `authenticatedActor` permits browser JWT and machine identity only | Explicit device-mode admission after verification, with unchanged permission evaluation |
-| `core/backend-go/internal/services/secretmanager/reference/projects.go` | Direct/group project/environment discovery exists | Mount and compare against existing UI/MCP contract, including empty membership and filtered pages |
-| `core/backend/src/server/plugins/go-sidecar-forwarding.ts` and `routes/index.ts` | Forwarding plugin lists selected secret reads, but registration is commented out; shadowing has separate activation | Presence of native code does not mean public ownership. Add exact method/path routing and prove it through the public image port |
-| `core/backend/src/services/vaultix/reference-service.ts` and `vaultix-router.ts` | Existing authenticated HTTP/MCP actions use TS reference service; current negotiated Apps behavior also lives here | Keep public contracts; move the complete selected source-action/transport slice to Go with differential tests before cutover |
+| `platform/engine/backend-go/internal/services/auth/device/service.go` and `types.go` | Start, inspect, approve, deny, cancel, poll and cleanup exist; first-party client/scope, database time and transactional one-use consumption are explicit | Compose these owners; do not write another grant store or issuer |
+| `platform/engine/backend-go/internal/services/auth/device/access.go`, `apiauth/device_access.go` | Dedicated device validator hydrates current actor from canonical accounts/session/tenant policy | Use this validator on all selected resource routes; no unsigned actor headers or browser-token relabeling |
+| `platform/engine/backend-go/internal/server/api/platform_services.go` | Optional device access verifier is constructed; grant/session issuer is not exposed by this composition | Add grant/session dependencies and lifecycle alongside existing services |
+| `platform/engine/backend-go/internal/services/secretmanager/reference/reference.go` | Metadata-only SQL/permission service exists; `authenticatedActor` permits browser JWT and machine identity only | Explicit device-mode admission after verification, with unchanged permission evaluation |
+| `platform/engine/backend-go/internal/services/secretmanager/reference/projects.go` | Direct/group project/environment discovery exists | Mount and compare against existing UI/MCP contract, including empty membership and filtered pages |
+| `platform/engine/backend/src/server/plugins/go-sidecar-forwarding.ts` and `routes/index.ts` | Forwarding plugin lists selected secret reads, but registration is commented out; shadowing has separate activation | Presence of native code does not mean public ownership. Add exact method/path routing and prove it through the public image port |
+| `platform/engine/backend/src/services/vaultix/reference-service.ts` and `vaultix-router.ts` | Existing authenticated HTTP/MCP actions use TS reference service; current negotiated Apps behavior also lives here | Keep public contracts; move the complete selected source-action/transport slice to Go with differential tests before cutover |
 | `internal/cli/auth_cmds.go`, `session.go` | Terminal defaults to Nomen; renewal recognizes only `nomen`; token/universal compatibility exists | Add explicit first-party credential profile and instance discovery; preserve existing saved profiles and explicit external flow |
 | `internal/api/client.go` | Authentication uses `/api/v1/vaultix/projects`; project slug lookup uses `/api/v2/workspace/:slug` | New session must work on actual metadata path; resolve selected project through authorized discovery without assuming legacy route admission |
 | `internal/cli/config.go`, `run_cmds.go`, `internal/api/secrets.go` | Local cache names omit instance/actor; automatic fallback follows any sync error; compatibility GET returns values | Add scope isolation and denial-aware delivery policy; existing compatibility is not the target-only AI boundary |
-| `core/frontend/src/pages/auth/CliRedirectPage/CliRedirectPage.tsx` | Old browser handoff displays a copyable bearer token | Preserve old compatibility until deliberate retirement; do not use it for new device approval |
+| `platform/engine/frontend/src/pages/auth/CliRedirectPage/CliRedirectPage.tsx` | Old browser handoff displays a copyable bearer token | Preserve old compatibility until deliberate retirement; do not use it for new device approval |
 | `contracts/vaultix.core.v1.json` | Metadata paths exist, but MCP description still says stateless and omits negotiated resource/session changes | Reconcile shipped contract before additive auth changes; do not generate a new incompatible model API |
 | `contracts/vaultix.updates.v1.json`, `internal/release/release.go` | Update status checks stable release metadata, not downloadable signed artifact readiness | Add a separate artifact manifest contract; preserve status v1 readers or explicitly version incompatible changes |
 
@@ -344,7 +344,7 @@ Use existing `scripts/lib/disposable-image.mjs`, real browser/CLI tests, device
 store/worker/image checks and encrypted recovery harness. Extend their assertions
 where appropriate, not their success flags. Keep test-only issuer fixtures explicitly
 labelled; LOGIN acceptance must use production public routes and actual browser
-approval. Run canonical `core/Dockerfile.standalone-vaultix` builds for runtime
+approval. Run canonical `platform/engine/Dockerfile.standalone-vaultix` builds for runtime
 changes. Documentation-only increments verify unchanged runtime/artifact identity.
 
 The journal currently refuses command-generated manual completion. Resolve that

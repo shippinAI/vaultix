@@ -79,7 +79,7 @@ Use the same existing counter keys and values. The change only prevents an
 unconditional overwrite; no migration or new writer is introduced. A rollback
 would restore the known concurrency defects, so do not use rollback as evidence
 of readiness. Preserve the route/API baseline, build
-`core/Dockerfile.standalone-vaultix`, run the acceptance gates, then commit and
+`platform/engine/Dockerfile.standalone-vaultix`, run the acceptance gates, then commit and
 roll the verified image into local development.
 
 ## Implementation evidence

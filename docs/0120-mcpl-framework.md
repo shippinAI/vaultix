@@ -15,7 +15,7 @@ runs the same service handler, permission check and audit as the button a person
 | --- | --- | --- |
 | Domains | The 15 canonical interaction domains. One vocabulary for UI actions, MCP warp points and `/api/vx/v1/<domain>` routes. | `docs/interaction/workflows.json` |
 | Source actions | The business authority: one handler per action, shared by HTTP, UI and MCP. | Existing services, e.g. `vaultix-shared.ts` (references), `external-migration-service.ts` (imports) |
-| Catalog and guidance | Authored text the UI and MCP both read: catalog, configure steps, lessons, sign-in options. | `core/backend/src/services/vaultix/catalog.ts`, `auth-options.ts`, `guidance.ts` |
+| Catalog and guidance | Authored text the UI and MCP both read: catalog, configure steps, lessons, sign-in options. | `platform/engine/backend/src/services/vaultix/catalog.ts`, `auth-options.ts`, `guidance.ts` |
 | Main MCP | Where every AI client starts: discovery, sign-in options and the tools that predate warp points. | `POST /api/v1/vaultix/mcp` |
 | Warp points | One MCP per domain, listing and running only that domain's tools. | `POST /api/vx/v1/<domain>/mcp`, registry in `warp-points.ts` |
 | UI actions | Named, scripted UI intentions (`vaultix.ui.<domain>.<workflow>.<action>`) that AI-guided walkthroughs and tests drive. | [0114](0114-domain-scripted-ui-standard.md), `action-trigger.ts`, `workflows.json` |

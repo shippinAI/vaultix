@@ -1,0 +1,42 @@
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {copyFileSync,mkdirSync,mkdtempSync,readFileSync,statSync,writeFileSync} from 'node:fs';
+import {dirname,resolve} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {bundle} from '@remotion/bundler';
+import {getVideoMetadata,openBrowser,renderMedia,renderStill,selectComposition} from '@remotion/renderer';
+import {validateRecording,recordedCaptions} from './recorded-story.mjs';
+
+const here=dirname(fileURLToPath(import.meta.url)),root=resolve(here,'../..');
+assert.equal(process.argv.length,3,'Usage: node platform/engine/media/render-recorded.mjs <local-recording-manifest>');
+const manifestPath=resolve(process.argv[2]);
+assert.ok(manifestPath.startsWith(resolve(root,'.cache')+'/')||manifestPath.startsWith(resolve(root,'.cache')+'\\'),'Only local recording artifacts are accepted');
+const recording=validateRecording(JSON.parse(readFileSync(manifestPath,'utf8')));
+const hash=path=>createHash('sha256').update(readFileSync(path)).digest('hex');
+const raw=resolve(dirname(manifestPath),recording.raw.name);assert.equal(hash(raw),recording.raw.sha256);
+for(const file of recording.frontend)assert.equal(hash(resolve(root,file.path)),file.sha256,`Recording source changed: ${file.path}`);
+const rawMetadata=await getVideoMetadata(raw);assert.ok(rawMetadata.durationInSeconds>=recording.endSeconds-.5);
+const output=mkdtempSync(resolve(root,'.cache/recorded-media-')),assets=resolve(output,'assets');mkdirSync(assets);
+copyFileSync(raw,resolve(assets,'workflow.webm'));
+copyFileSync(resolve(root,'platform/engine/frontend/public/images/vaultix-mark.svg'),resolve(assets,'vaultix-mark.svg'));
+copyFileSync(resolve(root,'platform/engine/frontend/node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2'),resolve(assets,'inter.woff2'));
+const start=recording.chapters[0].startSeconds;
+const inputProps={startFrame:Math.ceil(start*30),duration:Math.floor((recording.endSeconds-start)*30),chapters:recording.chapters.map((chapter,index)=>({title:chapter.title,frame:Math.max(0,Math.floor((chapter.startSeconds-start)*30)),caption:recordedCaptions[index]}))};
+const serveUrl=await bundle({entryPoint:resolve(here,'src/recorded.tsx'),publicDir:assets,outDir:resolve(output,'bundle')});
+const browser=await openBrowser('chrome',{browserExecutable:process.env.VAULTIX_MEDIA_BROWSER||undefined});
+try {
+  const composition=await selectComposition({serveUrl,id:'VaultixRecordedWorkflow',inputProps,puppeteerInstance:browser});
+  await renderMedia({serveUrl,composition,inputProps,puppeteerInstance:browser,codec:'h264',pixelFormat:'yuv420p',crf:25,concurrency:2,outputLocation:resolve(output,'vaultix-tour.mp4')});
+  await renderStill({serveUrl,composition,inputProps,puppeteerInstance:browser,frame:12,imageFormat:'jpeg',jpegQuality:85,output:resolve(output,'vaultix-tour-poster.jpg')});
+  for(const [index,chapter]of inputProps.chapters.entries())await renderStill({serveUrl,composition,inputProps,puppeteerInstance:browser,frame:Math.min(inputProps.duration-1,chapter.frame+15),imageFormat:'png',output:resolve(output,`review-${index+1}.png`)});
+}finally{await browser.close({silent:true});}
+assert.ok(statSync(resolve(output,'vaultix-tour.mp4')).size<10*1024*1024,'Recorded video exceeds 10 MiB');
+assert.ok(statSync(resolve(output,'vaultix-tour-poster.jpg')).size<512*1024);
+const metadata=await getVideoMetadata(resolve(output,'vaultix-tour.mp4'));assert.equal(metadata.width,1600);assert.equal(metadata.height,900);assert.equal(metadata.fps,30);
+const stamp=seconds=>{const ms=Math.round(seconds*1000);return `${String(Math.floor(ms/3600000)).padStart(2,'0')}:${String(Math.floor(ms/60000)%60).padStart(2,'0')}:${String(Math.floor(ms/1000)%60).padStart(2,'0')}.${String(ms%1000).padStart(3,'0')}`;};
+writeFileSync(resolve(output,'vaultix-tour.vtt'),'WEBVTT\n\n'+inputProps.chapters.map((c,i)=>`${i+1}\n${stamp(c.frame/30)} --> ${stamp((inputProps.chapters[i+1]?.frame??inputProps.duration)/30)}\n${c.title}. ${c.caption}\n`).join('\n'));
+const files=['vaultix-tour.mp4','vaultix-tour-poster.jpg','vaultix-tour.vtt'].map(name=>({name,sha256:hash(resolve(output,name)),bytes:statSync(resolve(output,name)).size}));
+const receipt={schemaVersion:'vaultix.recorded-media.v1',passed:true,remotion:'4.0.538',recordingManifestHash:hash(manifestPath),recording:manifestPath,frontend:recording.frontend,raw:recording.raw,edit:inputProps,metadata,files,scope:recording.scope};
+writeFileSync(resolve(output,'result.json'),JSON.stringify(receipt,null,2));
+writeFileSync(resolve(root,'.cache/recorded-media-latest.json'),JSON.stringify({output,receipt:resolve(output,'result.json')}));
+console.log(JSON.stringify({output,duration:metadata.durationInSeconds,files}));

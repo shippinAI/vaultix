@@ -5,11 +5,11 @@ import { createRequire } from 'node:module';
 import { randomBytes } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { buildAnalyticsViewStatements, buildAnalyticsGrantStatements, readAnalyticsViewConfig } from '../core/backend/src/db/analytics-views.ts';
+import { buildAnalyticsViewStatements, buildAnalyticsGrantStatements, readAnalyticsViewConfig } from '../platform/engine/backend/src/db/analytics-views.ts';
 
-const require = createRequire(resolve('core/backend/package.json'));
+const require = createRequire(resolve('platform/engine/backend/package.json'));
 const { load, FAILSAFE_SCHEMA } = require('js-yaml');
-const config = readAnalyticsViewConfig(load(readFileSync('core/backend/src/db/sanitized-schema.yaml', 'utf8'), { schema: FAILSAFE_SCHEMA }));
+const config = readAnalyticsViewConfig(load(readFileSync('platform/engine/backend/src/db/sanitized-schema.yaml', 'utf8'), { schema: FAILSAFE_SCHEMA }));
 const name = `vaultix-analytics-proof-${randomBytes(6).toString('hex')}`;
 const docker = (args, input) => execFileSync('docker', args, { encoding: 'utf8', input, stdio: ['pipe','pipe','pipe'], timeout: 120000 });
 const sql = (input) => docker(['exec','-i',name,'psql','-U','postgres','-d','postgres','-v','ON_ERROR_STOP=1','-At'], input);

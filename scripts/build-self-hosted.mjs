@@ -33,10 +33,10 @@ command("tar", ["--version"]);
 command("docker", ["compose", "version", "--short"]);
 const daemon = JSON.parse(command("docker", ["info", "--format", '{"os":"{{.OSType}}","architecture":"{{.Architecture}}"}']));
 assert.equal(daemon.os, "linux", "Use a Linux Docker engine");
-const require = createRequire(resolve(root, "core/e2e/package.json"));
+const require = createRequire(resolve(root, "platform/engine/e2e/package.json"));
 const { chromium } = require("@playwright/test");
 require("@axe-core/playwright");
-if (!process.env.VAULTIX_BROWSER_CHANNEL) assert.ok(existsSync(chromium.executablePath()), "Install the pinned Playwright Chromium browser from core/e2e before verification");
+if (!process.env.VAULTIX_BROWSER_CHANNEL) assert.ok(existsSync(chromium.executablePath()), "Install the pinned Playwright Chromium browser from platform/engine/e2e before verification");
 const preflight = { revision, platformVersion, node: process.versions.node, docker: daemon, scope: mode, automaticPublication: false };
 if (mode === "--check") {
   console.log(JSON.stringify(preflight, null, 2));
@@ -84,9 +84,9 @@ try {
   node("table-namespace-references", "scripts/check-table-namespaces.mjs");
   // Archive committed source without operator-specific line-ending conversion.
   // Ignored credentials, build output and local dependencies cannot enter it.
-  step("source-archive", "git", ["-c", "core.autocrlf=false", "-c", "core.eol=lf", "archive", "--format=tar", `--output=${resolve(evidence, "source.tar")}`, revision, "core"]);
+  step("source-archive", "git", ["-c", "core.autocrlf=false", "-c", "core.eol=lf", "archive", "--format=tar", `--output=${resolve(evidence, "source.tar")}`, revision, "platform/engine"]);
   step("extract-source", "tar", ["-xf", resolve(evidence, "source.tar"), "-C", source]);
-  const context = resolve(source, "core");
+  const context = resolve(source, "platform/engine");
   const dockerfile = resolve(context, "Dockerfile.standalone-vaultix");
   step("canonical-image", "docker", ["build", "-f", dockerfile, "--build-arg", `VAULTIX_SOURCE_REVISION=${revision}`, "--build-arg", `VAULTIX_PLATFORM_VERSION=${platformVersion}`, "-t", image, context]);
   report.imageId = command("docker", ["image", "inspect", "--format", "{{.Id}}", image]);

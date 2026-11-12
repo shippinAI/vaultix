@@ -7,7 +7,7 @@
 
 Vaultix is **not** a five-table toy and **not** a wrapper around the
 vendor image. It is the vaultix MIT core (pin **v0.162.19**), forked
-into `core/`, remotes off, customer chrome **Vaultix**.
+into `platform/engine/`, remotes off, customer chrome **Vaultix**.
 
 Same move as Tradere’s mail core: we run **our** tree.
 
@@ -15,8 +15,8 @@ Same move as Tradere’s mail core: we run **our** tree.
 
 | Piece | Role |
 | --- | --- |
-| `core/` | The secrets engine. vaultix MIT core, renamed. UI title Vaultix. `keySource` vaultix. License server empty. |
-| `db/` | Owned schema overlay (already rebranded). Copied into `core/backend/src/db`. |
+| `platform/engine/` | The secrets engine. vaultix MIT core, renamed. UI title Vaultix. `keySource` vaultix. License server empty. |
+| `db/` | Owned schema overlay (already rebranded). Copied into `platform/engine/backend/src/db`. |
 | `panel/` | Shippin overlay: PIN, lessons, Clyffy, manager. Talks to core via `internal/core/wire.go`. |
 | `ee/` in core | Their paid tree. We do not ship it as “included.” |
 
@@ -25,9 +25,9 @@ Same move as Tradere’s mail core: we run **our** tree.
 - Frontend `<title>Vaultix</title>`, favicon, wordmark
 - `_vaultix-verification.<domain>`
 - `LICENSE_SERVER_URL` default empty, v2 mode `off`
-- Compose image built from `core/Dockerfile.standalone-vaultix`, never `vaultix/vaultix:`
+- Compose image built from `platform/engine/Dockerfile.standalone-vaultix`, never `vaultix/vaultix:`
 - GHCR: `ghcr.io/shippinai/vaultix` and `ghcr.io/shippinai/vaultix-panel`
-- git remotes on `core/` none
+- git remotes on `platform/engine/` none
 
 ## 3. Deploy
 
@@ -37,5 +37,5 @@ Admin of the engine is on port **8200** (API) and **3000** (Vite UI in
 native/dev). Shippin overlay is **8201**.
 
 Native without Docker: `scripts/run-core.sh` after `run/core.env`.
-Frontend: `cd core/frontend && npx vite --host 127.0.0.1 --port 3000`
+Frontend: `cd platform/engine/frontend && npx vite --host 127.0.0.1 --port 3000`
 (proxies `/api` to 8200). First operator: `/admin/signup`.

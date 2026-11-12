@@ -31,11 +31,11 @@ scope decision. No Nomen/Zuul runtime imports or `nomen_vault_*` tables.
 
 | Existing code | Observed role | Destination |
 | --- | --- | --- |
-| `core/frontend` | React 18.3.1, TypeScript 5.6.3, Vite 6.4.2 in the lockfile; native full application with inherited and authored workflows | React/TypeScript native application, upgraded with library compatibility and real browser evidence |
-| `core/backend/src/services` and `ee/services` | Substantial TypeScript domain logic, DALs, jobs, auth and APIs | Go domain packages, migrated by complete use case with temporary compatibility routing |
-| `core/backend-go/internal` | Existing auth/permission, secret reading/imports, KMS/HSM, queues and server infrastructure | Expand and reconcile this Go engine; do not create a third backend |
+| `platform/engine/frontend` | React 18.3.1, TypeScript 5.6.3, Vite 6.4.2 in the lockfile; native full application with inherited and authored workflows | React/TypeScript native application, upgraded with library compatibility and real browser evidence |
+| `platform/engine/backend/src/services` and `ee/services` | Substantial TypeScript domain logic, DALs, jobs, auth and APIs | Go domain packages, migrated by complete use case with temporary compatibility routing |
+| `platform/engine/backend-go/internal` | Existing auth/permission, secret reading/imports, KMS/HSM, queues and server infrastructure | Expand and reconcile this Go engine; do not create a third backend |
 | `cmd/vaultix`, `internal` | Go CLI, local encrypted store, sync, child-process environment injection | Go client UX; Rust application-delivery boundary after explicit protocol and OS acceptance |
-| `core/wasm/ironrdp-decoder` | Rust 2021 WASM decoder | Reviewed Rust protocol component; edition/toolchain upgrade separately verified |
+| `platform/engine/wasm/ironrdp-decoder` | Rust 2021 WASM decoder | Reviewed Rust protocol component; edition/toolchain upgrade separately verified |
 | `panel` and `web` | Optional historical panel/source/viewport paths | Trace every remaining capability, implement equivalent native behavior, then retire redundant paths explicitly |
 | PostgreSQL migrations, encrypted records, provider credentials | Existing persisted state and operational integration | Compatible schema and ciphertext; no dump replacement or new parallel secrets store |
 | Dragonfly / Redis-protocol clients | BullMQ and Go queue/cache dependencies | Dragonfly default, explicit Redis/ElastiCache; queue compatibility must be demonstrated |
@@ -76,7 +76,7 @@ and redacted execution state; it is not on the value-delivery path.
 
 ### React: actual product workflows
 
-Keep `core/frontend`, its route continuity and real service integration. Upgrade
+Keep `platform/engine/frontend`, its route continuity and real service integration. Upgrade
 React and React DOM together; verify router/query, Radix, editors, forms, tables,
 charts, replay components and test tooling before removing compatibility code.
 Use strict typed contracts, explicit async states and accessible native controls.
@@ -101,7 +101,7 @@ is optional educational media, never evidence that an operation succeeded.
 
 ### Go: primary business and authorization boundary
 
-Build on `core/backend-go/internal/services` and its server infrastructure.
+Build on `platform/engine/backend-go/internal/services` and its server infrastructure.
 Each domain owns its use cases, authorization, repository interfaces, validation
 and operational errors. HTTP, MCP and jobs call those same use cases. They do not
 reimplement policy or trust actor/tenant IDs supplied by a model.
@@ -123,7 +123,7 @@ Run Go tests, race detection on supported runners, vet and vulnerability scannin
 
 Use Rust for the target-process delivery broker and existing/bounded protocol
 decoding work where memory and process isolation matter. Proposed new broker code
-belongs under `core/runtime/` after its protocol review; it does not exist yet.
+belongs under `platform/engine/runtime/` after its protocol review; it does not exist yet.
 Keep business policy and durable state in Go. Use a versioned process boundary
 rather than broad in-process FFI. Do not port all services to Rust merely to use
 three languages.
@@ -233,7 +233,7 @@ be inferred from file counts. Wave exit is evidence-based, not calendar-based.
 1. **STACK-01:** reconcile Go build/CI/module toolchains to a supported security
    patch; prove root CLI, sidecar, panel and canonical image. Inventory React 19
    peer incompatibilities and Rust toolchain/MSRV independently.
-2. **AUTH-01:** trace `core/backend-go/internal/services/auth` and `permission`,
+2. **AUTH-01:** trace `platform/engine/backend-go/internal/services/auth` and `permission`,
    current TS middleware, and native route authentication. Preserve built-in
    credentials, factors, recovery and sessions while specifying optional federation
    and shared actor/organization mapping. Follow IDENTITY-01..06 in 0074; retain

@@ -13,11 +13,11 @@ Prefer names and folders that already exist. Do not mass-rename, except the tabl
 | Generated explorer data | Output of `node scripts/map-capabilities.mjs` | Hand edits to `generated/catalog.json` |
 | Delivery cases that are still planned | `docs/delivery/acceptance.md` | A green checklist copied from an old `.cache` path |
 | Implementation register | `docs/delivery/implementation.md` | The same short id in the capability catalog |
-| Product HTTP and MCP behavior | `core/backend/src/server/routes/vaultix-router.ts` plus `core/backend/src/services/vaultix/` | `panel/internal/mcp/server.go` |
+| Product HTTP and MCP behavior | `platform/engine/backend/src/server/routes/vaultix-router.ts` plus `platform/engine/backend/src/services/vaultix/` | `panel/internal/mcp/server.go` |
 | Native contract | `contracts/vaultix.core.v1.json`, after it matches the router | The panel contract |
 | Panel overlay | `contracts/shippin.vaultix.panel.v1.json` and `panel/` | The product entry |
 | CLI | `cmd/vaultix` and `internal/` | A second CLI tree |
-| Encrypted store | PostgreSQL used by `core/backend`, with `vx_<group>_<entity>` tables per [0119](../0119-schema-and-api-namespaces.md) | `panel/internal/vault`, `leftover/`, or any other table naming |
+| Encrypted store | PostgreSQL used by `platform/engine/backend`, with `vx_<group>_<entity>` tables per [0119](../0119-schema-and-api-namespaces.md) | `panel/internal/vault`, `leftover/`, or any other table naming |
 | Vaultix API | `/api/vx/v1/<domain>/` per [0119](../0119-schema-and-api-namespaces.md); inherited prefixes stay until each domain's replacement is tested | A new prefix outside `/api/vx/` |
 | Authorship ledger | `docs/code-audit/reviews.json` | Proof that a use case is migrated |
 | Migration discovery | `docs/migration/generated/summary.json` | A migrated-module count. The file says no module is marked migrated |
@@ -34,7 +34,7 @@ On 2026-11-08, `node scripts/map-capabilities.mjs --check` failed with `Assertio
 | Short id `S01` | Capability `S01` create/edit. Acceptance `CASE-S01` cache identity. Register `TASK-S01` cache isolation | Always prefix: `cap.S01`, `case.S01`, `impl.S01`. Plan tasks use dotted ids such as `sec.lifecycle` and `cli.local-cache` | Do not close one because another `S01` moved |
 | `A01`, `G01`, `O01`, `U01`, `L01`, `H01`, `P01` | Same pattern across catalog, acceptance cases, and the implementation register. Catalog `P01` is PKI. Phase `P0` is a rollup. Register `P00` is a prerequisite repair | Prefix every citation | Do not use a bare `P0` in a commit message |
 | Core MCP vs panel MCP | Core tools: six guidance tools plus `vaultix.projects.list` and `vaultix.secrets.references`. Panel tools include `vaultix.runtime.answer`, `vaultix.viewport.get`, `vaultix.source.act` | Product connector is `POST /api/v1/vaultix/mcp` on the core. Server name in code is `vaultix-clyffy` | Do not point a Grok bot at the panel. Do not revive `vaultix.source.act` as the product tool |
-| TypeScript vs Go ownership | Live reads and writes are TypeScript. Go reference and device code exist. Forwarding in `core/backend/src/server/routes/index.ts` is commented out. Shadowing is optional | One owner per route after a differential test. Until then TypeScript is the owner | Do not enable the forwarding plugin as a drive-by |
+| TypeScript vs Go ownership | Live reads and writes are TypeScript. Go reference and device code exist. Forwarding in `platform/engine/backend/src/server/routes/index.ts` is commented out. Shadowing is optional | One owner per route after a differential test. Until then TypeScript is the owner | Do not enable the forwarding plugin as a drive-by |
 | `vaultix` and `vaultixl` | Same Go program, two names | Either name is the CLI. Help text must accept both | Do not fork the commands |
 | Host names | CLI default `https://vaultix.cloud`. Compose hosted example `https://vaultix.shippin.cloud` | The public product host is `vaultix.cloud` when that is the instance the operator selected. Self-hosted uses the operator URL | Do not hard-code the shippin host into new CLI defaults |
 | Identity default | `internal/cli/auth_cmds.go` defaults a terminal to Nomen. `docs/0074` requires built-in identity without Nomen | Built-in is the default once `id.discovery` is accepted. Nomen is `id.federation` | Do not remove the explicit `--sso` path while changing the default |
@@ -50,13 +50,13 @@ These directories were present at `eb61496c`.
 
 | Group | Existing path | Owns |
 | --- | --- | --- |
-| Core API and MCP | `core/backend/src/server/routes/vaultix-router.ts`, `core/backend/src/services/vaultix/` | Product guidance, reference tools, sessions |
-| Core secret engine | `core/backend/src/services/secret*`, `core/backend/src/server/routes/v3/` | Encrypted values and the raw API |
-| Permissions | `core/backend/src/shippin/services/permission/` | Roles, including Viewer |
-| Go services | `core/backend-go/internal/services/` | Device grants, Go reference reads, Go auth. Not the public owner yet |
-| Go entry | `core/backend-go/cmd/vaultix/` | Sidecar process |
-| UI | `core/frontend/src/pages/`, `core/frontend/src/hooks/api/vaultix/` | Application entry and reference browser |
-| Specialist text | `core/ai/` | Clyffy instructions. No secret values |
+| Core API and MCP | `platform/engine/backend/src/server/routes/vaultix-router.ts`, `platform/engine/backend/src/services/vaultix/` | Product guidance, reference tools, sessions |
+| Core secret engine | `platform/engine/backend/src/services/secret*`, `platform/engine/backend/src/server/routes/v3/` | Encrypted values and the raw API |
+| Permissions | `platform/engine/backend/src/shippin/services/permission/` | Roles, including Viewer |
+| Go services | `platform/engine/backend-go/internal/services/` | Device grants, Go reference reads, Go auth. Not the public owner yet |
+| Go entry | `platform/engine/backend-go/cmd/vaultix/` | Sidecar process |
+| UI | `platform/engine/frontend/src/pages/`, `platform/engine/frontend/src/hooks/api/vaultix/` | Application entry and reference browser |
+| Specialist text | `platform/engine/ai/` | Clyffy instructions. No secret values |
 | CLI | `cmd/vaultix`, `internal/cli`, `internal/api` | Login, stdio MCP, raw pull and run |
 | Release and install | `internal/release`, `internal/platform`, `contracts/vaultix.release-*` | Signed artifacts |
 | Compose | `compose/vaultix.yml`, `compose/self.env.example` | One backend, Postgres, optional Dragonfly, optional panel |
@@ -94,4 +94,4 @@ Proposed paths that do not exist yet:
 
 ## Assistant context
 
-Clyffy and any Grok bot receive catalog text and secret names. They do not receive values, ciphertext, comments, or custom metadata. They do not receive `ENCRYPTION_KEY`, `AUTH_SECRET`, database URLs with passwords, or the operator's model credentials. `core/ai/clyffy/SKILL.md` is the instruction source. A bot connection document may repeat the URL and the stdio command. It may not embed a bearer token.
+Clyffy and any Grok bot receive catalog text and secret names. They do not receive values, ciphertext, comments, or custom metadata. They do not receive `ENCRYPTION_KEY`, `AUTH_SECRET`, database URLs with passwords, or the operator's model credentials. `platform/engine/ai/clyffy/SKILL.md` is the instruction source. A bot connection document may repeat the URL and the stdio command. It may not embed a bearer token.

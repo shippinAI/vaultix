@@ -630,7 +630,7 @@ export const capabilities = [
     "Scoped evidence",
     "Use the user's own Codex client or configured provider with credential-free setup instructions.",
     "Guidance/export exists; verify actual client handshake and Nomen auth. Never collect subscription credentials or assume hosted subscription delegation.",
-    ["core/ai/README.md", "docs/0018-hosted-capability-proof.md"],
+    ["platform/engine/ai/README.md", "docs/0018-hosted-capability-proof.md"],
   ),
   c(
     "AI02",

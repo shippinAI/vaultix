@@ -116,7 +116,7 @@ try {
   // Generated constraint, index and sequence names follow their renamed table unless a historical
   // migration spells them out, and so do updatedAt triggers, including ones named after a table's earlier name.
   const inherited = JSON.parse(readFileSync(resolve(root, 'docs/schema/table-namespaces.json'))).tables.map(table => table.legacy);
-  const migrations = resolve(root, 'core/backend/src/db/migrations');
+  const migrations = resolve(root, 'platform/engine/backend/src/db/migrations');
   const spelledOut = literalObjectNames(inherited, readdirSync(migrations).filter(file => file.endsWith('.ts')).map(file => readFileSync(resolve(migrations, file), 'utf8')));
   const textArray = names => `ARRAY[${names.map(name => `'${name}'`).join(',')}]::text[]`;
   const strandedNames = () => h.sql(database.Id, `WITH inherited(name) AS (SELECT unnest(${textArray(inherited)})),

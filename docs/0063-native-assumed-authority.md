@@ -138,6 +138,6 @@ Automated checks do not establish manual assistive-technology acceptance,
 whole-product parity or enterprise/government certification.
 
 Reproduce application acceptance with `node scripts/build-self-hosted.mjs`.
-Build the `go-builder` stage from that receipt's archived `source/core`, then run
+Build the `go-builder` stage from that receipt's archived `source/platform/engine`, then run
 `node scripts/test-go-core.mjs <canonical-image-id> <dragonfly|redis> <go-stage-id>`
 for each cache. Unit/race, integration-tagged vet and lint use the same Go stage.

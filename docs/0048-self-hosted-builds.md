@@ -15,7 +15,7 @@ builds do not require a GitHub runner registration, GHCR account or registry pus
 Never copy the cloud workflow's ephemeral-runner disk cleanup onto a persistent
 server. No system pruning or unrelated container deletion belongs in local builds.
 
-The canonical Dockerfile remains `core/Dockerfile.standalone-vaultix`. Build a
+The canonical Dockerfile remains `platform/engine/Dockerfile.standalone-vaultix`. Build a
 committed source archive rather than an ambient working directory that may hold
 ignored operator files. Verify the actual image's source revision, real disposable
 application workflows and Dragonfly/Redis behavior before using it. Record scoped
@@ -33,7 +33,7 @@ base-image downloads require network access; this is not an offline-build claim.
 Prepare the pinned browser test dependencies once per checkout:
 
 ```sh
-cd core/e2e
+cd platform/engine/e2e
 npm ci
 npx playwright install chromium
 cd ../..

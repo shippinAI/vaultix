@@ -83,7 +83,7 @@ backup tooling and key procedures require their own authored implementation.
 Source `f1656cc13fc7ac5c73898ade92b7c2768a7164dd` built the canonical image
 `sha256:a8c12497468f235f112cbf8d4d705d71301a4f12e98471e4a4ec8d76d3fd97d2`.
 Image identity and exact revision checks pass. Its runtime filesystem layers equal
-the existing tested preview, and this packet changes no `core/` source. No
+the existing tested preview, and this packet changes no `platform/engine/` source. No
 operator deployment or data change was necessary.
 
 All nine real-image recovery checks pass, with successful removal of disposable

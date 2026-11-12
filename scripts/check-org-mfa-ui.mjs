@@ -1,7 +1,7 @@
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
-const cwd = fileURLToPath(new URL('../core/frontend/', import.meta.url));
+const cwd = fileURLToPath(new URL('../platform/engine/frontend/', import.meta.url));
 for (const args of [
   ['node_modules/typescript/bin/tsc', '--noEmit', '-p', 'tsconfig.app.json'],
   ['node_modules/eslint/bin/eslint.js', 'src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgGenericAuthSection.tsx', 'src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgUserAccessTokenLimitSection.tsx']

@@ -28,11 +28,11 @@ Inspected at source `aa461823`, with unrelated shared-tree edits preserved.
 | --- | --- | --- |
 | `internal/release/{release,notice}.go` | Stable GitHub release metadata, explicit check, daily cached notices on selected human terminal commands; development builds do not compare as releases | Verified installable artifacts, compatibility-aware notices and an explicit installer |
 | `contracts/vaultix.updates.v1.json` | Strict stable-only status schema | Preserve v1; separately version extended channel/compatibility and operation contracts |
-| `core/backend/src/services/update-check/update-check-queue.ts` | Boot/weekly checks, cached reads, explicit refresh, managed/disabled/development states | Configurable bounded cadence with jitter, durable notifications, managed deployment notices |
+| `platform/engine/backend/src/services/update-check/update-check-queue.ts` | Boot/weekly checks, cached reads, explicit refresh, managed/disabled/development states | Configurable bounded cadence with jitter, durable notifications, managed deployment notices |
 | `panel/internal/manager/manager.go`, `panel/internal/httpapi/manager_api.go` | Lists/registers named instances | Authenticated host enrollment, scoped authority and real lifecycle execution |
-| `core/backend/src/main.ts` | Signal handlers close server, queues and database | Single coordinated bounded drain, measured shutdown and interrupted-job recovery |
-| `core/backend/src/server/routes/index.ts`, `plugins/go-sidecar.ts` | Worker/event cleanup and sidecar termination hooks | Prove ordering, child exit, in-flight requests, long-lived streams and job acknowledgement |
-| `core/standalone-entrypoint.sh`, `compose/vaultix.yml` | `exec node`, backend init, health check, persistent volumes | Explicit grace budget, readiness/draining semantics and resumable upgrade control |
+| `platform/engine/backend/src/main.ts` | Signal handlers close server, queues and database | Single coordinated bounded drain, measured shutdown and interrupted-job recovery |
+| `platform/engine/backend/src/server/routes/index.ts`, `plugins/go-sidecar.ts` | Worker/event cleanup and sidecar termination hooks | Prove ordering, child exit, in-flight requests, long-lived streams and job acknowledgement |
+| `platform/engine/standalone-entrypoint.sh`, `compose/vaultix.yml` | `exec node`, backend init, health check, persistent volumes | Explicit grace budget, readiness/draining semantics and resumable upgrade control |
 | Existing local builders and delivery U01-U04 | Verified committed-source builds and planned signed installation | Publish/retrieve identical accepted artifacts and prove old-to-new upgrade on an owned server |
 
 On 2026-11-02 the owned GitHub latest-release API returned HTTP 404. A source push

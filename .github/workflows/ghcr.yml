@@ -53,33 +53,33 @@ jobs:
           cache-dependency-path: |
             go.sum
             panel/go.sum
-            core/backend-go/go.sum
+            platform/engine/backend-go/go.sum
       - run: go test ./...
       - run: go test ./...
         working-directory: panel
       - run: bash scripts/check-owned.sh
       - run: npx --yes npm@10.9.0 ci --ignore-scripts --no-audit --no-fund
-        working-directory: core/backend
+        working-directory: platform/engine/backend
       - run: node --max-old-space-size=8192 node_modules/typescript/bin/tsc --noEmit
-        working-directory: core/backend
+        working-directory: platform/engine/backend
       - name: Audit production dependencies
         run: |
           mkdir -p .cache
-          cd core/backend
+          cd platform/engine/backend
           npm audit --omit=dev --audit-level=critical --json > ../../.cache/backend-production-audit.json
       - run: npm run build
-        working-directory: core/backend
+        working-directory: platform/engine/backend
       - run: npm ci --ignore-scripts --no-audit --no-fund
-        working-directory: core/frontend
+        working-directory: platform/engine/frontend
       - name: Build UI and verify startup dependencies
         run: npx tsc -b && node ../../scripts/build-ui-report.mjs
-        working-directory: core/frontend
+        working-directory: platform/engine/frontend
       - name: Preserve existing application routes
         run: node scripts/check-capability-surface.mjs --check-ui
       - run: npm ci --ignore-scripts --no-audit --no-fund
-        working-directory: core/e2e
+        working-directory: platform/engine/e2e
       - run: npx playwright install --with-deps chromium
-        working-directory: core/e2e
+        working-directory: platform/engine/e2e
       - name: Verify native browser states
         run: node scripts/test-native-ui.mjs
       - name: Verify shared notification and dialog interactions
@@ -110,9 +110,9 @@ jobs:
             .cache/publication-proof-*/*-result.json
           if-no-files-found: warn
       - run: make lint
-        working-directory: core/backend-go
+        working-directory: platform/engine/backend-go
       - run: go test -race ./internal/...
-        working-directory: core/backend-go
+        working-directory: platform/engine/backend-go
       - run: node scripts/test-vaultix-policy.mjs
 
   panel:
@@ -195,8 +195,8 @@ jobs:
       - name: Build standalone Vaultix for verification
         uses: docker/build-push-action@v7
         with:
-          context: core
-          file: core/Dockerfile.standalone-vaultix
+          context: platform/engine
+          file: platform/engine/Dockerfile.standalone-vaultix
           load: true
           push: false
           provenance: false
@@ -217,9 +217,9 @@ jobs:
         with:
           node-version: '22.22.0'
       - run: npm ci --ignore-scripts --no-audit --no-fund
-        working-directory: core/e2e
+        working-directory: platform/engine/e2e
       - run: npx playwright install --with-deps chromium
-        working-directory: core/e2e
+        working-directory: platform/engine/e2e
 
       - name: Verify standalone image identity
         run: node scripts/check-image-identity.mjs '${{ steps.image.outputs.name }}:${{ github.sha }}' engine '${{ github.sha }}'
@@ -238,8 +238,8 @@ jobs:
       - name: Build native Go capability test runtime
         uses: docker/build-push-action@v7
         with:
-          context: core
-          file: core/Dockerfile.standalone-vaultix
+          context: platform/engine
+          file: platform/engine/Dockerfile.standalone-vaultix
           target: go-builder
           load: true
           push: false
@@ -254,8 +254,8 @@ jobs:
       - name: Build database capability test runtime
         uses: docker/build-push-action@v7
         with:
-          context: core
-          file: core/Dockerfile.standalone-vaultix
+          context: platform/engine
+          file: platform/engine/Dockerfile.standalone-vaultix
           target: backend-build
           load: true
           push: false

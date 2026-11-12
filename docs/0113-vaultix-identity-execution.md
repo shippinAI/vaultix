@@ -21,36 +21,36 @@ The directory does not imply a paid feature entitlement.
 
 | Vaultix capability | Existing owner | Current boundary |
 | --- | --- | --- |
-| First owner and organization creation | `core/backend/src/server/routes/v1/admin-router.ts` | Present; canonical application setup has scoped image evidence. No shared default password. |
-| Account signup and invitations | `core/backend/src/server/routes/v3/signup-router.ts` | Present; enrollment and invitation policies remain authoritative. |
-| Password login and organization selection | `core/backend/src/server/routes/v3/login-router.ts` | Present; existing accounts and password compatibility must survive. |
-| Google, GitHub and GitLab login | `core/backend/src/server/routes/v1/auth-router.ts` | Present; instance credentials and actual provider callback acceptance remain required. |
-| Account profile, security and recovery | `core/backend/src/server/routes/v1/user-router.ts`, `v2/user-router.ts` | Present; complete recovery/factor acceptance remains tracked in 0074. |
-| Email MFA, TOTP, passkeys and recovery codes | Existing auth, user and factor services under `core/backend/src/services/` | Present; not all factor lifecycle paths have current complete native acceptance. |
-| Application sessions and revocation | `core/backend/src/services/auth-token/`, `core/backend-go/internal/services/auth/apiauth/` | Present; browser, workload and device credential families remain separate. |
-| Organization OIDC federation | `core/backend/src/shippin/routes/v1/oidc-router.ts` | Present; enabled provider must pass its own issuer, audience, linkage and logout tests. |
-| Organization SAML federation | `core/backend/src/shippin/routes/v1/saml-router.ts` | Present; signed assertion, organization and method policy must remain enforced. |
-| LDAP directory login | `core/backend/src/shippin/routes/v1/ldap-router.ts` | Present; live directory configuration and acceptance required. |
-| SCIM provisioning | `core/backend/src/shippin/routes/v1/scim-router.ts` | Present; provisioning/deprovisioning and tenant controls retain separate acceptance. |
+| First owner and organization creation | `platform/engine/backend/src/server/routes/v1/admin-router.ts` | Present; canonical application setup has scoped image evidence. No shared default password. |
+| Account signup and invitations | `platform/engine/backend/src/server/routes/v3/signup-router.ts` | Present; enrollment and invitation policies remain authoritative. |
+| Password login and organization selection | `platform/engine/backend/src/server/routes/v3/login-router.ts` | Present; existing accounts and password compatibility must survive. |
+| Google, GitHub and GitLab login | `platform/engine/backend/src/server/routes/v1/auth-router.ts` | Present; instance credentials and actual provider callback acceptance remain required. |
+| Account profile, security and recovery | `platform/engine/backend/src/server/routes/v1/user-router.ts`, `v2/user-router.ts` | Present; complete recovery/factor acceptance remains tracked in 0074. |
+| Email MFA, TOTP, passkeys and recovery codes | Existing auth, user and factor services under `platform/engine/backend/src/services/` | Present; not all factor lifecycle paths have current complete native acceptance. |
+| Application sessions and revocation | `platform/engine/backend/src/services/auth-token/`, `platform/engine/backend-go/internal/services/auth/apiauth/` | Present; browser, workload and device credential families remain separate. |
+| Organization OIDC federation | `platform/engine/backend/src/shippin/routes/v1/oidc-router.ts` | Present; enabled provider must pass its own issuer, audience, linkage and logout tests. |
+| Organization SAML federation | `platform/engine/backend/src/shippin/routes/v1/saml-router.ts` | Present; signed assertion, organization and method policy must remain enforced. |
+| LDAP directory login | `platform/engine/backend/src/shippin/routes/v1/ldap-router.ts` | Present; live directory configuration and acceptance required. |
+| SCIM provisioning | `platform/engine/backend/src/shippin/routes/v1/scim-router.ts` | Present; provisioning/deprovisioning and tenant controls retain separate acceptance. |
 | Users, groups, roles and tenant membership | Existing organization, membership and permission services | Present; free software availability never bypasses authorization. |
-| Machine identity lifecycle and memberships | `core/backend/src/server/routes/v1/identity-router.ts`, `v2/identity-router.ts`, organization/project identity routers | Present; creation, assignment, expiry and revocation remain existing source actions. |
-| Universal machine authentication | `core/backend/src/server/routes/v1/identity-universal-auth-router.ts` | Present; native CLI accepts client ID/secret through stdin and verifies access before saving. |
-| Machine access tokens | `core/backend/src/server/routes/v1/identity-token-auth-router.ts`, `identity-access-token-router.ts` | Present; explicit-token CLI/MCP reference access and real Codex revocation have scoped acceptance in 0112. |
-| Machine JWT authentication | `core/backend/src/server/routes/v1/identity-jwt-auth-router.ts` | Present; per-method provider and renewal acceptance remains required. |
-| Machine OIDC authentication | `core/backend/src/server/routes/v1/identity-oidc-auth-router.ts` | Present; distinct from human OIDC federation. |
-| Kubernetes workload authentication | `core/backend/src/server/routes/v1/identity-kubernetes-auth-router.ts` | Present; Kubernetes authority and service-account policy remain required. |
-| AWS IAM workload authentication | `core/backend/src/server/routes/v1/identity-aws-iam-auth-router.ts` | Present; live AWS acceptance remains separate. |
-| Azure workload authentication | `core/backend/src/server/routes/v1/identity-azure-auth-router.ts` | Present; live Azure acceptance remains separate. |
-| GCP workload authentication | `core/backend/src/server/routes/v1/identity-gcp-auth-router.ts` | Present; live GCP acceptance remains separate. |
-| Alibaba Cloud workload authentication | `core/backend/src/server/routes/v1/identity-alicloud-auth-router.ts` | Present; live provider acceptance remains separate. |
-| OCI workload authentication | `core/backend/src/server/routes/v1/identity-oci-auth-router.ts` | Present; live provider acceptance remains separate. |
-| LDAP workload authentication | `core/backend/src/server/routes/v1/identity-ldap-auth-router.ts` | Present; distinct from human directory login. |
-| SPIFFE workload authentication | `core/backend/src/server/routes/v1/identity-spiffe-auth-router.ts` | Present; trust-domain and identity acceptance remain required. |
-| TLS certificate workload authentication | `core/backend/src/server/routes/v1/identity-tls-cert-auth-router.ts` | Present; trusted ingress and certificate verification remain required. |
-| Machine authentication templates | `core/backend/src/shippin/routes/v1/identity-template-router.ts` | Present; templates do not grant extra authority. |
-| Delegated OAuth clients | `core/backend/src/server/routes/v1/oauth-router.ts` | Present confidential-client authorization code/refresh flow; delegated scope is not a full user session or public device grant. |
-| Nomen verification and explicit account linking | `core/backend-go/internal/services/auth/nomen/` | Native components and scoped fixture evidence exist; live integration and one-application consolidation remain unfinished. |
-| Human remote device authorization | `core/backend-go/internal/services/auth/device/` | Existing native grant, policy and dedicated session owner; HTTP integration is the current change. |
+| Machine identity lifecycle and memberships | `platform/engine/backend/src/server/routes/v1/identity-router.ts`, `v2/identity-router.ts`, organization/project identity routers | Present; creation, assignment, expiry and revocation remain existing source actions. |
+| Universal machine authentication | `platform/engine/backend/src/server/routes/v1/identity-universal-auth-router.ts` | Present; native CLI accepts client ID/secret through stdin and verifies access before saving. |
+| Machine access tokens | `platform/engine/backend/src/server/routes/v1/identity-token-auth-router.ts`, `identity-access-token-router.ts` | Present; explicit-token CLI/MCP reference access and real Codex revocation have scoped acceptance in 0112. |
+| Machine JWT authentication | `platform/engine/backend/src/server/routes/v1/identity-jwt-auth-router.ts` | Present; per-method provider and renewal acceptance remains required. |
+| Machine OIDC authentication | `platform/engine/backend/src/server/routes/v1/identity-oidc-auth-router.ts` | Present; distinct from human OIDC federation. |
+| Kubernetes workload authentication | `platform/engine/backend/src/server/routes/v1/identity-kubernetes-auth-router.ts` | Present; Kubernetes authority and service-account policy remain required. |
+| AWS IAM workload authentication | `platform/engine/backend/src/server/routes/v1/identity-aws-iam-auth-router.ts` | Present; live AWS acceptance remains separate. |
+| Azure workload authentication | `platform/engine/backend/src/server/routes/v1/identity-azure-auth-router.ts` | Present; live Azure acceptance remains separate. |
+| GCP workload authentication | `platform/engine/backend/src/server/routes/v1/identity-gcp-auth-router.ts` | Present; live GCP acceptance remains separate. |
+| Alibaba Cloud workload authentication | `platform/engine/backend/src/server/routes/v1/identity-alicloud-auth-router.ts` | Present; live provider acceptance remains separate. |
+| OCI workload authentication | `platform/engine/backend/src/server/routes/v1/identity-oci-auth-router.ts` | Present; live provider acceptance remains separate. |
+| LDAP workload authentication | `platform/engine/backend/src/server/routes/v1/identity-ldap-auth-router.ts` | Present; distinct from human directory login. |
+| SPIFFE workload authentication | `platform/engine/backend/src/server/routes/v1/identity-spiffe-auth-router.ts` | Present; trust-domain and identity acceptance remain required. |
+| TLS certificate workload authentication | `platform/engine/backend/src/server/routes/v1/identity-tls-cert-auth-router.ts` | Present; trusted ingress and certificate verification remain required. |
+| Machine authentication templates | `platform/engine/backend/src/shippin/routes/v1/identity-template-router.ts` | Present; templates do not grant extra authority. |
+| Delegated OAuth clients | `platform/engine/backend/src/server/routes/v1/oauth-router.ts` | Present confidential-client authorization code/refresh flow; delegated scope is not a full user session or public device grant. |
+| Nomen verification and explicit account linking | `platform/engine/backend-go/internal/services/auth/nomen/` | Native components and scoped fixture evidence exist; live integration and one-application consolidation remain unfinished. |
+| Human remote device authorization | `platform/engine/backend-go/internal/services/auth/device/` | Existing native grant, policy and dedicated session owner; HTTP integration is the current change. |
 | Device renewal, reuse detection and revocation | Same native device owner | Existing atomic lifecycle; HTTP routes connect to it without replacing browser sessions. |
 | Default human `vaultix login --domain=...` | `internal/cli/auth_cmds.go` | **Unfinished:** interactive default still selects Nomen. Do not describe explicit machine-token evidence as proof of this flow. |
 | Human CLI access through metadata and MCP | Native resource authenticator plus existing Vaultix reference/catalog routes | Native secrets consumers have scoped evidence; TypeScript metadata/MCP admission for the distinct device profile remains unfinished. |

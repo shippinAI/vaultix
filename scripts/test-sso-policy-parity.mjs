@@ -5,11 +5,11 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const require = createRequire(process.argv[2] ? resolve(process.argv[2]) : resolve(root, "core/backend/package.json"));
+const require = createRequire(process.argv[2] ? resolve(process.argv[2]) : resolve(root, "platform/engine/backend/package.json"));
 const { createMongoAbility } = require("@casl/ability");
 const { unpackRules } = require("@casl/ability/extra");
 const cases = JSON.parse(readFileSync(resolve(root,
-  "core/backend-go/internal/services/permission/testdata/sso-bypass.json"), "utf8"));
+  "platform/engine/backend-go/internal/services/permission/testdata/sso-bypass.json"), "utf8"));
 for (const test of cases) {
   const rules = test.roles.flatMap(({ role, permissions }) => {
     // The only built-in org-role grant for this capability is admin; the

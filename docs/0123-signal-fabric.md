@@ -11,13 +11,13 @@ shippin.ai hosts it for others. It builds on [0024](0024-interaction-and-teachin
 Checked in code on 2026-11-11:
 
 - UI actions carry `data-vaultix-action`, `-scope` and `-target` attributes
-  (`core/frontend/src/components/vaultix/action-trigger.ts`). Only tests read them.
+  (`platform/engine/frontend/src/components/vaultix/action-trigger.ts`). Only tests read them.
 - Lesson state is local to the page (`guidance-state.ts`) and sends nothing.
   `POST /api/v1/vaultix/learning-context` exists and nothing calls it.
 - "Clyffy" in the signed-in app is a scripted reference browser. Nothing in the app calls
   a model. A2UI message streams exist only in the optional Go panel, which the standalone
   image does not include.
-- There is no demo account. The dev seeds (`core/backend/src/db/seeds/`) never run in the
+- There is no demo account. The dev seeds (`platform/engine/backend/src/db/seeds/`) never run in the
   image, and the landing page rehearsal is an in-browser fake.
 
 ## The fabric

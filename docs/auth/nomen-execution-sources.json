@@ -5,55 +5,55 @@
   "purpose": "Read scope supporting AUTH-03 A and the execution plan; not a whole-tree review or parity attestation.",
   "sources": [
     {
-      "path": "core/backend-go/internal/services/auth/apiauth/classify.go",
+      "path": "platform/engine/backend-go/internal/services/auth/apiauth/classify.go",
       "blob": "9642571e5669d8ffdcf405dddcbe4788ec6bb446",
       "scope": "full-read",
       "ranges": []
     },
     {
-      "path": "core/backend-go/internal/services/auth/apiauth/require_auth.go",
+      "path": "platform/engine/backend-go/internal/services/auth/apiauth/require_auth.go",
       "blob": "57a239176f1b3995ba737961b010f9b13b077c84",
       "scope": "full-read",
       "ranges": []
     },
     {
-      "path": "core/backend-go/internal/server/api/platform_routes.go",
+      "path": "platform/engine/backend-go/internal/server/api/platform_routes.go",
       "blob": "b5685b1ebc5f034857fa0d90c5c2885c6f52e3e7",
       "scope": "full-read",
       "ranges": []
     },
     {
-      "path": "core/backend-go/internal/services/secretmanager/reference/projects.go",
+      "path": "platform/engine/backend-go/internal/services/secretmanager/reference/projects.go",
       "blob": "3a23ff25f52b9c9b615d09ef1db20afc856c33bc",
       "scope": "full-read",
       "ranges": []
     },
     {
-      "path": "core/backend/src/server/routes/vaultix-router.ts",
+      "path": "platform/engine/backend/src/server/routes/vaultix-router.ts",
       "blob": "6f091f4a2ad554149969ccb59f6432c5192e557a",
       "scope": "full-read",
       "ranges": []
     },
     {
-      "path": "core/backend/src/services/vaultix/reference-service.ts",
+      "path": "platform/engine/backend/src/services/vaultix/reference-service.ts",
       "blob": "d636f407c0247adcdb2f493dd4777f098aaec7a2",
       "scope": "full-read",
       "ranges": []
     },
     {
-      "path": "core/backend/src/server/plugins/go-sidecar-forwarding.ts",
+      "path": "platform/engine/backend/src/server/plugins/go-sidecar-forwarding.ts",
       "blob": "2dcea778178f5c8075783281ad4ccfb7c0f138e5",
       "scope": "full-read",
       "ranges": []
     },
     {
-      "path": "core/backend/src/db/schemas/user-aliases.ts",
+      "path": "platform/engine/backend/src/db/schemas/user-aliases.ts",
       "blob": "428fa62cacee10bd51dd12899e712b13a66d3938",
       "scope": "full-read",
       "ranges": []
     },
     {
-      "path": "core/backend/src/db/schemas/memberships.ts",
+      "path": "platform/engine/backend/src/db/schemas/memberships.ts",
       "blob": "6e7f06a455862cdd55ba2530930c6814c50f0383",
       "scope": "full-read",
       "ranges": []
@@ -71,31 +71,31 @@
       "ranges": []
     },
     {
-      "path": "core/backend-go/internal/services/auth/nomen/introspection.go",
+      "path": "platform/engine/backend-go/internal/services/auth/nomen/introspection.go",
       "blob": "5fbde871f94be2d526192440d6821b0593d610f6",
       "scope": "newly-authored-full-read",
       "ranges": []
     },
     {
-      "path": "core/backend-go/internal/services/auth/nomen/client_auth.go",
+      "path": "platform/engine/backend-go/internal/services/auth/nomen/client_auth.go",
       "blob": "ff1591b904afd673f58995157e1ab3ad3fb391f5",
       "scope": "newly-authored-full-read",
       "ranges": []
     },
     {
-      "path": "core/backend-go/internal/services/auth/nomen/claims.go",
+      "path": "platform/engine/backend-go/internal/services/auth/nomen/claims.go",
       "blob": "0f75985bf51db531617d90d998e064e5ccd565e0",
       "scope": "newly-authored-full-read",
       "ranges": []
     },
     {
-      "path": "core/backend-go/internal/services/auth/nomen/introspection_test.go",
+      "path": "platform/engine/backend-go/internal/services/auth/nomen/introspection_test.go",
       "blob": "207bcf9f76c6336dc3394a427c62c2fd74deb6f5",
       "scope": "newly-authored-full-read",
       "ranges": []
     },
     {
-      "path": "core/backend-go/internal/services/auth/apiauth/authenticator.go",
+      "path": "platform/engine/backend-go/internal/services/auth/apiauth/authenticator.go",
       "blob": "48cfaed0b534daf3e6a49c941bb68d90dac47def",
       "scope": "scoped-read",
       "ranges": [
@@ -106,7 +106,7 @@
       ]
     },
     {
-      "path": "core/backend/src/server/routes/index.ts",
+      "path": "platform/engine/backend/src/server/routes/index.ts",
       "blob": "26911f2c2ed589f177daba668a9b80e7b3663860",
       "scope": "scoped-read",
       "ranges": [

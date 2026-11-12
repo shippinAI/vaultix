@@ -1,15 +1,15 @@
 import assert from 'node:assert/strict';
 import {readFileSync,statSync} from 'node:fs';
 import {resolve} from 'node:path';
-import {frontendTree,sha256} from '../core/media/source-provenance.mjs';
-import {recordedTitles,recordedCaptions,validateRecording} from '../core/media/recorded-story.mjs';
-import {getVideoMetadata} from '../core/media/node_modules/@remotion/renderer/dist/esm/index.mjs';
-const root=process.cwd(),dir=resolve(root,'core/frontend/public/media');
+import {frontendTree,sha256} from '../platform/engine/media/source-provenance.mjs';
+import {recordedTitles,recordedCaptions,validateRecording} from '../platform/engine/media/recorded-story.mjs';
+import {getVideoMetadata} from '../platform/engine/media/node_modules/@remotion/renderer/dist/esm/index.mjs';
+const root=process.cwd(),dir=resolve(root,'platform/engine/frontend/public/media');
 const manifest=JSON.parse(readFileSync(resolve(dir,'vaultix-tour.json')));
 assert.equal(manifest.schemaVersion,'vaultix.public-recording.v1');assert.equal(manifest.remotion,'4.0.538');assert.equal(manifest.credentialsRecorded,false);
 assert.deepEqual(manifest.frontend,frontendTree(root));assert.match(manifest.backend.id,/^sha256:[a-f0-9]{64}$/);
 assert.equal(manifest.backend.title,'Vaultix');assert.equal(manifest.backend.url,'https://vaultix.cloud');
-assert.deepEqual(manifest.renderSources.map(x=>x.path),['core/media/src/recorded.tsx','core/media/render-recorded.mjs','core/media/recorded-story.mjs']);
+assert.deepEqual(manifest.renderSources.map(x=>x.path),['platform/engine/media/src/recorded.tsx','platform/engine/media/render-recorded.mjs','platform/engine/media/recorded-story.mjs']);
 for(const file of manifest.renderSources)assert.equal(sha256(readFileSync(file.path,'utf8').replaceAll('\r\n','\n')),file.sha256);
 assert.deepEqual(manifest.files.map(f=>f.name),['vaultix-tour.mp4','vaultix-tour-poster.jpg','vaultix-tour.vtt']);
 for(const file of manifest.files){const path=resolve(dir,file.name);assert.equal(sha256(readFileSync(path)),file.sha256);assert.equal(statSync(path).size,file.bytes);}

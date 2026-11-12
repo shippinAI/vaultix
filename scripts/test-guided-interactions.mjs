@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import "./test-guidance-contract.mjs";
-import { initialGuideState, reduceGuide } from "../core/frontend/src/components/vaultix/guidance-state.ts";
-import { getVaultixGuidance } from "../core/backend/src/services/vaultix/guidance.ts";
+import { initialGuideState, reduceGuide } from "../platform/engine/frontend/src/components/vaultix/guidance-state.ts";
+import { getVaultixGuidance } from "../platform/engine/backend/src/services/vaultix/guidance.ts";
 
 for (const guide of [...getVaultixGuidance().guides, ...getVaultixGuidance().workflowGuides]) {
   let state = { ...initialGuideState, history: [] };

@@ -15,7 +15,7 @@
 - Context routing, local links, Git-ignore boundaries, code-audit consistency,
   migration/capability maps and their existing regression checks passed. No
   capability baseline was reduced. Generated maps remain discovery evidence.
-- Built `core/Dockerfile.standalone-vaultix` locally from the committed source.
+- Built `platform/engine/Dockerfile.standalone-vaultix` locally from the committed source.
   Image: `sha256:89126fb0d2a8c255993797721f148cbfb5421adedffe4e7ef049460d7af17db9`.
   Image identity reports Vaultix.cloud and the expected source revision. Runtime
   filesystem layers equal accepted image

@@ -75,7 +75,7 @@ marking the comparator inventory exhaustive.
 
 ## Concrete starting points
 
-Paths below are relative to `core/backend/src/`; they identify code to review,
+Paths below are relative to `platform/engine/backend/src/`; they identify code to review,
 not completed authorship or verification:
 
 - `services/secret-v2-bridge/secret-v2-bridge-service.ts`

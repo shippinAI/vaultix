@@ -23,7 +23,9 @@ if (git("status", "--porcelain").trim() && !dry) {
 }
 
 const children = git("ls-tree", "--name-only", "HEAD", `${OLD}/`)
-  .split("\n").filter(Boolean).map(p => p.slice(OLD.length + 1));
+  .split("\n").filter(Boolean).map(p => p.slice(OLD.length + 1))
+  // untracked or fixture-only names that scripts and docs also reference
+  .concat([".env.test", ".env", ".git", "committed.txt", "line-endings.go", "not-a-source.ts", "runtime"]);
 const escapeRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const childAlt = children.sort((a, b) => b.length - a.length).map(escapeRe).join("|");
 

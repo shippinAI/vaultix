@@ -191,8 +191,8 @@ test("history validation detects obligations weakened even with recomputed recor
 
 test("real repository context selects ancestor boundaries and local data is Git-ignored", () => {
   const j = new Journal(root);
-  const context = j.context("core/frontend");
-  assert.deepEqual(context.folders.map(f => f.path), [".", "core", "core/frontend"]);
+  const context = j.context("platform/engine/frontend");
+  assert.deepEqual(context.folders.map(f => f.path), [".", "platform/engine", "platform/engine/frontend"]);
   const ignored = execFileSync("git", ["check-ignore", ".ai/data/example.json"], { cwd: root, encoding: "utf8", windowsHide: true }).trim();
   assert.equal(ignored, ".ai/data/example.json");
   assert.equal(execFileSync("git", ["ls-files", ".ai/data"], { cwd: root, encoding: "utf8", windowsHide: true }).trim(), "");

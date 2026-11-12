@@ -39,12 +39,12 @@ if(previous.length) {
 mkdirSync('.cache',{recursive:true});
 const evidence=mkdtempSync(resolve('.cache/vaultix-policy-image-'));
 const source=resolve(evidence,'source');mkdirSync(source);
-execFileSync('git',['-c','core.autocrlf=false','archive','--format=tar',`--output=${resolve(evidence,'source.tar')}`,revision,'core']);
+execFileSync('git',['-c','core.autocrlf=false','archive','--format=tar',`--output=${resolve(evidence,'source.tar')}`,revision,'platform/engine']);
 execFileSync('tar',['-xf',resolve(evidence,'source.tar'),'-C',source]);
 const runner=`vaultix:policy-tests-${revision}`;
 const fd=openSync(resolve(evidence,'build.log'),'wx');
 try {
- const result=spawnSync('docker',['build','-f',resolve(source,'core/Dockerfile.standalone-vaultix'),'--target','go-builder','-t',runner,resolve(source,'core')],{stdio:['ignore',fd,fd]});
+ const result=spawnSync('docker',['build','-f',resolve(source,'platform/engine/Dockerfile.standalone-vaultix'),'--target','go-builder','-t',runner,resolve(source,'platform/engine')],{stdio:['ignore',fd,fd]});
  assert.equal(result.status,0,`Policy test image failed: ${evidence}/build.log`);
 }finally{closeSync(fd);}
 const runnerId=inspect(runner).Id;

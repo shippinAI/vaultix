@@ -8,7 +8,7 @@ import {collectGoTestEvidence} from './go-test-evidence.mjs';
 const image=process.argv[2];
 assert.match(image??'',/^sha256:[a-f0-9]{64}$/,'Usage: node scripts/test-user-sessions.mjs sha256:IMAGE');
 const runner='sha256:812899ac172fd5cb46363316d1d0ea65892b17368799a4ff9dfaaa1fecc2d0cd';
-const root=resolve('core/backend-go');
+const root=resolve('platform/engine/backend-go');
 const result=spawnSync('docker',['run','--rm','--init','--pull=never','--add-host','host.docker.internal:host-gateway',
  '--mount','type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock',
  '--mount',`type=bind,source=${root.replaceAll('\\','/')},target=/app,readonly`,'--workdir','/app',

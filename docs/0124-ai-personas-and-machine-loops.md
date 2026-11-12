@@ -16,7 +16,7 @@ instance's AI.
 | Area | State |
 | --- | --- |
 | AI providers | Built: Admin > AI Assistant; Go store with keys under the root key; five adapters (Anthropic direct, Bedrock, Vertex, OpenAI, OpenAI-compatible); recorded connection tests. Proven on the image with a stand-in model; no real provider run yet. |
-| Personas, specialists | Built: defaults in `core/ai/personas`, overrides and custom personas in `vx_ai_personas`, routing by mention, page or Clyffy, each persona on its domains' warp points, read-only. The guard does not act yet; there is nothing to approve. |
+| Personas, specialists | Built: defaults in `platform/engine/ai/personas`, overrides and custom personas in `vx_ai_personas`, routing by mention, page or Clyffy, each persona on its domains' warp points, read-only. The guard does not act yet; there is nothing to approve. |
 | Domain tools | Warp points: one MCP per domain at `/api/vx/v1/<domain>/mcp`; 8 live, 7 planned. |
 | Values leaving the server | Native core has no inject or redeem. The CLI reads values through `GET /api/v3/secrets/raw`. Only the optional panel has inject/redeem. |
 | A person entering a value for someone else | Secret requests (`services/secret-sharing`): the value is stored encrypted under the root key, outside any project, and can be revealed repeatedly. |
@@ -41,7 +41,7 @@ instance's AI.
 **Canonical layout.** Default personas ship in the image as files:
 
 ```text
-core/ai/personas/
+platform/engine/ai/personas/
   clyffy/PERSONA.md          router: greets, works out the domain, hands off visibly
   secrets/PERSONA.md         specialist: secrets, connect
   access/PERSONA.md          specialist: auth, identity, access, governance

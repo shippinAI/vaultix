@@ -78,7 +78,7 @@ files authored in place. Original unfinished copies are retained locally under
   change. Learning-contract, guided-event, capability-map and preservation-gate
   tests passed. This is not a full all-file lint or manual accessibility claim.
 
-The evidence-only follow-up does not change `core/` from the tested merge commit.
+The evidence-only follow-up does not change `platform/engine/` from the tested merge commit.
 Native Go and backend database integration matrices were not rerun for this
 catalog/UI/HTTP-parser packet; their prior first-owner evidence remains in 0051.
 Older unrelated GitHub proposals remain open for separate reconciliation; this

@@ -2,7 +2,7 @@ import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 import { webcrypto, KeyObject } from 'node:crypto';
 
-const require = createRequire(resolve('core/backend/package.json'));
+const require = createRequire(resolve('platform/engine/backend/package.json'));
 const x509 = require('@peculiar/x509');
 x509.cryptoProvider.set(webcrypto);
 

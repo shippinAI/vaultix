@@ -92,11 +92,11 @@ settings workflow; it does not replace AUTH-03/04 or imply DevSCIF acceptance.
 | AUTH-05 live remote acceptance | Use the registered public Nomen device/refresh client and approved API audience. A human approves the initiated login on another device. Verify refresh/rotation, expiry, issuer revocation, local logout and server denial. | Exact issuer/client configuration without credentials in evidence; real human approval; real tenant authorization; canonical-image receipt; tested issuer outage/recovery. Fixture approval cannot close this packet. |
 | AUTH-06 guided connection UX | Author native connection/setup states with clear scope, remote approval instructions, progress, cancel, expired/denied recovery and accessible contextual help. Keep instance-owner creation separate from public enrollment and organization federation. | Keyboard, screen-reader review, reflow, reduced motion, no-value output and real successful/denied sign-in. Verify Codex subscription and own-provider setups independently; never collect model subscription credentials. |
 
-AUTH-02 starting paths: `core/backend/src/server/plugins/auth/inject-identity.ts`,
-`core/backend-go/internal/services/auth/apiauth/`,
-`core/backend-go/internal/services/permission/`,
-`core/backend/src/shippin/services/oidc/`, `core/backend/src/db/schemas/user-aliases.ts`,
-`core/backend/src/server/routes/vaultix-router.ts`, `internal/oidc/` and
+AUTH-02 starting paths: `platform/engine/backend/src/server/plugins/auth/inject-identity.ts`,
+`platform/engine/backend-go/internal/services/auth/apiauth/`,
+`platform/engine/backend-go/internal/services/permission/`,
+`platform/engine/backend/src/shippin/services/oidc/`, `platform/engine/backend/src/db/schemas/user-aliases.ts`,
+`platform/engine/backend/src/server/routes/vaultix-router.ts`, `internal/oidc/` and
 `internal/cli/`. Trace their DALs, migrations, callers and tests before edits;
 this path list is discovery, not a completed review.
 

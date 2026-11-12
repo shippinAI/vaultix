@@ -17,7 +17,7 @@ accepted change must preserve current workflows and fit the service boundaries.
 At source b9e77f46, `compose/vaultix.yml` runs one backend with loopback exposure,
 one PostgreSQL service and an optional local Dragonfly service with periodic
 snapshots. It is a useful development/operator pack, not a tested HA topology.
-`core/backend/src/main.ts` initializes database connections, migrations, queue
+`platform/engine/backend/src/main.ts` initializes database connections, migrations, queue
 services and the HTTP server in the application startup path. Worker enablement
 and profiles already exist; they require an all-job ownership review before
 claiming independently scalable API and worker roles. Database pool settings are
@@ -136,7 +136,7 @@ The canonical standalone image was built from a committed source archive at
 `e47f1e89724d3699af9f0060b24df54dcbc1462c`. Resulting image:
 `sha256:6c3523ce91691053ad8b6be773ecab11adb2f3d38c9fdb78dcd221af66bffecd`.
 The identity check confirms Vaultix.cloud and the exact source revision. Its
-runtime filesystem layers equal the tested `217aa3db` preview image, and `core/`
+runtime filesystem layers equal the tested `217aa3db` preview image, and `platform/engine/`
 is unchanged. The local build receipt is
 `.cache/public-cloud-plan/.cache/cloud-plan-proof/result.json` in the main checkout.
 No runtime redeployment or operator data mutation was needed. The accompanying

@@ -114,7 +114,7 @@ only the core's bounded strings and safe integers are accepted. Malformed IDs
 produce a null-ID protocol error; numeric spellings such as `1` and `1.0`
 correlate correctly. Unicode string limits match the core's UTF-16 length rule,
 and invalid UTF-8 frames are rejected. This CLI-only change leaves the accepted
-standalone image's `core/` source unchanged. The CLI and engine have separate
+standalone image's `platform/engine/` source unchanged. The CLI and engine have separate
 committed-source artifact receipts.
 
 ## Accepted artifact evidence

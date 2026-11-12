@@ -19,7 +19,7 @@ The audit changes from **72 entries (36 high, 31 moderate, 5 low)** to
 finding after the earlier critical-fix pass. The remaining findings are open
 release work; they have not been accepted as safe or suppressed.
 
-Reproduce from `core/backend`:
+Reproduce from `platform/engine/backend`:
 
 ```sh
 npx --yes npm@10.9.0 ci --ignore-scripts --no-audit --no-fund

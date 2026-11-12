@@ -1,6 +1,6 @@
 # Vaultix runtime dependency ownership
 
-The application ships from `core/Dockerfile.standalone-vaultix`. It contains the
+The application ships from `platform/engine/Dockerfile.standalone-vaultix`. It contains the
 Vaultix React application, backend, Go service and a native gateway transport in
 one image. There is no second application or legacy product image in this change.
 
@@ -74,14 +74,14 @@ Normal third-party dependencies retain their real names and attribution.
   native executable. A prior image's receipt cannot satisfy this check.
 
 Local development builds the transport with `npm run build:transport` in
-`core/backend`; `npm run dev` and `scripts/run-core.sh` include that step. Go must
+`platform/engine/backend`; `npm run dev` and `scripts/run-core.sh` include that step. Go must
 match `backend-go/go.mod`. Container builds compile the native helper in their Go
 stage; operators do not install a separate service. Local builds and verification
 do not require GitHub Actions or a registry.
 
 Older split backend development recipes receive the Go source through the
 explicit local `vaultix-native` build context. Their Compose files configure it
-as `./backend-go`; a direct build from `core/backend` must supply
+as `./backend-go`; a direct build from `platform/engine/backend` must supply
 `--build-context vaultix-native=../backend-go`. Each recipe copies the LDAP patch
 before npm installation and packages the native transport. The legacy reduced
 GHCR recipe also includes it, but remains outside the supported standalone release

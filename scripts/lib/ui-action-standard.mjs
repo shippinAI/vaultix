@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 import Ajv2020 from '../../.ai/node_modules/ajv/dist/2020.js';
 import addFormats from '../../.ai/node_modules/ajv-formats/dist/index.js';
 import {groups} from '../../docs/capabilities/catalog.mjs';
-import {referenceCommandCatalog} from '../../core/frontend/src/components/vaultix/reference-commands.ts';
+import {referenceCommandCatalog} from '../../platform/engine/frontend/src/components/vaultix/reference-commands.ts';
 
 // Offline contract/coverage tooling only. This module neither authorizes nor dispatches UI actions.
 export const root = fileURLToPath(new URL('../../', import.meta.url));

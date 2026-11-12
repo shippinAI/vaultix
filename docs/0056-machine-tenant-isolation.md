@@ -88,7 +88,7 @@ fixture-only orchestration success is not a substitute for either real-image run
 Source `8918df200727c9d73e44a4bab233046b1b68647e` built canonical image
 `sha256:a61af7eae30c6a062d349458528ea43e9e295d4501d26f58badcff076cff9b23`.
 Exact revision/product identity passes; runtime layers match the retained preview
-and `core/` source is unchanged. The following receipts are relative to the main
+and `platform/engine/` source is unchanged. The following receipts are relative to the main
 checkout:
 
 - Eleven real isolation checks, including revocation after restart, pass:
@@ -111,7 +111,7 @@ receipts do not close the broader CLOUD-01/02 gates.
 GitHub main advanced to `55baac6613c9ca028d021e016573e9ae0e147e24` during
 verification. That already-merged history is retained in this branch. It adds CLI
 OIDC and legacy panel prefix work and a chart-test navigation wait; it does not
-change `core/`, the isolation runner or the recovery runner. Its inclusion does
+change `platform/engine/`, the isolation runner or the recovery runner. Its inclusion does
 not establish live Nomen wiring or endorse the panel as the public cloud control
 plane. The chart test was fully read and its extra URL wait preserves the existing
 assertions; its changed browser behavior was not exercised by this packet.

@@ -1,9 +1,9 @@
 #!/bin/bash
-# Run the Vaultix engine from core/ without Docker.
+# Run the Vaultix engine from platform/engine/ without Docker.
 # Overlay (PIN / Clyffy / manager) is scripts/up.sh → panel, not this process.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-CORE="$ROOT/core"
+CORE="$ROOT/platform/engine"
 ENVF="$ROOT/run/core.env"
 
 if [[ ! -f "$ENVF" ]]; then

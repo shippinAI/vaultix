@@ -7,7 +7,7 @@
 > [pre-release rules](docs/0118-pre-release.md). AI agents deploying Vaultix follow
 > [INSTALL-FOR-AI.md](INSTALL-FOR-AI.md), including what may and may not be pasted in chat.
 
-Vaultix is developed in place in `core/`: the secrets engine, its UI, and its
+Vaultix is developed in place in `platform/engine/`: the secrets engine, its UI, and its
 API ship together in the locally built Vaultix image. Owner: AngryVibes LLC.
 Host: shippin.ai.
 
@@ -84,7 +84,7 @@ shared default password. Web setup starts invite-only with email/password login.
 Configure federation and public signup later in settings. Both setup steps have
 contextual help and guided dialogs. [Setup behavior and acceptance](docs/0050-organization-first-setup.md).
 
-The default stack builds `core/Dockerfile.standalone-vaultix` and runs
+The default stack builds `platform/engine/Dockerfile.standalone-vaultix` and runs
 PostgreSQL plus **Dragonfly**. Redis and AWS ElastiCache can be configured
 explicitly; see [cache deployment](docs/0017-cache-deployment.md). Cache
 settings use `VAULTIX_CACHE_*`; existing `REDIS_*` configuration remains
@@ -92,7 +92,7 @@ compatible. The legacy panel is an optional Compose profile, not the product
 entry point or a replacement secrets store.
 
 Native development uses `scripts/run-core.sh` and
-`cd core/frontend && npm run dev`. Start the configured database/cache first.
+`cd platform/engine/frontend && npm run dev`. Start the configured database/cache first.
 The standalone image and backend install use npm 10.9.0 because newer npm
 rejects a missing optional ARM package in the pinned QUIC dependency.
 
@@ -114,7 +114,7 @@ steps used by the UI. Authenticated clients can list projects and secret
 references through the same actions as the native reference browser. Values
 and mutations are excluded. Native built-in remote login and live acceptance
 of the optional Nomen profile remain separate delivery gates.
-See [AI setup and specialist instructions](core/ai/README.md), also included
+See [AI setup and specialist instructions](platform/engine/ai/README.md), also included
 in the image at `/backend/ai`.
 
 Secret values belong in the authenticated vault UI and the target application
@@ -215,11 +215,11 @@ node scripts/test-publication.mjs
 go test ./...
 (cd panel && go test ./...)
 bash scripts/check-owned.sh
-(cd core/frontend && npm run build)
-docker build -f core/Dockerfile.standalone-vaultix -t vaultix:smoke core
+(cd platform/engine/frontend && npm run build)
+docker build -f platform/engine/Dockerfile.standalone-vaultix -t vaultix:smoke core
 bash scripts/smoke-image.sh vaultix:smoke dragonfly
 bash scripts/smoke-image.sh vaultix:smoke redis
-docker build --target backend-build -f core/Dockerfile.standalone-vaultix -t vaultix:verify-backend core
+docker build --target backend-build -f platform/engine/Dockerfile.standalone-vaultix -t vaultix:verify-backend core
 node scripts/test-unit-core.mjs
 node scripts/test-core.mjs dragonfly
 node scripts/test-core.mjs redis

@@ -47,7 +47,7 @@ changes no behavior.
 | Frontend `upgradePlan` popup state | 184 |
 | Frontend `subscription` feature checks | 203 |
 | "Enterprise" badges | 8 |
-| `docs/*.md` / `core/docs` pages mentioning licensing | 10 / 67 |
+| `docs/*.md` / `platform/engine/docs` pages mentioning licensing | 10 / 67 |
 
 Also in this stage: the dead root `db/` copy (788 files, nothing references it), and the 27 files
 still naming `shippinAI/vaultix` after the move to `vaultix-cloud`, including image labels the
@@ -131,7 +131,7 @@ Done on 2026-11-11, proven on the image with a stand-in model
 
 - Admin > AI Assistant manages providers (Anthropic, Bedrock, Vertex, OpenAI, OpenAI-compatible)
   with encrypted keys and recorded connection tests.
-- Personas: defaults in `core/ai/personas`, administrator overrides and custom specialists.
+- Personas: defaults in `platform/engine/ai/personas`, administrator overrides and custom specialists.
 - Routing by mention, page or Clyffy; each persona uses its domains' warp points, read-only, as
   the person.
 - Chat in the Clyffy panel fed by value-free action and page signals, with a canary check.

@@ -43,7 +43,7 @@ export function missingSurface(baseline, current) {
 async function main() {
   const [mode, origin] = process.argv.slice(2);
   assert.ok(["--check-ui", "--check", "--capture"].includes(mode), "Use --check-ui, --check ORIGIN, or --capture ORIGIN.");
-  const current = { uiRoutes: uiRoutes(readFileSync(resolve(root, "core/frontend/src/routeTree.gen.ts"), "utf8")) };
+  const current = { uiRoutes: uiRoutes(readFileSync(resolve(root, "platform/engine/frontend/src/routeTree.gen.ts"), "utf8")) };
   if (mode !== "--check-ui") {
     assert.match(origin ?? "", /^http:\/\/127\.0\.0\.1:\d+$/, "Use a local standalone image.");
     const response = await fetch(`${origin}/api/docs/json`, { signal: AbortSignal.timeout(30000), redirect: "error" });

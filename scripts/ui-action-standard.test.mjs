@@ -84,7 +84,7 @@ for (const [name,mutate,expected] of [
   ['unsafe mutation',m => m.actions.find(a => a.status==='planned').effect='mutation',/review\/replay policy/],
   ['unsafe replay',m => m.actions[0].replay='read-revalidate',/Only reads/],
   ['source traversal',m => m.actions[0].source.path='../outside.ts',/Invalid UI record|traversal/],
-  ['missing source',m => m.actions[0].source.path='core/not-a-source.ts',/ENOENT/],
+  ['missing source',m => m.actions[0].source.path='platform/engine/not-a-source.ts',/ENOENT/],
   ['missing handler',m => m.actions[0].source.handler='handler-that-does-not-exist',/Missing source anchor/],
   ['external input schema',m => m.actions[0].inputSchema='https://example.invalid/schema',/Invalid UI record/]
 ]) test(`ledger rejects ${name}`,() => {

@@ -56,7 +56,7 @@ Generated capability artifacts are excluded from migration inputs to prevent
 self-referential hashes. No script advances review or acceptance state. Do not
 reduce or recapture the route/API baseline to accommodate this map.
 
-Browser verification uses the installed `core/e2e` Playwright and axe dependencies.
+Browser verification uses the installed `platform/engine/e2e` Playwright and axe dependencies.
 Set `VAULTIX_BROWSER_CHANNEL=chrome` when using installed Chrome. Receipts and
 screenshots are written under `.cache/capability-plan-*`. The test covers this
 planning view only; manual assistive-technology review remains separate.

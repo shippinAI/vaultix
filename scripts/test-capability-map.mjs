@@ -48,7 +48,7 @@ assert.ok(
   !data.source.some((item) => /^docs\/(migration|capabilities)\/generated\//.test(item.path)),
 );
 assert.deepEqual(artifacts(data), artifacts(generate()));
-const emptyAdapter = mkdtempSync(fileURLToPath(new URL("../core/backend/src/services/app-connection/.vaultix-empty-provider-", import.meta.url)));
+const emptyAdapter = mkdtempSync(fileURLToPath(new URL("../platform/engine/backend/src/services/app-connection/.vaultix-empty-provider-", import.meta.url)));
 try {
   assert.deepEqual(generate().providers, data.providers, "Empty local directories cannot invent provider capabilities");
 } finally {

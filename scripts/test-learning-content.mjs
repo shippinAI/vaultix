@@ -1,5 +1,5 @@
 ﻿import assert from "node:assert/strict";
-import { readVaultixLearning, selectVaultixLearning } from "../core/frontend/src/hooks/api/vaultix/learning.ts";
+import { readVaultixLearning, selectVaultixLearning } from "../platform/engine/frontend/src/hooks/api/vaultix/learning.ts";
 
 const tip = { id: "reference-scope", kind: "did-you-know", title: "Choose a scope", description: "Choose your app and environment.", context: ["references"], source: "catalog" };
 const catalog = { didYouKnow: [tip], knowledgeDrops: [], enterpriseCapabilities: [{ id: "access", title: "Access", summary: "Access controls", category: "Governance", featurePolicy: "included", reviewStatus: "in-progress" }] };

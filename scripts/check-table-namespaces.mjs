@@ -64,7 +64,7 @@ const notTables = [
 const matches = (entry, source) => (typeof entry.text === "string" ? source.includes(entry.text) : entry.text.test(source));
 
 const failures = [];
-for (const { path, rel } of sourceFiles(root, ["core/backend/src", "core/backend/e2e-test", "core/backend-go", "scripts", "internal", "cmd"])) {
+for (const { path, rel } of sourceFiles(root, ["platform/engine/backend/src", "platform/engine/backend/e2e-test", "platform/engine/backend-go", "scripts", "internal", "cmd"])) {
   if (exempt.some(pattern => pattern.test(rel))) continue;
   const migration = rel.includes("/db/migrations/");
   const text = readFileSync(path, "utf8");

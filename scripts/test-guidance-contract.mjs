@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
-import { readGuidance } from "../core/frontend/src/hooks/api/vaultix/guidance-contract.ts";
-import { getVaultixGuidance } from "../core/backend/src/services/vaultix/guidance.ts";
+import { readGuidance } from "../platform/engine/frontend/src/hooks/api/vaultix/guidance-contract.ts";
+import { getVaultixGuidance } from "../platform/engine/backend/src/services/vaultix/guidance.ts";
 
 const document = getVaultixGuidance();
 assert.equal(readGuidance(document).length, 6);

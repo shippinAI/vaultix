@@ -4,7 +4,7 @@ Status: scoped local handler acceptance passed, 2026-10-27; eager-upload transpo
 
 The canonical bootstrap lifecycle proof exposed a shared API defect: Fastify's
 `FST_ERR_CTP_INVALID_MEDIA_TYPE` (415) is converted to a generic 500 by
-`core/backend/src/server/plugins/error-handler.ts`. Malformed, empty, oversized
+`platform/engine/backend/src/server/plugins/error-handler.ts`. Malformed, empty, oversized
 or incorrectly framed JSON requests can take the same unrecognized-error path.
 This prevents humans and AI clients from distinguishing bad requests from an
 unavailable service and encourages ineffective retries.
@@ -72,7 +72,7 @@ behavior or whole-API parity.
 
 ## Canonical artifact
 
-The final `core/Dockerfile.standalone-vaultix` build is
+The final `platform/engine/Dockerfile.standalone-vaultix` build is
 `sha256:0726fe6b9fa18bab22cd3c02cee6d275d15f7e0af1721905eac61a5571675418`
 (`vaultix:request-errors`). Its real packaged sign-in, dashboard, charts and
 environment workflows pass in `.cache/app-image-proof-PM9CDX/workflow-result.json`.

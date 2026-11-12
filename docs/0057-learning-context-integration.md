@@ -61,7 +61,7 @@ isolation or measured cloud scale.
 
 Source `ba809e15d0fc00391f816db1f82efe86ee8e8cae` built
 `sha256:80cd937b95773e4652195e440ea1ce504e233ca104102108bcf375af9de8ca04`
-with `core/Dockerfile.standalone-vaultix`. The local application build completed
+with `platform/engine/Dockerfile.standalone-vaultix`. The local application build completed
 every mandatory step against that immutable image. Paths below are relative to
 the main checkout:
 

@@ -1,7 +1,7 @@
 # Vaultix policy ownership
 
 Vaultix's Go authorization evaluator lives in
-`core/backend-go/internal/vaultixpolicy`, within the application's own Go module.
+`platform/engine/backend-go/internal/vaultixpolicy`, within the application's own Go module.
 Permission resolution, secret metadata/value checks, assumed privileges, built-in
 roles and the integration tests import it directly. The former separately named
 module and local replacement are removed. There is no second evaluator service

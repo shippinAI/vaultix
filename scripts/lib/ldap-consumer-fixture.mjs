@@ -5,7 +5,7 @@ import {resolve,join} from 'node:path';
 // Compile the real configuration consumer. Only logging is silenced so fixture
 // credentials cannot enter test output; Client, TLS, filters and operations are real.
 export async function ldapConfigurationConsumer() {
-  const backend=resolve('core/backend');
+  const backend=resolve('platform/engine/backend');
   const require=createRequire(join(backend,'package.json'));
   const {build}=require('esbuild');
   const cache=join(backend,'node_modules/.cache');mkdirSync(cache,{recursive:true});

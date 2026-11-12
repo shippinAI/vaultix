@@ -154,7 +154,7 @@ evidence. Store durable idempotency with the source mutation, not in a browser t
 Trace request IDs and redacted outcomes, not secret values. Test two replicas,
 revocation, expired leases, duplicate delivery, restart and human takeover.
 
-The current backend adapter in `core/backend/src/services/vaultix/mcp.ts` supports
+The current backend adapter in `platform/engine/backend/src/services/vaultix/mcp.ts` supports
 versions through 2025-11-25. Research found that 2026-07-28 removes the initialize
 handshake and transport session IDs. A dedicated compatibility packet must test
 `server/discover`, per-request negotiation, result envelopes, subscriptions and
@@ -192,7 +192,7 @@ cloud load testing and whole-product capability parity remain separate evidence.
 
 ## Workbench operation
 
-From `core/frontend`, use `npm ci`, then `npm run storybook`. It binds to
+From `platform/engine/frontend`, use `npm ci`, then `npm run storybook`. It binds to
 `127.0.0.1:6006`; its developer MCP endpoint is `http://127.0.0.1:6006/mcp`.
 Configure the developer client with that URL, without customer tokens. Keep the
 server local; remote access needs a separately reviewed authenticated tunnel and

@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "vaultix.public-recording.v1",
+  "remotion": "4.0.538",
+  "backend": {
+    "id": "sha256:261c605018d90dea64b5f68811314d0140e52b255a840ab7f8c99a02b4bb8c97",
+    "title": "Vaultix",
+    "url": "https://vaultix.cloud",
+    "revision": "ee3044aa0854bf4087bfe90b388b09d3383d0916"
+  },
+  "frontend": {
+    "algorithm": "sha256-path-content-lf-v1",
+    "files": 4068,
+    "sha256": "a976bbb76e1b8943b67ac0af29f3513752916068db1bee488acee640bb87fca5"
+  },
+  "rawSha256": "d696fb733eb217f534a14e8d81457f35182f74378a766faf5c4deb0c31f8de5d",
+  "recordingManifestHash": "b01629da387f85bead86a6aa75e868d89fc58edc1ae28a12338794164abe29d1",
+  "renderSources": [
+    {
+      "path": "platform/engine/media/src/recorded.tsx",
+      "sha256": "fd0a9b1e5ef68ded25db9fcf917478a3689305cea961956f8252563fda4aa9e6"
+    },
+    {
+      "path": "platform/engine/media/render-recorded.mjs",
+      "sha256": "fd60795c042b06e8bb59b59801aa31633626ed2ca04579b277932832159721a0"
+    },
+    {
+      "path": "platform/engine/media/recorded-story.mjs",
+      "sha256": "5aa4d8d363f9555f9e9194a958bb7640c23a422c239abd6273e66629e82ba4a9"
+    }
+  ],
+  "durationSeconds": 30.8,
+  "width": 1600,
+  "height": 900,
+  "fps": 30,
+  "files": [
+    {
+      "name": "vaultix-tour.mp4",
+      "sha256": "d51a34e8d889b3da28657deb6a201c43b96d05d1a1fe604208dda10c333b550a",
+      "bytes": 1315819
+    },
+    {
+      "name": "vaultix-tour-poster.jpg",
+      "sha256": "c7bb18207dd4c5fed8149b7739bf8ad28810ccbacb6a7e89c68d7ccfdd55ac05",
+      "bytes": 143656
+    },
+    {
+      "name": "vaultix-tour.vtt",
+      "sha256": "9dc5f3cb9bcd3eec9e1e7b82076e047fd90c2b62951fde9078613afa308320b7",
+      "bytes": 619
+    }
+  ],
+  "scope": "Actual current frontend with a disposable canonical backend; scripted human-equivalent UI actions, no connected AI",
+  "credentialsRecorded": false,
+  "chapters": [
+    {
+      "title": "Your project workspace",
+      "frame": 0,
+      "caption": "Start in your organization. Open Secrets Management to choose a project."
+    },
+    {
+      "title": "Give your project a home",
+      "frame": 82,
+      "caption": "Give the project a clear name. The real application creates it when you confirm."
+    },
+    {
+      "title": "Your application, organized",
+      "frame": 436,
+      "caption": "Your new project opens with its environments and an empty, ready-to-use workspace."
+    },
+    {
+      "title": "Learn by watching the controls",
+      "frame": 518,
+      "caption": "Open Clyffy. The scripted guide selects scope and requests reference names through authorized actions. Take over whenever you like."
+    }
+  ]
+}

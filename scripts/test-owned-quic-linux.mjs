@@ -12,7 +12,7 @@ mkdirSync('.cache',{recursive:true});
 const evidence=mkdtempSync(resolve('.cache/owned-quic-linux-'));
 const source=resolve(evidence,'source');mkdirSync(source);
 execFileSync('git',['-c','core.autocrlf=false','archive','--format=tar',`--output=${resolve(evidence,'source.tar')}`,revision,
-  'core/backend-go','core/backend/package-lock.json','core/backend/src/lib/gateway/transport.ts',
+  'platform/engine/backend-go','platform/engine/backend/package-lock.json','platform/engine/backend/src/lib/gateway/transport.ts',
   'scripts/test-owned-quic.mjs','scripts/lib/test-certificates.mjs','scripts/fixtures/quic-peer']);
 execFileSync('tar',['-xf',resolve(evidence,'source.tar'),'-C',source]);
 const image=`vaultix:quic-linux-${revision}`;

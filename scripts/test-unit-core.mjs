@@ -15,7 +15,7 @@ const docker = (args, options = {}) => {
 };
 try {
   docker(["create", "--init", "--name", run, "--entrypoint", "node", "vaultix:verify-backend", "--max-old-space-size=4096", "node_modules/vitest/vitest.mjs", "run", "-c", "vitest.unit.config.mts", "--maxWorkers=2", "--reporter=default", "--reporter=json", "--outputFile=/app/test-results.json"]);
-  for (const entry of ["src", "vitest.unit.config.mts"]) docker(["cp", resolve(root, "core/backend", entry), `${run}:/app/`]);
+  for (const entry of ["src", "vitest.unit.config.mts"]) docker(["cp", resolve(root, "platform/engine/backend", entry), `${run}:/app/`]);
   // Contract tests read the public contracts by their repository-relative path.
   docker(["cp", resolve(root, "contracts"), `${run}:/contracts`]);
   docker(["start", "--attach", run]);

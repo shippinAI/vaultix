@@ -1,4 +1,4 @@
-// vaultix — Shippin secrets overlay. Engine is core/. Trusts Nomen.
+// vaultix — Shippin secrets overlay. Engine is platform/engine/. Trusts Nomen.
 package main
 
 import (
@@ -81,7 +81,7 @@ func main() {
 	var eng vault.Engine
 	dbURL := os.Getenv("VAULTIX_DATABASE_URL")
 	if localURL == "" && dbURL == "" && !mcpMode {
-		log.Fatal("VAULTIX_LOCAL_URL (owned core/) or VAULTIX_DATABASE_URL (overlay/test fallback) required")
+		log.Fatal("VAULTIX_LOCAL_URL (owned platform/engine/) or VAULTIX_DATABASE_URL (overlay/test fallback) required")
 	}
 	if dbURL != "" {
 		var err error

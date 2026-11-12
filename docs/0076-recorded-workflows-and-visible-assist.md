@@ -31,18 +31,18 @@ business eligibility. Rendering runs on owned infrastructure.
 
 | Existing source | Observed behavior | Required change |
 | --- | --- | --- |
-| [Media package](../core/media/README.md), [composition](../core/media/src/index.tsx), [renderer](../core/media/render.mjs) | Pinned Remotion 4.0.538 renders a 24-second illustrated reference lesson using actual guidance content. No authenticated app calls or screen capture. | Retain illustration as explicitly labeled explanation; add a separate composition consuming real recorded application footage and a provenance manifest. |
+| [Media package](../platform/engine/media/README.md), [composition](../platform/engine/media/src/index.tsx), [renderer](../platform/engine/media/render.mjs) | Pinned Remotion 4.0.538 renders a 24-second illustrated reference lesson using actual guidance content. No authenticated app calls or screen capture. | Retain illustration as explicitly labeled explanation; add a separate composition consuming real recorded application footage and a provenance manifest. |
 | [Image application test](../scripts/test-image-app.mjs) | Disposable image guard, real setup/login/project creation, screenshots and workflow receipts. Later helpers include fault fixtures, separately labeled. No video context. | Reuse real setup and workflow boundaries in an explicit capture mode; never record the entire mixed test suite and label it all live. |
 | [Fixture UI test](../scripts/test-native-ui.mjs) | Controlled catalog/auth/action responses exercise UI states. | Keep for component/failure checks; never use its screenshots/video as proof of completed real operations. |
-| [Card](../core/frontend/src/components/v3/generic/Card/Card.tsx) | Shared compact surface/layout slots; title slot is a div, requiring a semantic heading from its consumer. | Preserve composability while defining complete feature card patterns, states and headings. Remake consumers in place. |
-| [Project category overview](../core/frontend/src/pages/organization/ProjectsPage/components/ProjectCategoryOverview.tsx) | Five product cards, statistics, loading/retry/denial, certificate selection, PAM resolution and access requests; full-card overlay button. | Separate primary navigation, help and secondary actions; preserve all branch behavior. Do not put a help button underneath the full-card overlay. |
-| [Certificate distribution card](../core/frontend/src/pages/cert-manager/DashboardPage/components/CertificateDistributionCard.tsx) | Semantic region/heading, nonanimated chart, readable counts and keyboard filter rows; unknown entries can be noninteractive. | Preserve readable equivalents/filter semantics while adopting shared help/action patterns. Do not regress existing authored improvements. |
-| [Tooltip](../core/frontend/src/components/v3/generic/Tooltip/Tooltip.tsx) | Zero default delay, hoverable content disabled and pointer events disabled. Guided help supplies local overrides. | Fix the shared hover/focus/dismiss pattern and test consumers, with interactive explanations in a separate popover/dialog. |
-| [Dialog](../core/frontend/src/components/v3/generic/Dialog/Dialog.tsx), [notification dock](../core/frontend/src/components/notifications/NotificationDock.tsx) | Radix semantics, scrollable body/footer, portal exceptions and notification hosting within active dialogs already exist. | Keep these mechanics; add consistent pending/recovery/review and reduced-motion behavior. Verify notifications remain operable without covering actions. |
-| [Environment form](../core/frontend/src/pages/secret-manager/SettingsPage/components/EnvironmentSection/EnvironmentForm.tsx) | Shared create/update form, duplicate-submit guard, slug warning, preserved input after failure and contextual guides. | Extract approved metadata commands while retaining these protections and form validation. |
-| [Reference workspace](../core/frontend/src/components/vaultix/ReferenceWorkspace.tsx), [guide renderer](../core/frontend/src/components/vaultix/GuidedHelpView.tsx) | Shared reference controls and focus-based guidance; component-local selection/copy/query handlers. | Register semantic controls against one workflow adapter; distinguish focus/lesson completion from real action success. |
-| [Catalog](../core/backend/src/services/vaultix/catalog.ts), [MCP](../core/backend/src/services/vaultix/mcp.ts), [reference service](../core/backend/src/services/vaultix/reference-service.ts) | Catalog and authenticated reference-only source actions exist. Catalog explicitly says remote viewport driving is not connected. | Extend the canonical contract and existing authorization path; do not expose unsupported mutations just because a UI control exists. |
-| [MCP Apps bridge](../core/frontend/src/mcp-app/bridge.ts), [embedded view](../core/frontend/src/mcp-app/main.tsx) | Protocol 2026-01-26, bounded requests, parent/origin binding, allowlisted tools, one validated initial scope suggestion, user-triggered reads and disconnect clearing. | Preserve these guarantees. Embedded-view support and controlling an independently opened Vaultix tab require distinct acceptance. |
+| [Card](../platform/engine/frontend/src/components/v3/generic/Card/Card.tsx) | Shared compact surface/layout slots; title slot is a div, requiring a semantic heading from its consumer. | Preserve composability while defining complete feature card patterns, states and headings. Remake consumers in place. |
+| [Project category overview](../platform/engine/frontend/src/pages/organization/ProjectsPage/components/ProjectCategoryOverview.tsx) | Five product cards, statistics, loading/retry/denial, certificate selection, PAM resolution and access requests; full-card overlay button. | Separate primary navigation, help and secondary actions; preserve all branch behavior. Do not put a help button underneath the full-card overlay. |
+| [Certificate distribution card](../platform/engine/frontend/src/pages/cert-manager/DashboardPage/components/CertificateDistributionCard.tsx) | Semantic region/heading, nonanimated chart, readable counts and keyboard filter rows; unknown entries can be noninteractive. | Preserve readable equivalents/filter semantics while adopting shared help/action patterns. Do not regress existing authored improvements. |
+| [Tooltip](../platform/engine/frontend/src/components/v3/generic/Tooltip/Tooltip.tsx) | Zero default delay, hoverable content disabled and pointer events disabled. Guided help supplies local overrides. | Fix the shared hover/focus/dismiss pattern and test consumers, with interactive explanations in a separate popover/dialog. |
+| [Dialog](../platform/engine/frontend/src/components/v3/generic/Dialog/Dialog.tsx), [notification dock](../platform/engine/frontend/src/components/notifications/NotificationDock.tsx) | Radix semantics, scrollable body/footer, portal exceptions and notification hosting within active dialogs already exist. | Keep these mechanics; add consistent pending/recovery/review and reduced-motion behavior. Verify notifications remain operable without covering actions. |
+| [Environment form](../platform/engine/frontend/src/pages/secret-manager/SettingsPage/components/EnvironmentSection/EnvironmentForm.tsx) | Shared create/update form, duplicate-submit guard, slug warning, preserved input after failure and contextual guides. | Extract approved metadata commands while retaining these protections and form validation. |
+| [Reference workspace](../platform/engine/frontend/src/components/vaultix/ReferenceWorkspace.tsx), [guide renderer](../platform/engine/frontend/src/components/vaultix/GuidedHelpView.tsx) | Shared reference controls and focus-based guidance; component-local selection/copy/query handlers. | Register semantic controls against one workflow adapter; distinguish focus/lesson completion from real action success. |
+| [Catalog](../platform/engine/backend/src/services/vaultix/catalog.ts), [MCP](../platform/engine/backend/src/services/vaultix/mcp.ts), [reference service](../platform/engine/backend/src/services/vaultix/reference-service.ts) | Catalog and authenticated reference-only source actions exist. Catalog explicitly says remote viewport driving is not connected. | Extend the canonical contract and existing authorization path; do not expose unsupported mutations just because a UI control exists. |
+| [MCP Apps bridge](../platform/engine/frontend/src/mcp-app/bridge.ts), [embedded view](../platform/engine/frontend/src/mcp-app/main.tsx) | Protocol 2026-01-26, bounded requests, parent/origin binding, allowlisted tools, one validated initial scope suggestion, user-triggered reads and disconnect clearing. | Preserve these guarantees. Embedded-view support and controlling an independently opened Vaultix tab require distinct acceptance. |
 
 This is a focused source trace. It is not a completed review of every descendant
 handler, card story or domain. Before modifying a packet, read its complete
@@ -58,7 +58,7 @@ for review, but cannot install handlers into a running user's session.
 
 ## 2. User experience and card redesign
 
-Keep the [Vaultix visual system](../core/DESIGN.md): steel-dark surfaces, mint
+Keep the [Vaultix visual system](../platform/engine/DESIGN.md): steel-dark surfaces, mint
 project accents, owned vectors, meaningful borders and restrained elevation.
 Depth distinguishes a floating dialog from a card; dense resource pages remain
 compact. Artwork never replaces real controls or readable data. No decorative
@@ -164,8 +164,8 @@ source permissions. New mutations require source-service contracts and complete
 backend acceptance before they are advertised or enabled for AI.
 
 The runtime is a typed React provider/registry and feature adapters, proposed
-under `core/frontend/src/components/vaultix/assist/` with contract consumers in
-`core/frontend/src/hooks/api/vaultix/`. It is not a document-wide event listener
+under `platform/engine/frontend/src/components/vaultix/assist/` with contract consumers in
+`platform/engine/frontend/src/hooks/api/vaultix/`. It is not a document-wide event listener
 that replays arbitrary selectors. Native UI uses the same registry as an embedded
 view where supported. Business validation remains in its feature/domain service.
 
@@ -209,7 +209,7 @@ or credential files in registration inputs. Built-in remote login remains a
 dependency of the broad effortless-login claim under [0075](0075-usable-secrets-and-update-delivery.md).
 
 For the normal Vaultix browser tab, implement a small authenticated orchestration
-service, proposed under `core/backend-go/internal/services/assist/`, exposed
+service, proposed under `platform/engine/backend-go/internal/services/assist/`, exposed
 through existing source/MCP routing. It delivers typed intents and receipts;
 it owns no alternate secret operations. The initial transport is bounded polling
 from the visible browser (mutating claim/ack via POST), with distributed ephemeral
@@ -274,7 +274,7 @@ secret-entry tests and deliberate response fixtures unsuitable for public footag
 
 The capture pipeline is:
 
-1. Build `core/Dockerfile.standalone-vaultix` from committed source with
+1. Build `platform/engine/Dockerfile.standalone-vaultix` from committed source with
    `node scripts/build-self-hosted.mjs`. Record revision, immutable image digest,
    platform version, browser/version, dependency locks and exact workflow revision.
 2. Start a disposable loopback-only instance with isolated volumes and owned
@@ -326,7 +326,7 @@ prove that an external AI client initiated the action.
 
 ## 7. Remotion production and public playback
 
-Extend `core/media` with a separate recorded-workflow composition. Keep package
+Extend `platform/engine/media` with a separate recorded-workflow composition. Keep package
 versions aligned with existing **4.0.538**. The installed package exports
 `OffthreadVideo`; use it for the first frame-extracted composition without adding
 an application dependency. Current Remotion guidance recommends `Video` from
@@ -343,7 +343,7 @@ and successful observed milestones. Keep raw recordings untouched. An edit map
 records every trim, speed change and inserted illustration. Disclose compressed
 waiting; do not remove an error and imply an uninterrupted successful transaction.
 
-Proposed manifest owner: `core/media/workflow-recording.schema.json`, separate
+Proposed manifest owner: `platform/engine/media/workflow-recording.schema.json`, separate
 from the product action schema. Include schema version, source and image identity,
 workflow/action versions, capture environment, input-media SHA-256, duration and
 dimensions, milestone timing, source receipts, edit map, output digests and review
@@ -386,7 +386,7 @@ with exact commands and source hashes before implementing each one.
 | UI-01 baseline and contract | This plan | Read complete first-workflow consumers/stories; extend core action contract with proposed UI schema and coverage ledger at `docs/interaction/workflows.json`; baseline screenshots/payloads. | Typed schema rejection/compatibility tests and human-reviewed action-to-handler/source mapping; hidden mutations and human-only boundaries classified. |
 | UI-02 primitives and first cards | UI-01 | Existing Tooltip/Dialog/Sheet/notification primitives; ProjectCategoryOverview and project list cards. Add feature compositions, not a replacement viewport. | Real image card navigation, setup/access branches and tooltips/dialogs pass keyboard, reflow and failure tests; owner sees concrete before/after. |
 | REC-01 real capture | UI-01; capture accepted UI-02 candidate | Proposed recorder and recording manifest; reuse disposable setup. | Playable raw app recording with real operation receipts, no fixtures or sensitive capture; fail-safe cleanup and invalid-target refusal tested. |
-| MED-02 recorded composition | REC-01 | Extend existing `core/media` composition/renderer; captions, edit map and manifest validator. | Raw-to-edited provenance, genuine decode/render and browser playback; rejected bad inputs; reviewed output within budgets. |
+| MED-02 recorded composition | REC-01 | Extend existing `platform/engine/media` composition/renderer; captions, edit map and manifest validator. | Raw-to-edited provenance, genuine decode/render and browser playback; rejected bad inputs; reviewed output within budgets. |
 | UI-03 shared reference actions | UI-01/UI-02 | ReferenceWorkspace, guidance and feature adapters; local registry. | Human click/keyboard/explain/show use the same typed handlers; stale targets and invalid scopes fail; secret-value canary absent. |
 | AI-01 paired control session | UI-03; source auth contract from 0074/0075 | Proposed Go assist session service, existing source/MCP adapters, browser dispatcher and takeover controls. | Real authenticated browser + client requests across replicas; pairing/revocation/replay/tenant tests, visible intent and measured takeover. No production enablement from fixtures alone. |
 | AI-02 actual host acceptance | AI-01; 0075 host/login gates | Existing MCP Apps view/bridge, compatible client adapter and actual selected client. | Named client/version renders or explicitly falls back; connects, drives authorized reference workflow, disconnects and lets user take over. Record real multi-surface evidence. |

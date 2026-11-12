@@ -8,7 +8,7 @@ const h=createDisposableImageHarness(process.argv[2],()=>phase);
 const runner=process.argv[3];assert.match(runner??'',/^sha256:[a-f0-9]{64}$/);
 mkdirSync('.cache',{recursive:true});const directory=mkdtempSync(resolve('.cache/device-preparation-store-'));
 const report={passed:false,artifact:h.artifact,runner,cases:[],sources:[]};
-const paths=["core/backend/src/services/auth-token/device-event-recipient-dal.ts","core/backend/src/services/auth-token/device-event-recipient.spec.ts","core/backend/src/services/auth-token/device-event-source.ts","core/backend/src/services/auth-token/device-event-preparation.ts","core/backend/src/services/auth-token/device-event-preparation.spec.ts","core/backend/src/shippin/services/audit-log/audit-log-types.ts"];
+const paths=["platform/engine/backend/src/services/auth-token/device-event-recipient-dal.ts","platform/engine/backend/src/services/auth-token/device-event-recipient.spec.ts","platform/engine/backend/src/services/auth-token/device-event-source.ts","platform/engine/backend/src/services/auth-token/device-event-preparation.ts","platform/engine/backend/src/services/auth-token/device-event-preparation.spec.ts","platform/engine/backend/src/shippin/services/audit-log/audit-log-types.ts"];
 report.sources=paths.map(path=>({path,sha256:createHash('sha256').update(readFileSync(path)).digest('hex')}));
 const name='vaultix-delivery-store-'+randomBytes(8).toString('hex');
 try {
@@ -26,7 +26,7 @@ try {
  const user=h.sql(db,`SELECT id FROM vx_auth_users WHERE email='${name}@vaultix.invalid'`);assert.match(user,/^[a-f0-9-]{36}$/);
  h.output(['stop',app]);phase='device audience and immutable preparation';
  const test=h.container(name+'-test',runner,['sleep','600'],{VAULTIX_SESSION_TEST_DATABASE:connection,VAULTIX_SESSION_TEST_USER:user,VAULTIX_SESSION_TEST_ORG:owner.organization.id});
- h.output(['cp',resolve('core/backend/src'),test+':/app/']);
+ h.output(['cp',resolve('platform/engine/backend/src'),test+':/app/']);
  const config=resolve(directory,'vitest.session.config.mts');writeFileSync(config,`import {defineConfig} from 'vitest/config';export default defineConfig({test:{include:['src/services/auth-token/device-event-recipient.spec.ts','src/services/auth-token/device-event-preparation.spec.ts'],testTimeout:30000},resolve:{alias:{'@app':'/app/src'}}});`);
  h.output(['cp',config,test+':/app/vitest.session.config.mts']);
  const result=h.docker(['exec','-w','/app',test,'node','node_modules/vitest/vitest.mjs','run','-c','vitest.session.config.mts','--reporter=json','--outputFile=/app/session-result.json'],{allowFailure:true});
