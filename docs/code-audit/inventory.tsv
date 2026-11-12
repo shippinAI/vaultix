@@ -20,7 +20,7 @@ path	git_blob	kind	review_status
 .github/workflows/ghcr.yml	2c075f0f1235a30aef353d90cd17770ae6c60c9d	build-and-operations	stale
 .github/workflows/owned.yml	a518913e14d87cd054146c26fd4b24b8479f4f1b	build-and-operations	authored
 .gitignore	1225c250c5b16ada35e1a2c720eae9a21d207556	product-code	stale
-AGENTS.md	3ed69910d806cb2b71c717fd53fd4f9b3571b2e1	documentation	stale
+AGENTS.md	f4249f93bdba2493400ff51327827c6a68dbaa49	documentation	stale
 INSTALL-FOR-AI.md	115d5af81b6c08a6c090dc293968ab55c2550eae	documentation	unread
 JOURNAL.md	745bd9a4b5c9d9a042d2fb98e0843335135f9964	documentation	reviewed
 NOTICE	f961337300aa4688eb9b718fa46f8be13fcd52a7	documentation	unread
@@ -974,8 +974,8 @@ docs/capabilities/catalog.mjs	fc1197d55be7b3b76750d031efb6082dbe370731	product-c
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
-docs/capabilities/generated/catalog.json	3fc8bbb611255b305897abde146e45f28334949d	generated	unread
-docs/capabilities/generated/source-map.tsv	a08f5572c77a3affff200de61ae4add54f24e7eb	generated	unread
+docs/capabilities/generated/catalog.json	7de6ac45c14c3cf87989fe2483925de6e3d23b73	generated	unread
+docs/capabilities/generated/source-map.tsv	117dc785c44d462f26ab5bf7d64a29633ff421f5	generated	unread
 docs/capabilities/generated/surface-map.tsv	3ca4a354f751bfb02b36e623bdb5c3bc8d0abdca	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -987,9 +987,9 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	47c4034ef2acbdca39f05a84de9b6aa21104e874	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	05e884ccf2c6ab107fd8bd271a90db8c9826c41d	generated	unread
-docs/migration/generated/modules.tsv	cad108a99ad0dfc5ad0fcf5eb15ee9b97d63bc2b	generated	unread
-docs/migration/generated/summary.json	00e1414f71ea26f59d852011bd170dd8a5e5172a	generated	unread
+docs/migration/generated/files.tsv	39842eb023b395e9d7a55afb9e61b45b13bf0c51	generated	unread
+docs/migration/generated/modules.tsv	126bf146074c3b0ce3aefb0c08324f7a4d817346	generated	unread
+docs/migration/generated/summary.json	8d3f0a7e16fb1557ee68797137fb850f3567f297	generated	unread
 docs/migration/workstreams.json	6eccc84ea9c219ef88c01d81a89684baeaf1557f	product-code	stale
 docs/plan/action-plan.md	2700611de78557356d50ea829a9bfdc2525f481a	documentation	unread
 docs/plan/naming.md	5864fda0319b9656eda20aae09e2a44e9ac4fbfd	documentation	unread
@@ -1151,6 +1151,7 @@ panel/internal/viewport/web/mark.svg	689fadcd1aaf21b4c0f1b203696cb72f82c50a65	as
 panel/internal/viewport/web/og.svg	4e59d0f93c47bb3e89caa06d85390ad46b474376	asset	unread
 panel/internal/viewport/web/wordmark.svg	6586fb45f76053c0a622028e0acbe40a8bce18f1	asset	unread
 panel/main.go	23b1a56f65fbee5333f6247048d483725681d53f	product-code	unread
+platform/README.md	caf3722611d938919f9d3496c7222e817d535bde	documentation	unread
 platform/engine/.agents/skills/testing-secrets-ui/SKILL.md	a57c609bbdc39d099ca76c549fc346e8d3942ead	documentation	unread
 platform/engine/.dockerignore	de6036639a7ea52a962178c810351cf9c226f23f	product-code	reviewed
 platform/engine/.env.dev.example	6b7827ace27e55a54a8a167fb66db450047c1b1f	product-code	unread
@@ -12057,7 +12058,7 @@ platform/engine/media/README.md	75688a72b81d3e67a9b4e47b1756ff18c9545074	documen
 platform/engine/media/package-lock.json	28e6f78acc4b42ae9a7da46f002fb676713fbf71	dependency-lock	unread
 platform/engine/media/package.json	40c8a35d2eb926f80556feeea410515857a000bd	product-code	authored
 platform/engine/media/publish-recorded.mjs	1e27f09e01f222d51f4255b83b9d2d2ec7771c03	product-code	stale
-platform/engine/media/recorded-story.mjs	ccaea684ffda32944c712b103ff3f76078792c69	product-code	reviewed
+platform/engine/media/recorded-story.mjs	ec8350097a785380605aa5a13c624848cabe9a9d	product-code	stale
 platform/engine/media/render-recorded.mjs	1500e8cb90813030090a84df3bd7b6b810ac87de	product-code	stale
 platform/engine/media/render.mjs	ea612fd1fadefa17de6af34c2a3a3fdcb01eae30	product-code	stale
 platform/engine/media/source-provenance.mjs	70dba4fa485a6536ed1935b3e925416612fddd10	product-code	stale
@@ -12156,6 +12157,7 @@ platform/engine/wasm/ironrdp-decoder/Cargo.toml	bb48bc6e08dccfa96e46d177142bbf33
 platform/engine/wasm/ironrdp-decoder/Makefile	161976e2b2a7a2a384265ba05b4470bd1755f123	product-code	unread
 platform/engine/wasm/ironrdp-decoder/README.md	ac7ddbc56b28ba5078d4f7edf41e70f17ba9aebf	documentation	unread
 platform/engine/wasm/ironrdp-decoder/src/lib.rs	4644851ccc130cfc130f9012a326e13a41910464	product-code	unread
+platform/shippin/README.md	62f61b6d70f6f98f2f2bb0b286f8ca609b6bd389	documentation	unread
 schemas/shippin.vaultix.api.v1.json	09efa4d202f917c8fafbe02758906309b233a0dd	product-code	unread
 scripts/ai-journal.mjs	11062148c5626ab31973d252c0379e30c2d4824b	build-and-operations	reviewed
 scripts/ai-journal.test.mjs	c7de74158d058d9820f8c4f53ccb7990e3dcd856	test	stale
@@ -12279,6 +12281,7 @@ scripts/test-owned-dependencies.mjs	a79d8658b0af8024d1f28257bc23115cee91dac0	bui
 scripts/test-owned-ldap.mjs	4ffcea280e03a61df6bbf49eaa76ef193b99514d	build-and-operations	stale
 scripts/test-owned-quic-linux.mjs	1604f83aaccf8fdc9bcfbfdcac938155d10eba4e	build-and-operations	stale
 scripts/test-owned-quic.mjs	c494e92818de5fffd35b332554dc419a54aabcb2	build-and-operations	stale
+scripts/test-platform-boundary.mjs	077e9dd3d811e998531186786c38f0bbbbc4f87c	build-and-operations	unread
 scripts/test-product-guidance.mjs	2cf39791d9af8696484eae899707c2271a22adda	build-and-operations	unread
 scripts/test-production-admission.mjs	938354dca96cbfaa75e5d693aed14592ce7bf11d	build-and-operations	verified
 scripts/test-project-role-refresh.mjs	a8bcb4723e68a3f473fb64e7004beaaf2dfc4537	build-and-operations	verified

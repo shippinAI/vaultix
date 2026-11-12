@@ -10,6 +10,14 @@ This file is the agent router. Specs live in `docs/`. Humans start at
 
 ## Current direction
 
+Layout (2026-11-12): the product tree moved from `core/` to `platform/engine/`. Commercial cloud code
+goes in `platform/shippin/` and nowhere else. `platform/shippin/` may depend on `platform/engine/`;
+the engine never depends on it (`node scripts/test-platform-boundary.mjs`). `platform` is a folder
+name, not a tier: nothing under `platform/engine/` is paid. The older `shippin` folders inside the
+engine are debt to sort per domain, not the commercial boundary. Read `platform/README.md`. Older
+dated notes below that say `core` mean `platform/engine`. Each hosted customer gets their own
+instance (owner decision; the ADR replacing the shared-deployment paragraph of 0054 is not written).
+
 API changes (2026-11-11): Vaultix is evolving. When an API changes, update every caller (UI, CLI,
 MCP tools, scripts, tests, docs) in the same change and delete the old route: no aliases, shims or
 legacy paths. Update the capability-surface baseline in that commit on purpose. This supersedes the
@@ -199,7 +207,7 @@ the plan. Passing a schema or selected test is not whole-implementation proof.
 ```bash
 cd panel && go test ./...
 scripts/check-owned.sh
-# engine (native): scripts/run-core.sh
+# engine (native): scripts/run-core.sh   (runs platform/engine)
 # UI (native):     cd platform/engine/frontend && npx vite --host 127.0.0.1 --port 3000
 # compose: copy compose/self.env.example → compose/vaultix.env, then scripts/up.sh
 # verified local image: node scripts/build-self-hosted.mjs

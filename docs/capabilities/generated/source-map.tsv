@@ -9554,7 +9554,7 @@ platform/engine/img/logoname.svg	experience	ui	platform/engine/img	6586fb45f7605
 platform/engine/img/logotransparent.png	experience	ui	platform/engine/img	689fadcd1aaf21b4c0f1b203696cb72f82c50a65	unread
 platform/engine/media/package.json	experience	ui	platform/engine/media	40c8a35d2eb926f80556feeea410515857a000bd	authored
 platform/engine/media/publish-recorded.mjs	experience	ui	platform/engine/media	1e27f09e01f222d51f4255b83b9d2d2ec7771c03	stale
-platform/engine/media/recorded-story.mjs	experience	ui	platform/engine/media	ccaea684ffda32944c712b103ff3f76078792c69	reviewed
+platform/engine/media/recorded-story.mjs	experience	ui	platform/engine/media	ec8350097a785380605aa5a13c624848cabe9a9d	stale
 platform/engine/media/render-recorded.mjs	experience	ui	platform/engine/media	1500e8cb90813030090a84df3bd7b6b810ac87de	stale
 platform/engine/media/render.mjs	experience	ui	platform/engine/media	ea612fd1fadefa17de6af34c2a3a3fdcb01eae30	stale
 platform/engine/media/source-provenance.mjs	experience	ui	platform/engine/media	70dba4fa485a6536ed1935b3e925416612fddd10	stale
@@ -9767,6 +9767,7 @@ scripts/test-owned-dependencies.mjs	operate	delivery	scripts	a79d8658b0af8024d1f
 scripts/test-owned-ldap.mjs	operate	delivery	scripts	4ffcea280e03a61df6bbf49eaa76ef193b99514d	stale
 scripts/test-owned-quic-linux.mjs	operate	delivery	scripts	1604f83aaccf8fdc9bcfbfdcac938155d10eba4e	stale
 scripts/test-owned-quic.mjs	operate	delivery	scripts	c494e92818de5fffd35b332554dc419a54aabcb2	stale
+scripts/test-platform-boundary.mjs	operate	delivery	scripts	077e9dd3d811e998531186786c38f0bbbbc4f87c	unread
 scripts/test-product-guidance.mjs	operate	delivery	scripts	2cf39791d9af8696484eae899707c2271a22adda	unread
 scripts/test-production-admission.mjs	operate	delivery	scripts	938354dca96cbfaa75e5d693aed14592ce7bf11d	verified
 scripts/test-project-role-refresh.mjs	operate	delivery	scripts	a8bcb4723e68a3f473fb64e7004beaaf2dfc4537	verified
