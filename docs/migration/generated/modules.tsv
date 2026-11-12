@@ -38,9 +38,9 @@ core/backend-go/internal/libs/logutil	foundation	Go-native	1	c2694911d74573df8c5
 core/backend-go/internal/libs/requestid	foundation	Go-native	1	a68779cad843e4d5a393b4b7a34f73fc3138c0367cb0aa7c4aedd624619ed44c	0	unassessed
 core/backend-go/internal/queue	foundation	Go-native	3	d6f8326ee560aede647a31934b32e3c4b6c5c4eea8fba9141562eb970604b9f0	2	unassessed
 core/backend-go/internal/server	foundation	Go-native	1	84e8284c89e927bc25fdd584346424f587fd28714fbe022e48e0ff4857c240be	0	unassessed
-core/backend-go/internal/server/api	foundation	Go-native	3	da7996e4d056f0438136c3d9cacfe6a0c29614fa899612cf20d8244b09051d46	2	unassessed
+core/backend-go/internal/server/api	foundation	Go-native	3	354057d0535a3c669b9fc279cc12a8afd8a8adb732014818ef490eca7f26af38	2	unassessed
 core/backend-go/internal/server/api	secrets	Go-native	2	93ffd529aa8e4c2d21aec96a54450a74b05bc130302551a9d82de01f8dad62c3	2	unassessed
-core/backend-go/internal/server/api/assistant	foundation	Go-native	2	4f177d5c50b1694dfbf0e31810dd406e1df4d08f1e6388ab78155bd4260f2d87	0	unassessed
+core/backend-go/internal/server/api/assistant	foundation	Go-native	2	d1673faf27f9ef2306be5b965219190da2b1c33f7dc3dd16115573cfbfa01ae7	0	unassessed
 core/backend-go/internal/server/api/platform/deviceauth	foundation	Go-native	3	712084836739c0f6ba1f7725c6f875ce4a98725dba15ffa3f4d7bf4086442818	3	unassessed
 core/backend-go/internal/server/api/platform/projects	secrets	Go-native	4	47ceff3cbc80b75be181a0299c7941a588a85d13a03ec0519e187ab0f178c5a0	3	unassessed
 core/backend-go/internal/server/api/platform/usersessions	identity	Go-native	2	8cdf26a153f8b3b0f99b451490e46e0e82b25ca052cc0659942ffccfbc03994e	0	unassessed
@@ -50,7 +50,7 @@ core/backend-go/internal/server/api/templates	foundation	Go-native	1	34f212cfcb7
 core/backend-go/internal/server/api/validator	foundation	Go-native	1	af2aa4a26f2fefb6daf88c65b7b80d0aca436985c96efadc935f21d2fd0ba480	0	unassessed
 core/backend-go/internal/server/api/vaultixref	foundation	Go-native	4	60adecb29ebc6578e32558cbf7b9333c9f63e7f517e6a878b41755bd09a867d1	4	unassessed
 core/backend-go/internal/server/middlewares	foundation	Go-native	5	b7b17219c1cedc12d274279ab536e330d019ad8952441a76c1b75faf6f14bbc1	0	unassessed
-core/backend-go/internal/services/assistant	foundation	Go-native	6	26353e94e166e88f4bbd0bfc18905f63a7cfcb1adeec0c436b10285b6f38dcd8	0	unassessed
+core/backend-go/internal/services/assistant	foundation	Go-native	9	0bf233eee74fcffbc38439b3d8625fafe87e8d2d655477729c070194e3180978	0	unassessed
 core/backend-go/internal/services/assumeprivilege	authorization	Go-native	4	ba24ae787826f600f5fe58e1ab064bc94a1235752c841f9dfd3e5adc696c5818	4	unassessed
 core/backend-go/internal/services/auditlog	audit	Go-native	8	d8d9e476ac6869bd322ee8304f6032609d77947fc8eebb8d06f18d533f2449ee	5	unassessed
 core/backend-go/internal/services/auth	identity	Go-native	45	119a7327266b6e64aa2bd518254e76d404d49b7de027a72d64c8ddae8c4339bd	42	unassessed
@@ -119,7 +119,7 @@ core/backend/src/db/manual-migrations	audit	Go-domain-migration	1	a456acef5c86ca
 core/backend/src/db/migrations	audit	Go-domain-migration	12	72c2f52353103b935696b00e6528901e88a3ad915160470a946b04387ee9d514	0	unassessed
 core/backend/src/db/migrations	authorization	Go-domain-migration	44	0ed74219628f0648cb84475f24e77d105cfb460fefc6c4c0f7ddea47c24a5458	0	unassessed
 core/backend/src/db/migrations	automation	Go-domain-migration	13	f5b1fa8eba11b014fd01d563709813637456835b5d808c6785a8247e877dfa63	0	unassessed
-core/backend/src/db/migrations	foundation	Go-domain-migration	206	8707fe036f4a980a4736f4d88ab26d4e220540d6022a44e6aa9de9f2d1451035	5	unassessed
+core/backend/src/db/migrations	foundation	Go-domain-migration	207	d538c4f2535ce19454e5bc2587c806d65a38cf6bfc27297e8c210ed609ff1afd	5	unassessed
 core/backend/src/db/migrations	identity	Go-domain-migration	67	d77603a1f79e0a8ffb4eae5b3911b57023eb757081cd26ea0dbf21d2e37097b4	3	unassessed
 core/backend/src/db/migrations	integrations	Go-domain-migration	25	1fe133c4be036ae4200d93e37e756b0e70ce9297d10ecc1a515f46870383508f	0	unassessed
 core/backend/src/db/migrations	kms	Go-domain-migration	21	35fa1ff3fa22574d338d843d19f8c1a82eaf5c0e36762663beefdb9aeb592330	0	unassessed
@@ -246,7 +246,7 @@ core/backend/src/server/routes/v3	identity	Go-domain-migration	2	090f7bf6761902c
 core/backend/src/server/routes/v3	pki	Go-domain-migration	1	45d31562df7ee0c55f5c0704403090b792ba6e890a364de156081a5bb375a152	0	unassessed
 core/backend/src/server/routes/v4	foundation	Go-domain-migration	1	57c637530f8240345f1c636869d77eebd744190a9741219e99369beca3c9f1de	0	unassessed
 core/backend/src/server/routes/v4	secrets	Go-domain-migration	1	750bf3cc6be14f80233ab0e8211252afcf9c8a29b97ec32cb66a2c095611a6a6	0	unassessed
-core/backend/src/server/routes/vx	foundation	Go-domain-migration	4	d85e98481068eca896e842ce25dcb9b34d964b4bbad23bc9b03bec2005a0b0fe	0	unassessed
+core/backend/src/server/routes/vx	foundation	Go-domain-migration	4	73efa4ff11d55da0d555ad967e22226aab68a5a7f81a4caa195d3ee1cd00b7e3	0	unassessed
 core/backend/src/services/access-token-queue	foundation	Go-domain-migration	1	8fa635eb8264f71fdaee587b78f4c02e0a319fb311364738a37f4a07cd75d11c	0	unassessed
 core/backend/src/services/account-recovery	identity	Go-domain-migration	1	bf93353670ef8c6b7aff7280072d3892973ed236cebad3de3e21437936acdff7	0	unassessed
 core/backend/src/services/additional-privilege	authorization	Go-domain-migration	5	ca2635173263ce8fe25d33db69a578b5bd147b8df5b64eebcabd9369147bf89d	0	unassessed
@@ -685,7 +685,7 @@ core/frontend/src/components/v3/platform/PasswordGenerator	ui	React-TypeScript	2
 core/frontend/src/components/v3/platform/SecretInput	secrets	React-TypeScript	4	78504f0e25f3eb067294f34ce6ddc88cce912579e940bb63b182fd6c3ea93a30	1	unassessed
 core/frontend/src/components/v3/platform/SecretPathInput	secrets	React-TypeScript	2	cdc4cae7467d31fe5a1d5377c1de509c94ea8c4ea05008dcaa0da952eb35285d	0	unassessed
 core/frontend/src/components/v3/platform/VerificationCode	ui	React-TypeScript	6	e5b964fd1accb099aea1481eb006f878c8084b0c7c452306978d0e9b03bcf845	0	unassessed
-core/frontend/src/components/vaultix	ai	React-TypeScript	25	25382a4b9a57b0fa5434a3517e2864cb35126ea3da8cf82a39fb3076018e1d31	11	unassessed
+core/frontend/src/components/vaultix	ai	React-TypeScript	26	e6f122a5e070b83e4bd8c822a4341868037317303b78a32aa75e2304baf1903a	11	unassessed
 core/frontend/src/config	ui	React-TypeScript	2	e3890d31163aeaaa19def7fd2b6bf7ec31064f8739fcd2712cf398bc49a39961	1	unassessed
 core/frontend/src/const	ui	React-TypeScript	2	b7359f9953be2fd79c36a629caad384833eb1dd9e2e91619d9f24f84a8734367	0	unassessed
 core/frontend/src/consts	pam	React-TypeScript	1	d7235b0d911f8850790bf58a8346ae86bedcfdb984f1c64fdacf906017c6ac80	0	unassessed
@@ -726,7 +726,7 @@ core/frontend/src/hooks/api/appConnections	pam	React-TypeScript	1	8fbe6580063a3d
 core/frontend/src/hooks/api/approvalGrants	authorization	React-TypeScript	4	4cf76ee7246c1c8ae10e5013cd1f09020e5bacb63fd8155cdc0e1bad93f63284	0	unassessed
 core/frontend/src/hooks/api/approvalPolicies	authorization	React-TypeScript	4	354c6abd20eb857e0360fecfc646c0a4f547c8011db702da5d5eb5c937253a1c	0	unassessed
 core/frontend/src/hooks/api/approvalRequests	authorization	React-TypeScript	4	f10bcdc98f5113748c5070d2162a7cc6d0ec6be2a3a22f93753e35b5b80ee9dd	0	unassessed
-core/frontend/src/hooks/api/assistant	ui	React-TypeScript	3	79e377b5f9204c977c812cd198a70e52c8803e4e056178e07dd6337fa27182c1	0	unassessed
+core/frontend/src/hooks/api/assistant	ui	React-TypeScript	3	a7aedecb3fe06f3965ee4c6b0bacfb2625bc2ab1727ba5c183bfffb9e2c9058a	0	unassessed
 core/frontend/src/hooks/api/assumePrivileges	authorization	React-TypeScript	3	d0f3962130cd0e19cffd214c7a3482b8e3e4f313acf807cbed567e593607b3b5	1	unassessed
 core/frontend/src/hooks/api/auditLogStreams	audit	React-TypeScript	14	7caeb261cc3cccf7b4a97648cc84d378c77ec3036caf9883977aa6da7b8ab351	0	unassessed
 core/frontend/src/hooks/api/auditLogs	audit	React-TypeScript	6	86e23582a7d6867f733043b009cf6017bb6e31ed71a8261b7178d71e628aaa4c	3	unassessed
@@ -857,7 +857,7 @@ core/frontend/src/mcp-app	ui	React-TypeScript	3	964cf88406081d0216deb1bff45ab866
 core/frontend/src/pages	ui	React-TypeScript	6	bebb25e89917bea4d3a11f5fe56dc1c8ced87f18b6cde8d649199f0b56f5afc0	6	unassessed
 core/frontend/src/pages/MfaSessionPage	identity	React-TypeScript	3	11d4460dd5847232644ce3032fba3f82227eb4607475b18f3bf08f3a80af0261	0	unassessed
 core/frontend/src/pages/admin	ui	React-TypeScript	1	5d03d3457712506f8ac8231b103be14899351771fbbef7e313d828aaf4e04939	0	unassessed
-core/frontend/src/pages/admin/AIAssistantPage	ui	React-TypeScript	6	64d897907f88a3e4cea540c776063ad5028707cf6e9e4dc99be410c051083776	0	unassessed
+core/frontend/src/pages/admin/AIAssistantPage	ui	React-TypeScript	7	f3ced1982005d9fdf610577af86f4eb5096c6f0df582109757c50f776e03d9f2	0	unassessed
 core/frontend/src/pages/admin/AccessManagementPage	ui	React-TypeScript	5	897216384d2432a61b37a5ea31426eb126655de70e3c72114a64913bc962ee24	0	unassessed
 core/frontend/src/pages/admin/AuthenticationPage	identity	React-TypeScript	4	63f965f7a70657e2e3c8757668ae9f46268c7bd1fb353ce9ef7e69d1d552a022	0	unassessed
 core/frontend/src/pages/admin/CachingPage	ui	React-TypeScript	4	7216f26b1d91a3449e1fd2186a66de0996b27ac67d677909fcfd654f0a027388	0	unassessed
@@ -1154,7 +1154,7 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	4932e65c43ade
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	766d70d137175b7a45523e21c642a6b5d8058e056ad16c70d40d26faf2662eba	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	141	72a5539166c4283b2f2e1255a0cb317cf7c8d74f642cc6a80e36a5e3a73fd18d	111	unassessed
+scripts	delivery	supporting-tooling-or-contract	141	b71311d54a9b80a5d59132034c98483cdcdecbba96a8acca6dbd72d0dcc40109	111	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	3	1d2aff89334f56081fcbebbab47c6ff9f8f2ef514fd4bc927067e3d6fe619259	3	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	32b1436cd70744f42741ba84c1dbcd5387f5ed5626ec5b30d010423b3cafb9ca	2	unassessed
 scripts/fixtures/windows-install	delivery	supporting-tooling-or-contract	2	ec46359d82e85605c79c1f82b5dc1754d959eafcb99ee59868c36d43d5253d61	0	unassessed
