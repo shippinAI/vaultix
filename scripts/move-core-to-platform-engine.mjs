@@ -54,6 +54,8 @@ const rules = [
   ["bare-dir", /(?<![A-Za-z0-9_.@/-])core\/(?![A-Za-z0-9_.])/g, `${NEW}/`, () => true],
   // directory named after a known root prefix
   ["rooted", /(\.\.\/|\$ROOT\/|\$\{ROOT\}\/|source\/)core(?![A-Za-z0-9_/.-])/g, `$1${NEW}`, () => true],
+  // regex-escaped paths in scripts: /^core\/backend\// 
+  ["escaped", /(?<=[(^|])core\\\//g, "platform\\/engine\\/", () => true],
   // docker build context in workflows and compose
   ["context", /(context:\s*)core\s*$/gm, `$1${NEW}`, () => true],
 ];

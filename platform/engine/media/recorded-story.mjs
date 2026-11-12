@@ -14,7 +14,7 @@ export function validateRecording(value) {
   assert.match(value.backend?.id??'',/^sha256:[a-f0-9]{64}$/);assert.match(value.backend?.revision??'',/^[a-f0-9]{40}$/);
   assert.equal(value.raw?.name,'workflow.webm');assert.match(value.raw.sha256,/^[a-f0-9]{64}$/);
   assert.ok(Array.isArray(value.frontend)&&value.frontend.length>0&&value.frontend.length<10000);
-  for(const file of value.frontend){assert.match(file.path,/^core\/frontend\/src\/[A-Za-z0-9_.$/()@ -]+$/);assert.ok(!file.path.split('/').includes('..'));assert.match(file.sha256,/^[a-f0-9]{64}$/);}
+  for(const file of value.frontend){assert.match(file.path,/^platform\/engine\/frontend\/src\/[A-Za-z0-9_.$/()@ -]+$/);assert.ok(!file.path.split('/').includes('..'));assert.match(file.sha256,/^[a-f0-9]{64}$/);}
   assert.ok(Array.isArray(value.chapters));assert.equal(value.chapters.length,4);
   let previous=-1;
   for(const [index,chapter]of value.chapters.entries()) {assert.equal(chapter.title,recordedTitles[index]);assert.ok(Number.isFinite(chapter.startSeconds)&&chapter.startSeconds>previous);previous=chapter.startSeconds;}
