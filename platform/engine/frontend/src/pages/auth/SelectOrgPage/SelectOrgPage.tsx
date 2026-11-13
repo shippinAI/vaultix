@@ -37,6 +37,7 @@ import {
 import { cn } from "@app/components/v3/utils";
 import { SessionStorageKeys } from "@app/const";
 import { ROUTE_PATHS } from "@app/const/routes";
+import { consumeLoginRedirectUrl } from "@app/helpers/sessionStorage";
 import { useToggle } from "@app/hooks";
 import {
   TOrgWithSubOrgs,
@@ -302,6 +303,11 @@ export const SelectOrgPage = () => {
     } else {
       setAuthToken(token);
       createNotification({ text: "Successfully logged in", type: "success" });
+      const loginRedirectUrl = consumeLoginRedirectUrl();
+      if (loginRedirectUrl) {
+        window.location.assign(loginRedirectUrl);
+        return;
+      }
       navigateUserToOrg({ navigate, organizationId: targetOrgId });
     }
   };

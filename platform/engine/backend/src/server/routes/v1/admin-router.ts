@@ -62,6 +62,8 @@ const SanitizedSuperAdminSchema = z.object({
   earlyAccessRequestsEnabled: z.boolean().optional(),
   // True while the instance is uninitialized and was installed with a one-time setup code.
   setupCodeRequired: z.boolean().optional(),
+  // Partner origins allowed to open /integrations/save-secret (docs/0125); empty means off.
+  integrationOrigins: z.string().array().optional(),
   // Always returned
   defaultAuthOrgSlug: z.string().nullable(),
   defaultAuthOrgAuthEnforced: z.boolean().nullish(),
@@ -113,7 +115,8 @@ export const registerAdminRouter = async (server: FastifyZodProvider) => {
             isPublicSecretSharingDisabled: serverEnvs.DISABLE_PUBLIC_SECRET_SHARING,
             isCrossProjectSecretSharingEnabled: plan.crossProjectSecretSharing,
             latestAvailableVersion,
-            setupCodeRequired: isSetupCodeRequired(serverEnvs.VAULTIX_SETUP_CODE, config.initialized)
+            setupCodeRequired: isSetupCodeRequired(serverEnvs.VAULTIX_SETUP_CODE, config.initialized),
+            integrationOrigins: serverEnvs.integrationOrigins
           }
         };
       }
@@ -129,7 +132,8 @@ export const registerAdminRouter = async (server: FastifyZodProvider) => {
           kubernetesAutoFetchServiceAccountToken: serverEnvs.KUBERNETES_AUTO_FETCH_SERVICE_ACCOUNT_TOKEN,
           paramsFolderSecretDetectionEnabled: serverEnvs.PARAMS_FOLDER_SECRET_DETECTION_ENABLED,
           isCrossProjectSecretSharingEnabled: plan.crossProjectSecretSharing,
-          latestAvailableVersion
+          latestAvailableVersion,
+          integrationOrigins: serverEnvs.integrationOrigins
         }
       };
     }

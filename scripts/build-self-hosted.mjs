@@ -79,6 +79,7 @@ try {
   step("warp-points", process.execPath, ["--experimental-strip-types", "--test", "scripts/warp-points.test.mjs"]);
   step("ui-command-compatibility", process.execPath, ["--experimental-strip-types", "scripts/test-reference-commands.mjs"]);
   step("login-failure-policy", process.execPath, ["--experimental-strip-types", "scripts/test-login-failure.mjs"]);
+  step("save-secret-handoff", process.execPath, ["--experimental-strip-types", "scripts/test-save-secret-handoff.mjs"]);
   step("owned-source", bash, ["scripts/check-owned.sh"]);
   node("table-namespace-map", "scripts/map-table-namespaces.mjs", "--check");
   node("table-namespace-references", "scripts/check-table-namespaces.mjs");

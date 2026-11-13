@@ -27,12 +27,12 @@ cmd/vaultix/version.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	0b2b
 cmd/vaultix/version_test.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	2af4c51659112f702e3e7e23cb8ca06d1623e1ba	authored
 compose/cache-redis.yml	compose	delivery	supporting-tooling-or-contract	yml	36015a7ed6436935e15eeb18ee7666f52158daca	unread
 compose/embed.go	compose	delivery	supporting-tooling-or-contract	go	e8e0f8c65e4448d45698ac4648bb46c402b1552b	reviewed
-compose/hosted.env.example	compose	delivery	supporting-tooling-or-contract	example	72635543e8a58ecfe63ac865db29a50d84f64e7f	verified
+compose/hosted.env.example	compose	delivery	supporting-tooling-or-contract	example	23cf7c4f08492615b96a6ad81990302d536ab6cd	verified
 compose/instances.json	compose	delivery	supporting-tooling-or-contract	json	b503980ffd2f92787b81675b7e043acf3658816c	unread
-compose/self.env.example	compose	delivery	supporting-tooling-or-contract	example	04293bf28414d883fef0ba035d99a88bd6d2d895	verified
+compose/self.env.example	compose	delivery	supporting-tooling-or-contract	example	1bd654efd4f7bef68a7f319994e7e09279a0a272	verified
 compose/vaultix.yml	compose	delivery	supporting-tooling-or-contract	yml	e27331e48d15ec3a1972108d06ff0976a422226f	stale
 contracts/shippin.vaultix.panel.v1.json	contracts	foundation	supporting-tooling-or-contract	json	8e7b33ca1aee5e78bf3ed4d4debf9c0a011e2099	unread
-contracts/vaultix-capability-surface.v1.json	contracts	foundation	supporting-tooling-or-contract	json	37270cd5e7a160d8100bda63fc349f1feac8faa2	unread
+contracts/vaultix-capability-surface.v1.json	contracts	foundation	supporting-tooling-or-contract	json	228a7ec96666c4b5e9fe47396f6ab4c24cf97096	unread
 contracts/vaultix.cli-acceptance.v1.json	contracts	foundation	supporting-tooling-or-contract	json	8415634300d25cca9e4a59210d8ee4abcc9b172e	authored
 contracts/vaultix.cli-install-result.v1.json	contracts	foundation	supporting-tooling-or-contract	json	f58c1eb145eab8f781cdab77ca15b3995567f18b	authored
 contracts/vaultix.cli-install-result.v2.json	contracts	foundation	supporting-tooling-or-contract	json	22dd491bfb1aab1cd7a32cd4665f3ec15fb0f179	unread
@@ -51,6 +51,7 @@ contracts/vaultix.release-manifest.v1.json	contracts	automation	supporting-tooli
 contracts/vaultix.release-manifest.v2.json	contracts	automation	supporting-tooling-or-contract	json	4670089ba19d65aaf4852b0cadde151fe89aabf3	unread
 contracts/vaultix.release-signature.v1.json	contracts	automation	supporting-tooling-or-contract	json	9da6229b405dd7e0e3e9620fd55064047e270024	authored
 contracts/vaultix.release-trust.v1.json	contracts	automation	supporting-tooling-or-contract	json	8cde0f6dd6ad11a800b7e27ec264683775bb9539	authored
+contracts/vaultix.save-secret-handoff.v1.json	contracts	foundation	supporting-tooling-or-contract	json	836c294921996069d7412a98b4b000a36e7829de	unread
 contracts/vaultix.ui-actions.v1.schema.json	contracts	foundation	supporting-tooling-or-contract	json	dc1a7903c17456291fdbecc5f961add7a3020517	unread
 contracts/vaultix.ui-benchmark-receipt.v1.schema.json	contracts	foundation	supporting-tooling-or-contract	json	334174a600b49468cbd13ad65a83aec680767be5	unread
 contracts/vaultix.updates.v1.json	contracts	foundation	supporting-tooling-or-contract	json	77beadb0341f0b210d37e490106df96ccb7751cb	authored
@@ -1007,7 +1008,7 @@ panel/internal/viewport/web/wordmark.svg	panel/internal/viewport	legacy-panel	re
 panel/main.go	panel	legacy-panel	reconcile-into-native-product	go	23b1a56f65fbee5333f6247048d483725681d53f	unread
 platform/engine/.dockerignore	platform/engine	delivery	supporting-tooling-or-contract	build-config	de6036639a7ea52a962178c810351cf9c226f23f	reviewed
 platform/engine/.env.dev.example	platform/engine	delivery	supporting-tooling-or-contract	example	6b7827ace27e55a54a8a167fb66db450047c1b1f	unread
-platform/engine/.env.example	platform/engine	delivery	supporting-tooling-or-contract	example	74d4de37b9fd95a9f5f5ba483a400dce1809dc82	unread
+platform/engine/.env.example	platform/engine	delivery	supporting-tooling-or-contract	example	dccf816d89c9124fa3d7e1ce3706023fdbf912fb	unread
 platform/engine/.envrc	platform/engine	delivery	supporting-tooling-or-contract	build-config	ae4b4fb806adf9ef53679846094de87b9dfac40a	unread
 platform/engine/.eslintignore	platform/engine	delivery	supporting-tooling-or-contract	build-config	1e484b986f65f3af8058d6f90d4fddf13d1b0d74	unread
 platform/engine/.gitignore	platform/engine	delivery	supporting-tooling-or-contract	build-config	c5f3f2b82b06a70f9945f0a190fa1e7de72bf898	unread
@@ -2280,9 +2281,11 @@ platform/engine/backend/src/lib/config/cache.test.ts	platform/engine/backend/src
 platform/engine/backend/src/lib/config/cache.ts	platform/engine/backend/src/lib/config	foundation	Go-domain-migration	ts	9f0e247b534658508dbc1157624e9c1bee743c88	unread
 platform/engine/backend/src/lib/config/clickhouse.ts	platform/engine/backend/src/lib/config	foundation	Go-domain-migration	ts	9a1129ed16d6a11907989da9ebae9cd366a61bee	unread
 platform/engine/backend/src/lib/config/const.ts	platform/engine/backend/src/lib/config	foundation	Go-domain-migration	ts	612234c1727a0a42ba29672693fa301ad31a5da5	unread
-platform/engine/backend/src/lib/config/env.ts	platform/engine/backend/src/lib/config	foundation	Go-domain-migration	ts	b6eab8c61fb32de16230e18bdfa48c5c9b09ee30	verified
+platform/engine/backend/src/lib/config/env.ts	platform/engine/backend/src/lib/config	foundation	Go-domain-migration	ts	3c44e10ea3bb8224a58d2f1ddc97467968c6b3bf	verified
 platform/engine/backend/src/lib/config/identity-token-policy.test.ts	platform/engine/backend/src/lib/config	identity	Go-domain-migration	ts	2fe3663ab7086eded1fbeee3bd5ea4c495927170	verified
 platform/engine/backend/src/lib/config/identity-token-policy.ts	platform/engine/backend/src/lib/config	identity	Go-domain-migration	ts	50c7c56dc3957ba171185c5793bd0e4aa1115f0f	verified
+platform/engine/backend/src/lib/config/integration-origins.test.ts	platform/engine/backend/src/lib/config	integrations	Go-domain-migration	ts	7bf753f9178bde6b9c97b424074c3b54f4efd8a8	unread
+platform/engine/backend/src/lib/config/integration-origins.ts	platform/engine/backend/src/lib/config	integrations	Go-domain-migration	ts	1fe422cc45f6699a1e08735be6a107af171445d1	authored
 platform/engine/backend/src/lib/config/redis.ts	platform/engine/backend/src/lib/config	foundation	Go-domain-migration	ts	9aa23a24ac088ac40bb584a0707a84483e8bafaa	verified
 platform/engine/backend/src/lib/config/request.test.ts	platform/engine/backend/src/lib/config	foundation	Go-domain-migration	ts	0b2494bb019b82a18fb0339872a63eb4d51e6876	unread
 platform/engine/backend/src/lib/config/request.ts	platform/engine/backend/src/lib/config	foundation	Go-domain-migration	ts	32dbe898ce143359c537583c1d488741455a7b36	unread
@@ -2462,7 +2465,9 @@ platform/engine/backend/src/server/plugins/production-rate-limit.ts	platform/eng
 platform/engine/backend/src/server/plugins/response-schema-hooks.ts	platform/engine/backend/src/server/plugins	foundation	Go-domain-migration	ts	392c001645aef68fde0d04ed74b67af553d3fc56	unread
 platform/engine/backend/src/server/plugins/secret-scanner-v2.ts	platform/engine/backend/src/server/plugins	secrets	Go-domain-migration	ts	f73e17ac0a52a52fe68480c0c567f7eafe016d6f	unread
 platform/engine/backend/src/server/plugins/secret-scanner.ts	platform/engine/backend/src/server/plugins	secrets	Go-domain-migration	ts	65dbbb87f38f4909384a3ff608d2acad49f0cfb2	unread
-platform/engine/backend/src/server/plugins/serve-ui.ts	platform/engine/backend/src/server/plugins	foundation	Go-domain-migration	ts	29346e0cd08b04e6db0dff461fee2b4d779db2ae	authored
+platform/engine/backend/src/server/plugins/serve-ui-headers.test.ts	platform/engine/backend/src/server/plugins	foundation	Go-domain-migration	ts	e23e15157bdf51bc511f5c021457f74b7559bfeb	unread
+platform/engine/backend/src/server/plugins/serve-ui-headers.ts	platform/engine/backend/src/server/plugins	foundation	Go-domain-migration	ts	e8b4d5d3b1eadc1bb6bd1e6ee74f329fef6defb4	authored
+platform/engine/backend/src/server/plugins/serve-ui.ts	platform/engine/backend/src/server/plugins	foundation	Go-domain-migration	ts	bfa5596f409215f2070988e25178d90d148c0669	authored
 platform/engine/backend/src/server/plugins/sidecar-request-headers.test.ts	platform/engine/backend/src/server/plugins	foundation	Go-domain-migration	ts	7e25136d4f2d106c14893c13e8a4be2335ca10e6	verified
 platform/engine/backend/src/server/plugins/sidecar-request-headers.ts	platform/engine/backend/src/server/plugins	foundation	Go-domain-migration	ts	2d3ff3eb21e29d99e9036d9922f20a4c01dcce1f	verified
 platform/engine/backend/src/server/plugins/swagger.test.ts	platform/engine/backend/src/server/plugins	foundation	Go-domain-migration	ts	4f973da7851f55f6c2904a84d61eecc0ba8c51ff	verified
@@ -2478,7 +2483,7 @@ platform/engine/backend/src/server/routes/sanitizedSchema/permission.ts	platform
 platform/engine/backend/src/server/routes/sanitizedSchema/user-additional-privilege.ts	platform/engine/backend/src/server/routes/sanitizedSchema	authorization	Go-domain-migration	ts	502ab0f7c65dc700b0cad50fe8889d2f02cae9da	unread
 platform/engine/backend/src/server/routes/sanitizedSchemas.ts	platform/engine/backend/src/server/routes	foundation	Go-domain-migration	ts	6f978fcb27da6ed71937bdad2f13bd65dcbc1f89	unread
 platform/engine/backend/src/server/routes/v1/account-recovery-router.ts	platform/engine/backend/src/server/routes/v1	identity	Go-domain-migration	ts	28db274a53218541f1e9279449cea7727ac745a2	unread
-platform/engine/backend/src/server/routes/v1/admin-router.ts	platform/engine/backend/src/server/routes/v1	foundation	Go-domain-migration	ts	518ed9de0a70a6bd9398a9bee2c9688f9b4835db	authored
+platform/engine/backend/src/server/routes/v1/admin-router.ts	platform/engine/backend/src/server/routes/v1	foundation	Go-domain-migration	ts	0bcfa528a58d60b6830dd5769c2f5ed531811222	authored
 platform/engine/backend/src/server/routes/v1/alert-router.ts	platform/engine/backend/src/server/routes/v1	foundation	Go-domain-migration	ts	eecaed6d30892b244d41c19e1c522582a972108a	unread
 platform/engine/backend/src/server/routes/v1/announcement-router.ts	platform/engine/backend/src/server/routes/v1	foundation	Go-domain-migration	ts	b57683546768ae3ab611a31697625aff796bf3b2	unread
 platform/engine/backend/src/server/routes/v1/app-connection-routers/1password-connection-router.ts	platform/engine/backend/src/server/routes/v1/app-connection-routers	integrations	Go-domain-migration	ts	8b310840161df9b00a98d72ff1da551132cace1c	unread
@@ -6478,12 +6483,13 @@ platform/engine/frontend/src/helpers/policies.ts	platform/engine/frontend/src/he
 platform/engine/frontend/src/helpers/project.ts	platform/engine/frontend/src/helpers	secrets	React-TypeScript	ts	ce30d48c3032528246856ada090bb4333e01a7f2	unread
 platform/engine/frontend/src/helpers/proxiedServiceTemplates.ts	platform/engine/frontend/src/helpers	ui	React-TypeScript	ts	e7a28817acc2c02a41207ba53d2fb692d892d491	unread
 platform/engine/frontend/src/helpers/resourcePermissions.ts	platform/engine/frontend/src/helpers	authorization	React-TypeScript	ts	958779c4d9b47ca3e504867bc34fcdee3fe3d1e1	unread
+platform/engine/frontend/src/helpers/return-path.ts	platform/engine/frontend/src/helpers	ui	React-TypeScript	ts	ad0f09e58757cee65730f96beee3bfcf237590d5	authored
 platform/engine/frontend/src/helpers/reverseTruncate.ts	platform/engine/frontend/src/helpers	ui	React-TypeScript	ts	eba5f21d319138e284fbf31d40eb52e54d711ed4	unread
 platform/engine/frontend/src/helpers/roles.ts	platform/engine/frontend/src/helpers	authorization	React-TypeScript	ts	0a3c201afe6aa6c866810cfcfecb763a2a9c88a3	unread
 platform/engine/frontend/src/helpers/secretRotationsV2.ts	platform/engine/frontend/src/helpers	automation	React-TypeScript	ts	9377dc0ffec1c77525a301fbeb3223a000aa31e4	unread
 platform/engine/frontend/src/helpers/secretScanningV2.ts	platform/engine/frontend/src/helpers	scanning	React-TypeScript	ts	ee52266110c5aed18ec6cf140c0bc2a2fecebdf4	unread
 platform/engine/frontend/src/helpers/secretSyncs.ts	platform/engine/frontend/src/helpers	integrations	React-TypeScript	ts	c5b478ecd5d593cd469e2591671e60839fa300c4	unread
-platform/engine/frontend/src/helpers/sessionStorage.ts	platform/engine/frontend/src/helpers	ui	React-TypeScript	ts	187e58e637412faf8ed829aaac686d100a08f7bc	unread
+platform/engine/frontend/src/helpers/sessionStorage.ts	platform/engine/frontend/src/helpers	ui	React-TypeScript	ts	f3c11247bda4424478a26289f532eeeb860b3449	unread
 platform/engine/frontend/src/helpers/smb.ts	platform/engine/frontend/src/helpers	ui	React-TypeScript	ts	353babe146c4850ba166f786e069c72fd5e50adb	unread
 platform/engine/frontend/src/helpers/string.ts	platform/engine/frontend/src/helpers	ui	React-TypeScript	ts	ff12afced48a5393696f0ea61cccda30dfb7fbcf	unread
 platform/engine/frontend/src/helpers/userTablePreferences.ts	platform/engine/frontend/src/helpers	identity	React-TypeScript	ts	a23438746cd9502752f28f4a111d866b9b99f994	unread
@@ -6503,7 +6509,7 @@ platform/engine/frontend/src/hooks/api/accountRecovery/types.ts	platform/engine/
 platform/engine/frontend/src/hooks/api/admin/index.ts	platform/engine/frontend/src/hooks/api/admin	ui	React-TypeScript	ts	f4e57d7cc9fd63465de632fa3334c6ff0d81fe1b	unread
 platform/engine/frontend/src/hooks/api/admin/mutation.ts	platform/engine/frontend/src/hooks/api/admin	ui	React-TypeScript	ts	2381d5e2f9995fc7a24364a12d2c8f691a0cb87f	unread
 platform/engine/frontend/src/hooks/api/admin/queries.ts	platform/engine/frontend/src/hooks/api/admin	ui	React-TypeScript	ts	8f6e70837285297b8d02f4f1bc0ef65451d99fc7	unread
-platform/engine/frontend/src/hooks/api/admin/types.ts	platform/engine/frontend/src/hooks/api/admin	ui	React-TypeScript	ts	ae4fa2b3f14d5e6410c72e50a73d803dc532c44e	authored
+platform/engine/frontend/src/hooks/api/admin/types.ts	platform/engine/frontend/src/hooks/api/admin	ui	React-TypeScript	ts	8ed28a6bf3f10f65977f7a31b2e031ca4622768f	authored
 platform/engine/frontend/src/hooks/api/alerts/index.ts	platform/engine/frontend/src/hooks/api/alerts	ui	React-TypeScript	ts	1499a742f5a07c2917e57739bc2246223f536cb9	unread
 platform/engine/frontend/src/hooks/api/alerts/mutations.ts	platform/engine/frontend/src/hooks/api/alerts	ui	React-TypeScript	ts	8f390a1be8637cc7b1c7db6d392e9083a7260520	unread
 platform/engine/frontend/src/hooks/api/alerts/queries.ts	platform/engine/frontend/src/hooks/api/alerts	ui	React-TypeScript	ts	663af0d0374596cdfd46d1d69a63076bb9668ebc	unread
@@ -7533,7 +7539,7 @@ platform/engine/frontend/src/pages/auth/RequestNewInvitePage/RequestNewInvitePag
 platform/engine/frontend/src/pages/auth/RequestNewInvitePage/route.tsx	platform/engine/frontend/src/pages/auth/RequestNewInvitePage	identity	React-TypeScript	tsx	b1ed49a22d60cc05130e13b7ae4bb387f0b655c2	unread
 platform/engine/frontend/src/pages/auth/SelectOrgPage/EmailDuplicationConfirmation.tsx	platform/engine/frontend/src/pages/auth/SelectOrgPage	identity	React-TypeScript	tsx	9aec62a043ab9f9a54eb9469c5ce469df2b355a5	unread
 platform/engine/frontend/src/pages/auth/SelectOrgPage/SelectOrg.utils.ts	platform/engine/frontend/src/pages/auth/SelectOrgPage	identity	React-TypeScript	ts	19a7d27adf91460c0cf9430e74044039b85a02f3	unread
-platform/engine/frontend/src/pages/auth/SelectOrgPage/SelectOrgPage.tsx	platform/engine/frontend/src/pages/auth/SelectOrgPage	identity	React-TypeScript	tsx	e0208f942a7234e52bd6e57b2c99be8cf0ac5adc	unread
+platform/engine/frontend/src/pages/auth/SelectOrgPage/SelectOrgPage.tsx	platform/engine/frontend/src/pages/auth/SelectOrgPage	identity	React-TypeScript	tsx	97174dce50693cec02255b288527a0b9ecb20392	unread
 platform/engine/frontend/src/pages/auth/SelectOrgPage/route.tsx	platform/engine/frontend/src/pages/auth/SelectOrgPage	identity	React-TypeScript	tsx	9e1c55b72a535838b652661431516fd7af2d4bd3	unread
 platform/engine/frontend/src/pages/auth/SignUpInvitePage/SignUpInvitePage.tsx	platform/engine/frontend/src/pages/auth/SignUpInvitePage	identity	React-TypeScript	tsx	ee81e6abfe02a5fd6d89708a26ca62440729fd91	unread
 platform/engine/frontend/src/pages/auth/SignUpInvitePage/route.tsx	platform/engine/frontend/src/pages/auth/SignUpInvitePage	identity	React-TypeScript	tsx	42839c81edac2e1f4659c6880ef08ce204693a3b	unread
@@ -7914,6 +7920,9 @@ platform/engine/frontend/src/pages/cert-manager/pki-discovery-utils.tsx	platform
 platform/engine/frontend/src/pages/cert-manager/pki-docs-urls.ts	platform/engine/frontend/src/pages/cert-manager	pki	React-TypeScript	ts	42291ede3e53de198bf63a41e80284d84d1857ea	unread
 platform/engine/frontend/src/pages/help.tsx	platform/engine/frontend/src/pages	ui	React-TypeScript	tsx	1c6b3ff488ee15f3a7132ae3c0db115ffba3c8f3	verified
 platform/engine/frontend/src/pages/index.tsx	platform/engine/frontend/src/pages	ui	React-TypeScript	tsx	2a40c0fd7d556449b62f211680205ad5d4451e35	reviewed
+platform/engine/frontend/src/pages/integrations/SaveSecretPage/SaveSecretPage.tsx	platform/engine/frontend/src/pages/integrations/SaveSecretPage	integrations	React-TypeScript	tsx	b493980c81778aadbe755929b23f4bea20a18882	authored
+platform/engine/frontend/src/pages/integrations/SaveSecretPage/route.tsx	platform/engine/frontend/src/pages/integrations/SaveSecretPage	integrations	React-TypeScript	tsx	5eb1643e081258efaa8b856ce0c667b725d938a2	authored
+platform/engine/frontend/src/pages/integrations/SaveSecretPage/save-secret-handoff.ts	platform/engine/frontend/src/pages/integrations/SaveSecretPage	integrations	React-TypeScript	ts	839070a7e931aea96ee2e3481640e39eb8582abc	authored
 platform/engine/frontend/src/pages/kms/KmipPage/KmipPage.tsx	platform/engine/frontend/src/pages/kms/KmipPage	kms	React-TypeScript	tsx	b9847b25c013354fe09429a955072e5b2247933a	unread
 platform/engine/frontend/src/pages/kms/KmipPage/components/CreateKmipClientCertificateModal.tsx	platform/engine/frontend/src/pages/kms/KmipPage	pki	React-TypeScript	tsx	49ad991143da84be72abfc33c96ee5e70f23a884	unread
 platform/engine/frontend/src/pages/kms/KmipPage/components/DeleteKmipClientModal.tsx	platform/engine/frontend/src/pages/kms/KmipPage	kms	React-TypeScript	tsx	2d6accf76d140e3b0d63256f598e60b03a23f2a9	unread
@@ -9440,7 +9449,7 @@ platform/engine/frontend/src/pages/user/PersonalSettingsPage/components/UserName
 platform/engine/frontend/src/pages/user/PersonalSettingsPage/route.tsx	platform/engine/frontend/src/pages/user/PersonalSettingsPage	identity	React-TypeScript	tsx	b4316901e97ee91ee11673890f9193388549a08e	unread
 platform/engine/frontend/src/pages/user/layout.tsx	platform/engine/frontend/src/pages/user	identity	React-TypeScript	tsx	df4adc790cdc9442782147ab1908d77235189258	unread
 platform/engine/frontend/src/pages/vaultix-home/VaultixWorkspaceCards.tsx	platform/engine/frontend/src/pages/vaultix-home	ui	React-TypeScript	tsx	7a5b9211f10100999503f5266f87ce4423c033e3	reviewed
-platform/engine/frontend/src/routes.ts	platform/engine/frontend/src	ui	React-TypeScript	ts	9f5cbc52a8e3cd117a0371d4bf665d3007c56fb5	authored
+platform/engine/frontend/src/routes.ts	platform/engine/frontend/src	ui	React-TypeScript	ts	f769706eb4f7706077c43d72866003466beb0280	authored
 platform/engine/frontend/src/theme.css	platform/engine/frontend/src	ui	React-TypeScript	css	860f0ed3397628358b1fe857675ea98789c78e9f	authored
 platform/engine/frontend/src/translation.tsx	platform/engine/frontend/src	ui	React-TypeScript	tsx	58d71d3831e57a85ed192cdc71315f2efa560610	unread
 platform/engine/frontend/src/types/index.ts	platform/engine/frontend/src/types	ui	React-TypeScript	ts	ce14b6acdd179677c3397663050159b4148a5a2e	unread
@@ -9651,7 +9660,7 @@ scripts/ai-journal.test.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	
 scripts/audit-codebase.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	7356be4417366ea88f8b228c5214f6c9141f76e7	stale
 scripts/backup.sh	scripts	delivery	supporting-tooling-or-contract	sh	0092b74619f940ad91e4a00a638deeeb780f5ae2	unread
 scripts/build-cli.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	653033a13da81dc2be8a8966cf8c3773262d9dd7	reviewed
-scripts/build-self-hosted.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0d9f79af27849d4b5cb1a6deb16e6551549d16e3	stale
+scripts/build-self-hosted.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d1cc0b3bb12792e6c55a511adff3a930fdd8748e	stale
 scripts/build-storybook.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	bc7dc8ea2091998a7822deb0818d56c51f57edca	unread
 scripts/build-ui-report.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ba8cb1642bef17a55d9eadd93cf7f6032345edaf	stale
 scripts/check-auth-authority.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1de9724f1416f8f617093ba56db85c15a81b0d6c	unread
@@ -9778,6 +9787,9 @@ scripts/test-public-experience.mjs	scripts	delivery	supporting-tooling-or-contra
 scripts/test-publication.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1dc36c093d0385b30c2406fdb410ed24e3a45adc	stale
 scripts/test-reference-commands.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	93d8ca99ee0c516f0df77bb6708138d9586cc05e	stale
 scripts/test-release-download.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9ab1b0494732b52dbdddb5cc07c00f69925683aa	authored
+scripts/test-save-secret-handoff-backend.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	e42cacf73ee18c01349f7c0800a67a6adeaf2b34	unread
+scripts/test-save-secret-handoff-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9755c10d0d8207e976e34b1ead8f8c73eda09005	unread
+scripts/test-save-secret-handoff.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a708e9cd5c8aebaade337f93915a1f0af5cfb3d2	unread
 scripts/test-secret-dropzone.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	040bcc74857468602530bc3e68098995e4d44a5e	stale
 scripts/test-secret-paste.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1aa38af723e6232cd827e6e795c65b8477efc73f	stale
 scripts/test-self-hosted-build.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	5d8def08a7c87ce68835fc52e68ed5265dbf4bf7	stale
