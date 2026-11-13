@@ -20,7 +20,7 @@ path	git_blob	kind	review_status
 .github/workflows/ghcr.yml	2c075f0f1235a30aef353d90cd17770ae6c60c9d	build-and-operations	stale
 .github/workflows/owned.yml	a518913e14d87cd054146c26fd4b24b8479f4f1b	build-and-operations	authored
 .gitignore	1225c250c5b16ada35e1a2c720eae9a21d207556	product-code	stale
-AGENTS.md	f4249f93bdba2493400ff51327827c6a68dbaa49	documentation	stale
+AGENTS.md	da2eb977ce12cc6d30665642fbd280f0ad6675b1	documentation	stale
 INSTALL-FOR-AI.md	115d5af81b6c08a6c090dc293968ab55c2550eae	documentation	unread
 JOURNAL.md	745bd9a4b5c9d9a042d2fb98e0843335135f9964	documentation	reviewed
 NOTICE	f961337300aa4688eb9b718fa46f8be13fcd52a7	documentation	unread
@@ -985,11 +985,12 @@ docs/interaction/mesh-knowledge-personas.example.v1.json	20ac59407baa50d2756406a
 docs/interaction/mesh-knowledge-trigger.example.v1.json	ef015e95f3db9d21c8fb2fc4ed9d0fc27469a767	product-code	unread
 docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab1fb2357d20ca22	product-code	unread
 docs/interaction/workflows.json	47c4034ef2acbdca39f05a84de9b6aa21104e874	product-code	unread
+docs/lexicon.json	90b55054b766f819ad3202f5bc5236871169d1f0	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	39842eb023b395e9d7a55afb9e61b45b13bf0c51	generated	unread
-docs/migration/generated/modules.tsv	126bf146074c3b0ce3aefb0c08324f7a4d817346	generated	unread
-docs/migration/generated/summary.json	8d3f0a7e16fb1557ee68797137fb850f3567f297	generated	unread
+docs/migration/generated/files.tsv	9012b091d6135e9cad1b5600ed68e6bae81687fa	generated	unread
+docs/migration/generated/modules.tsv	c7f8822247c236798fe7ddc38f0cd141c0f461ba	generated	unread
+docs/migration/generated/summary.json	192cbcd8240fae1ffab2af927237e0235cbe08f9	generated	unread
 docs/migration/workstreams.json	6eccc84ea9c219ef88c01d81a89684baeaf1557f	product-code	stale
 docs/plan/action-plan.md	2700611de78557356d50ea829a9bfdc2525f481a	documentation	unread
 docs/plan/naming.md	5864fda0319b9656eda20aae09e2a44e9ac4fbfd	documentation	unread
@@ -12190,6 +12191,7 @@ scripts/fixtures/windows-install/bundle.go	ad28bb00655695a346d0796b937fd947bf294
 scripts/fixtures/windows-install/guest.ps1	f77f37cd6e05a1eefefa10e6b6b058724b8aed61	build-and-operations	unread
 scripts/fixtures/windows-package/guest.ps1	d55f6c29b01ebd5951c8d164669147bbb71f317e	build-and-operations	authored
 scripts/go-test-evidence.mjs	d7a3809998aa57ddc40200e7630217d82d9d541f	build-and-operations	verified
+scripts/lexicon.test.mjs	ad7c73664b3bd4cfe9f20e29d18d1311f7631074	test	unread
 scripts/lib/ai-journal.mjs	d22d234a23e1aa2a6f21666a814510aba3f55ccb	build-and-operations	reviewed
 scripts/lib/disposable-image.mjs	f8aa39ca705df1c28038e3a41373afa981c444d7	build-and-operations	reviewed
 scripts/lib/ldap-consumer-fixture.mjs	a351cff3d2f5ed47e82cd1ac50b7a791452721b9	build-and-operations	stale
