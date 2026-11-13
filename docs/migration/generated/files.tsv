@@ -9788,7 +9788,7 @@ scripts/test-publication.mjs	scripts	delivery	supporting-tooling-or-contract	mjs
 scripts/test-reference-commands.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	93d8ca99ee0c516f0df77bb6708138d9586cc05e	stale
 scripts/test-release-download.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9ab1b0494732b52dbdddb5cc07c00f69925683aa	authored
 scripts/test-save-secret-handoff-backend.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	e42cacf73ee18c01349f7c0800a67a6adeaf2b34	unread
-scripts/test-save-secret-handoff-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	29589b3eaf6a91008353be598b354d6e6ae79b74	unread
+scripts/test-save-secret-handoff-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	4110de84075f239891dbff29a5eb1788eab217b2	unread
 scripts/test-save-secret-handoff.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	b66a479de98ed32d0810d6d861a05398677b7b95	unread
 scripts/test-secret-dropzone.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	040bcc74857468602530bc3e68098995e4d44a5e	stale
 scripts/test-secret-paste.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1aa38af723e6232cd827e6e795c65b8477efc73f	stale

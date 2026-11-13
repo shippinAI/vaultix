@@ -16,7 +16,7 @@ assert.equal(process.argv.length, 3, "Usage: node scripts/test-save-secret-hando
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 let phase = "image inspection";
 const harness = createDisposableImageHarness(process.argv[2], () => phase);
-const { artifact, container, docker, request, ready, waitFor } = harness;
+const { artifact, container, docker, http, request, waitFor } = harness;
 const head = execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
 mkdirSync(resolve(root, ".cache"), { recursive: true });
 const evidence = mkdtempSync(resolve(root, ".cache/save-secret-handoff-"));
@@ -90,15 +90,21 @@ try {
     SITE_URL: "http://127.0.0.1:8200", TELEMETRY_ENABLED: "false", DISABLE_UPDATE_CHECK: "true",
     VAULTIX_INTEGRATION_ORIGINS: JSON.stringify([partner])
   }, { publishHttp: true });
-  await ready(app);
+  // A first start runs every migration; on a loaded host that can pass the harness's two minutes.
+  await waitFor(() => http(app, "/api/status")?.status === 200, "application readiness", 300_000);
   const appPort = Number(harness.output(["port", app, "8080/tcp"]).split("\n")[0].split(":").at(-1));
   const origin = `http://127.0.0.1:${appPort}`;
   const ranges = excludedRanges();
   assert.ok(outsideExcluded(appPort, ranges) && outsideExcluded(partnerPort, ranges), "A port falls in a Windows excluded range");
   report.ports = { vaultix: appPort, partner: partnerPort, excludedRangesChecked: ranges.length };
   check(`disposable stack on free loopback ports outside ${ranges.length} excluded ranges (Vaultix ${appPort}, partner ${partnerPort})`);
-  assert.equal(artifact.revision, head, "The image was not built from this checkout's commit");
-  check("the image was built from the checked-out commit");
+  // The image is built from platform/engine alone, so a later commit that only changes scripts
+  // keeps the same image.
+  const ancestor = spawnSync("git", ["merge-base", "--is-ancestor", artifact.revision, head], { cwd: root }).status === 0;
+  const sameEngine = spawnSync("git", ["diff", "--quiet", artifact.revision, head, "--", "platform/engine"], { cwd: root }).status === 0;
+  const cleanEngine = spawnSync("git", ["diff", "--quiet", "HEAD", "--", "platform/engine"], { cwd: root }).status === 0;
+  assert.ok(ancestor && sameEngine && cleanEngine, "The image was not built from this checkout's platform/engine");
+  check(`the image (${artifact.revision.slice(0, 8)}) has exactly this checkout's platform/engine`);
 
   phase = "configuration and headers";
   const config = (await (await fetch(`${origin}/api/v1/admin/config`)).json()).config;
@@ -118,6 +124,8 @@ try {
   phase = "owner and project";
   const owner = await request(app, "/api/v1/admin/signup", { method: "POST", body: { email, password, firstName: "Handoff", organizationName: "Handoff Proof" } });
   const { token } = await request(app, "/api/v3/auth/select-organization", { method: "POST", token: owner.token, body: { organizationId: owner.organization.id } });
+  // The owner is created through the API, so finish first-run onboarding the way the setup page does.
+  await request(app, "/api/v1/admin/config", { method: "PATCH", token, body: { onboardingCompleted: true } });
   const { project } = await request(app, "/api/v1/projects", { method: "POST", token, body: { projectName: "Nomen Secrets" } });
   const environment = project.environments?.[0]?.slug ?? "dev";
   check("an owner and a secrets project exist");
@@ -218,7 +226,9 @@ try {
   phase = "dashboard";
   const dashboard = await context.newPage();
   await dashboard.goto(`${origin}/organizations/${owner.organization.id}/projects/secret-management/${project.id}/secrets/${environment}`);
-  await expect(dashboard.getByText("nomen_client_secret").first()).toBeVisible({ timeout: 60000 });
+  // The key column renders each name in an input, so look at text and input values alike.
+  await expect.poll(() => dashboard.evaluate(key => document.body.innerText.includes(key) ||
+    [...document.querySelectorAll("input, textarea")].some(element => element.value === key), "nomen_client_secret"), { timeout: 60000 }).toBe(true);
   await dashboard.screenshot({ path: resolve(evidence, "dashboard.png"), fullPage: true });
   assert.ok(!(await dashboard.evaluate(() => document.body.innerText)).includes(canary), "The dashboard shows the value unmasked");
   check("the saved secret is listed in the project dashboard");
