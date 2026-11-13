@@ -77,9 +77,7 @@ describe("Clyffy native MCP", () => {
         tools: { name: string; view: string | null }[];
       }[];
     };
-    const views = Object.fromEntries(
-      warp.points.flatMap((point) => point.tools).map((tool) => [tool.name, tool.view])
-    );
+    const views = Object.fromEntries(warp.points.flatMap((point) => point.tools).map((tool) => [tool.name, tool.view]));
     expect(views["vaultix.secrets.references"]).toBe("references");
     expect(views["vaultix.projects.list"]).toBe("references");
     expect(views["vaultix.auth.options.get"]).toBeNull();
@@ -130,15 +128,15 @@ describe("Clyffy native MCP", () => {
       names: ["vaultix.secrets.references", "vaultix.connect.imports.providers"],
       call: async () => ({})
     };
-    type TListed = { result: { tools: { name: string; _meta?: { ui: { resourceUri: string } } }[] } };
+    type TListed = { result: { tools: { name: string }[] } };
     const list = (views: (typeof view)[]) =>
       (handleVaultixMcp({ jsonrpc: "2.0", id: 1, method: "tools/list" }, actions, views) as TListed).result.tools;
     const find = (tools: TListed["result"]["tools"], name: string) => tools.find((tool) => tool.name === name);
 
     const withView = list([view]);
-    expect(find(withView, "vaultix.secrets.references")?._meta?.ui.resourceUri).toBe(uri);
+    expect(find(withView, "vaultix.secrets.references")).toMatchObject({ _meta: { ui: { resourceUri: uri } } });
     // The registry declares no view for this tool, so it stays a text tool.
-    expect(find(withView, "vaultix.connect.imports.providers")?._meta).toBeUndefined();
+    expect(JSON.stringify(find(withView, "vaultix.connect.imports.providers"))).not.toContain("resourceUri");
     // No loaded view: nothing is attached, and resources are not offered at all.
     expect(JSON.stringify(list([]))).not.toContain("resourceUri");
     expect(handleVaultixMcp({ jsonrpc: "2.0", id: 2, method: "resources/list" }, actions, [])).toMatchObject({
