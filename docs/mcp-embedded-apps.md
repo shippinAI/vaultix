@@ -12,6 +12,9 @@ The [interaction system](0024-interaction-and-teaching-system.md) and
 The implementation preserves authentication and the existing source actions.
 Neither a protocol fixture nor a working local image establishes host compatibility.
 
+Which tools show this view is declared per tool in the MCPL registry, not by this adapter; see
+[Views in 0120](0120-mcpl-framework.md#views-a-tool-that-shows-a-screen-in-the-chat).
+
 ## Connection lifecycle
 
 `vaultix mcp` and `vaultixl mcp` retain the HTTP connection's negotiated protocol

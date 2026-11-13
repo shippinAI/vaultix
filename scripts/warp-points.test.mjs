@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-import { listWarpPoints, MAIN_MCP_TOOLS, VAULTIX_DOMAINS, WARP_POINTS } from '../platform/engine/backend/src/services/vaultix/warp-points.ts';
+import { listWarpPoints, MAIN_MCP_TOOLS, MCPL_VIEWS, VAULTIX_DOMAINS, viewForTool, WARP_POINTS } from '../platform/engine/backend/src/services/vaultix/warp-points.ts';
 import { DEFAULT_MCPL_MODULES, MCPL_ACTIONS, MCPL_DOMAIN_ORDER } from '../platform/engine/frontend/src/components/vaultix/mcpl-manifest.ts';
 
 const read = path => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
@@ -27,6 +27,22 @@ test('live warp points have an endpoint and tools; each tool has exactly one own
   const owned = points.flatMap(point => point.tools.map(tool => tool.name));
   assert.equal(new Set(owned).size, owned.length, 'A tool belongs to one domain');
   assert.ok(owned.every(name => /^vaultix\.[a-z]+(\.[a-z-]+)+$/.test(name)), 'Tool names are vaultix.<area>.<action>');
+});
+
+test('a tool declares at most one known view, and the warp list reports it', () => {
+  const tools = WARP_POINTS.flatMap(point => point.tools);
+  for (const tool of tools) {
+    if (tool.view !== undefined) assert.ok(MCPL_VIEWS.includes(tool.view), `${tool.name}: unknown view ${tool.view}`);
+    assert.equal(viewForTool(tool.name), tool.view, tool.name);
+  }
+  for (const view of MCPL_VIEWS)
+    assert.ok(tools.some(tool => tool.view === view), `view ${view} is declared but no tool uses it`);
+  // A view is shown on the main MCP, so a tool with a view must be listed there.
+  for (const tool of tools.filter(entry => entry.view))
+    assert.ok(MAIN_MCP_TOOLS.includes(tool.name), `${tool.name} has a view but is not on the main MCP`);
+  const listed = listWarpPoints().points.flatMap(point => point.tools);
+  assert.deepEqual(listed.map(tool => tool.view), tools.map(tool => tool.view ?? null));
+  assert.equal(viewForTool('vaultix.nothing.here'), undefined);
 });
 
 test('the main MCP keeps the tools that predate warp points and adds discovery and sign-in', () => {

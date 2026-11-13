@@ -31,12 +31,22 @@ export type TVaultixDomain = (typeof VAULTIX_DOMAINS)[number];
 // and run with that actor's own permissions.
 export type TWarpToolAccess = "public" | "signed-in";
 
+// A view is a packaged UI that a chat client can show for a tool (MCP Apps, docs/mcp-embedded-apps.md).
+// A tool names at most one view here. A client that negotiated views on the main MCP is given that
+// view with the tool; every other client gets the same tool with its text result. A view is a
+// screen, never authority: the tool call behind it passes the same sign-in and permission checks.
+export const MCPL_VIEWS = ["references"] as const;
+
+export type TMcplView = (typeof MCPL_VIEWS)[number];
+
+export type TWarpTool = { name: string; access: TWarpToolAccess; view?: TMcplView };
+
 export type TWarpPoint = {
   domain: TVaultixDomain;
   title: string;
   summary: string;
   status: "live" | "planned";
-  tools: ReadonlyArray<{ name: string; access: TWarpToolAccess }>;
+  tools: ReadonlyArray<TWarpTool>;
 };
 
 export const MAIN_MCP_PATH = "/api/v1/vaultix/mcp";
@@ -62,14 +72,14 @@ export const WARP_POINTS: ReadonlyArray<TWarpPoint> = [
     title: "Workspace",
     summary: "Organizations and the projects the signed-in actor can open.",
     status: "live",
-    tools: [{ name: "vaultix.projects.list", access: "signed-in" }]
+    tools: [{ name: "vaultix.projects.list", access: "signed-in", view: "references" }]
   },
   {
     domain: "secrets",
     title: "Secrets",
     summary: "Secret names in one project, environment and folder. Never values.",
     status: "live",
-    tools: [{ name: "vaultix.secrets.references", access: "signed-in" }]
+    tools: [{ name: "vaultix.secrets.references", access: "signed-in", view: "references" }]
   },
   {
     domain: "access",
@@ -174,19 +184,23 @@ export const MAIN_MCP_TOOLS: ReadonlyArray<string> = [
 
 export const findWarpPoint = (domain: string) => WARP_POINTS.find((point) => point.domain === domain);
 
+// The view a tool declares, if any. The registry above is the only place a view is attached.
+export const viewForTool = (name: string): TMcplView | undefined =>
+  WARP_POINTS.flatMap((point) => point.tools).find((tool) => tool.name === name)?.view;
+
 // What vaultix.warp.list returns: summaries only. A client loads a domain's tool schemas from that
 // warp point's own tools/list. Nothing here is tenant data, so it is the same for every caller.
 export const listWarpPoints = () => ({
   schemaVersion: "vaultix.warp.v1",
   main: MAIN_MCP_PATH,
   howToUse:
-    "Connect your MCP client to a live warp point's endpoint, on this same Vaultix host, to work in that domain. Each warp point lists only its own tools. Sign in first (see the auth warp point); signed-in tools run with your own permissions. A planned warp point has no endpoint yet.",
+    "Connect your MCP client to a live warp point's endpoint, on this same Vaultix host, to work in that domain. Each warp point lists only its own tools. Sign in first (see the auth warp point); signed-in tools run with your own permissions. A planned warp point has no endpoint yet. A tool with a view can show that screen in a chat client that renders MCP Apps, on the main MCP; other clients get its text result.",
   points: WARP_POINTS.map((point) => ({
     domain: point.domain,
     title: point.title,
     summary: point.summary,
     status: point.status,
     endpoint: point.status === "live" ? warpEndpoint(point.domain) : null,
-    tools: point.tools.map((tool) => ({ name: tool.name, access: tool.access }))
+    tools: point.tools.map((tool) => ({ name: tool.name, access: tool.access, view: tool.view ?? null }))
   }))
 });

@@ -1,7 +1,7 @@
 import { readVaultixTool, specialistInstructions, vaultixTools } from "./catalog";
 import { parseLearningContext } from "./learning-input";
 import { describeMcpAppResource, mcpAppExtension, mcpAppMimeType, McpAppResource } from "./mcp-app-resource";
-import { MAIN_MCP_TOOLS } from "./warp-points";
+import { MAIN_MCP_TOOLS, viewForTool } from "./warp-points";
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -28,9 +28,16 @@ export const handleVaultixMcp = (
     names: string[];
     call: (name: string, args: unknown) => Promise<unknown>;
   },
-  app?: McpAppResource,
+  // The packaged views this client negotiated. A tool is given one only when the registry
+  // (warp-points.ts) declares that view for it and the view is loaded.
+  views: ReadonlyArray<McpAppResource> = [],
   surface: TMcpSurface = mainMcpSurface
 ) => {
+  const viewOf = (tool: unknown) => {
+    if (!isRecord(tool) || typeof tool.name !== "string") return undefined;
+    const declared = viewForTool(tool.name);
+    return declared ? views.find((entry) => entry.view === declared) : undefined;
+  };
   const validId =
     isRecord(body) &&
     ((typeof body.id === "string" && body.id.length <= 128) ||
@@ -63,7 +70,7 @@ export const handleVaultixMcp = (
           : "2025-03-26",
         capabilities: {
           tools: { listChanged: false },
-          ...(app
+          ...(views.length
             ? {
                 resources: { subscribe: false, listChanged: false },
                 extensions: { [mcpAppExtension]: { mimeTypes: [mcpAppMimeType] } }
@@ -80,21 +87,24 @@ export const handleVaultixMcp = (
       return result({
         tools: [
           ...vaultixTools.filter((tool) => surface.guidance.includes(tool.name)),
-          ...(actions?.tools ?? []).map((tool) =>
-            app && isRecord(tool)
-              ? { ...tool, _meta: { ui: { resourceUri: app.uri, visibility: ["model", "app"] } } }
-              : tool
-          )
+          ...(actions?.tools ?? []).map((tool) => {
+            const view = viewOf(tool);
+            return view && isRecord(tool)
+              ? { ...tool, _meta: { ui: { resourceUri: view.uri, visibility: ["model", "app"] } } }
+              : tool;
+          })
         ]
       });
     case "resources/list":
-      if (!app) return error(-32601, "Method not found.");
+      if (!views.length) return error(-32601, "Method not found.");
       if (Object.keys(params).length) return error(-32602, "This resource list has no pagination parameters.");
-      return result({ resources: [describeMcpAppResource(app)] });
-    case "resources/read":
-      if (!app) return error(-32601, "Method not found.");
-      if (Object.keys(params).length !== 1 || params.uri !== app.uri) return error(-32602, "Unknown Vaultix resource.");
-      return result({ contents: [{ ...describeMcpAppResource(app), text: app.text }] });
+      return result({ resources: views.map(describeMcpAppResource) });
+    case "resources/read": {
+      if (!views.length) return error(-32601, "Method not found.");
+      const view = Object.keys(params).length === 1 ? views.find((entry) => entry.uri === params.uri) : undefined;
+      if (!view) return error(-32602, "Unknown Vaultix resource.");
+      return result({ contents: [{ ...describeMcpAppResource(view), text: view.text }] });
+    }
     case "tools/call": {
       if (
         typeof params.name !== "string" ||

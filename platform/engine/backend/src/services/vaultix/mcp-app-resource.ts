@@ -2,9 +2,11 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
+import type { TMcplView } from "./warp-points";
+
 export const mcpAppMimeType = "text/html;profile=mcp-app";
 export const mcpAppExtension = "io.modelcontextprotocol/ui";
-export type McpAppResource = { uri: string; text: string };
+export type McpAppResource = { view: TMcplView; uri: string; text: string };
 const record = (value: unknown): value is Record<string, unknown> =>
   value !== null && typeof value === "object" && !Array.isArray(value);
 
@@ -34,17 +36,21 @@ export const loadMcpAppResource = async (): Promise<McpAppResource | undefined> 
       manifest.uri !== `ui://vaultix/references/v1/${hash}.html`
     )
       return undefined;
-    return { uri: manifest.uri, text };
+    return { view: "references", uri: manifest.uri, text };
   } catch {
     // Development/API-only installations retain the complete text tool contract.
     return undefined;
   }
 };
 
+const viewDescriptions: Record<TMcplView, string> = {
+  references: "Browse authorized secret references with contextual help. Secret values stay in Vaultix."
+};
+
 export const describeMcpAppResource = (resource: McpAppResource) => ({
   uri: resource.uri,
-  name: "vaultix-references",
-  description: "Browse authorized secret references with contextual help. Secret values stay in Vaultix.",
+  name: `vaultix-${resource.view}`,
+  description: viewDescriptions[resource.view],
   mimeType: mcpAppMimeType,
   _meta: {
     ui: {

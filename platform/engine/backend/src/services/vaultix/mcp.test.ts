@@ -70,8 +70,19 @@ describe("Clyffy native MCP", () => {
       ) as Record<string, unknown>;
     const warp = read("vaultix.warp.list") as {
       main: string;
-      points: { domain: string; status: string; endpoint: string | null; tools: { name: string }[] }[];
+      points: {
+        domain: string;
+        status: string;
+        endpoint: string | null;
+        tools: { name: string; view: string | null }[];
+      }[];
     };
+    const views = Object.fromEntries(
+      warp.points.flatMap((point) => point.tools).map((tool) => [tool.name, tool.view])
+    );
+    expect(views["vaultix.secrets.references"]).toBe("references");
+    expect(views["vaultix.projects.list"]).toBe("references");
+    expect(views["vaultix.auth.options.get"]).toBeNull();
     expect(warp.main).toBe("/api/v1/vaultix/mcp");
     expect(warp.points.map((point) => point.domain)).toEqual([
       "public",
@@ -109,6 +120,40 @@ describe("Clyffy native MCP", () => {
     expect(text).toContain("vaultix login --token");
     expect(text).toContain("60 minutes");
     expect(text).not.toMatch(/Bearer\s+[A-Za-z0-9]/);
+  });
+
+  test("a view is attached only to a tool that declares it, and only when that view is loaded", () => {
+    const uri = `ui://vaultix/references/v1/${"b".repeat(64)}.html`;
+    const view = { view: "references" as const, uri, text: "<!doctype html><title>References</title>" };
+    const actions = {
+      tools: [{ name: "vaultix.secrets.references" }, { name: "vaultix.connect.imports.providers" }],
+      names: ["vaultix.secrets.references", "vaultix.connect.imports.providers"],
+      call: async () => ({})
+    };
+    type TListed = { result: { tools: { name: string; _meta?: { ui: { resourceUri: string } } }[] } };
+    const list = (views: (typeof view)[]) =>
+      (handleVaultixMcp({ jsonrpc: "2.0", id: 1, method: "tools/list" }, actions, views) as TListed).result.tools;
+    const find = (tools: TListed["result"]["tools"], name: string) => tools.find((tool) => tool.name === name);
+
+    const withView = list([view]);
+    expect(find(withView, "vaultix.secrets.references")?._meta?.ui.resourceUri).toBe(uri);
+    // The registry declares no view for this tool, so it stays a text tool.
+    expect(find(withView, "vaultix.connect.imports.providers")?._meta).toBeUndefined();
+    // No loaded view: nothing is attached, and resources are not offered at all.
+    expect(JSON.stringify(list([]))).not.toContain("resourceUri");
+    expect(handleVaultixMcp({ jsonrpc: "2.0", id: 2, method: "resources/list" }, actions, [])).toMatchObject({
+      error: { code: -32601 }
+    });
+
+    const resources = handleVaultixMcp({ jsonrpc: "2.0", id: 3, method: "resources/list" }, actions, [view]) as {
+      result: { resources: { uri: string; name: string }[] };
+    };
+    expect(resources.result.resources).toMatchObject([{ uri, name: "vaultix-references" }]);
+    const read = (target: string) =>
+      handleVaultixMcp({ jsonrpc: "2.0", id: 4, method: "resources/read", params: { uri: target } }, actions, [view]);
+    expect(read(uri)).toMatchObject({ result: { contents: [{ uri, text: view.text }] } });
+    expect(read("ui://vaultix/other/v1/CANARY.html")).toMatchObject({ error: { code: -32602 } });
+    expect(JSON.stringify(read("ui://vaultix/other/v1/CANARY.html"))).not.toContain("CANARY");
   });
 
   test("a warp point surface lists and answers only its own guidance tools", () => {

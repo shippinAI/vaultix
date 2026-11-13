@@ -149,7 +149,8 @@ export const registerWarpPointRouter = async (server: FastifyInstance, options: 
               names: tools.map((tool) => tool.name),
               call: (name, args) => runTool(request, name, args)
             },
-            undefined,
+            // Warp points are stateless and serve no views; a tool's view is shown on the main MCP.
+            [],
             surface
           )
         ).catch((error: unknown) => {
