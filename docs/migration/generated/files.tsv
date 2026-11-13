@@ -7920,7 +7920,7 @@ platform/engine/frontend/src/pages/cert-manager/pki-discovery-utils.tsx	platform
 platform/engine/frontend/src/pages/cert-manager/pki-docs-urls.ts	platform/engine/frontend/src/pages/cert-manager	pki	React-TypeScript	ts	42291ede3e53de198bf63a41e80284d84d1857ea	unread
 platform/engine/frontend/src/pages/help.tsx	platform/engine/frontend/src/pages	ui	React-TypeScript	tsx	1c6b3ff488ee15f3a7132ae3c0db115ffba3c8f3	verified
 platform/engine/frontend/src/pages/index.tsx	platform/engine/frontend/src/pages	ui	React-TypeScript	tsx	2a40c0fd7d556449b62f211680205ad5d4451e35	reviewed
-platform/engine/frontend/src/pages/integrations/SaveSecretPage/SaveSecretPage.tsx	platform/engine/frontend/src/pages/integrations/SaveSecretPage	integrations	React-TypeScript	tsx	b493980c81778aadbe755929b23f4bea20a18882	authored
+platform/engine/frontend/src/pages/integrations/SaveSecretPage/SaveSecretPage.tsx	platform/engine/frontend/src/pages/integrations/SaveSecretPage	integrations	React-TypeScript	tsx	ee76c0733d0b9cd23e8d393465b05cef01051428	authored
 platform/engine/frontend/src/pages/integrations/SaveSecretPage/route.tsx	platform/engine/frontend/src/pages/integrations/SaveSecretPage	integrations	React-TypeScript	tsx	f0097239f0f7ef8649305a5ef169c9a7b8ebf8ce	authored
 platform/engine/frontend/src/pages/integrations/SaveSecretPage/save-secret-handoff.ts	platform/engine/frontend/src/pages/integrations/SaveSecretPage	integrations	React-TypeScript	ts	839070a7e931aea96ee2e3481640e39eb8582abc	authored
 platform/engine/frontend/src/pages/kms/KmipPage/KmipPage.tsx	platform/engine/frontend/src/pages/kms/KmipPage	kms	React-TypeScript	tsx	b9847b25c013354fe09429a955072e5b2247933a	unread
@@ -9788,7 +9788,7 @@ scripts/test-publication.mjs	scripts	delivery	supporting-tooling-or-contract	mjs
 scripts/test-reference-commands.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	93d8ca99ee0c516f0df77bb6708138d9586cc05e	stale
 scripts/test-release-download.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9ab1b0494732b52dbdddb5cc07c00f69925683aa	authored
 scripts/test-save-secret-handoff-backend.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	e42cacf73ee18c01349f7c0800a67a6adeaf2b34	unread
-scripts/test-save-secret-handoff-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1964cf887c4146f62828c22932b36348bc21d62e	unread
+scripts/test-save-secret-handoff-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	29589b3eaf6a91008353be598b354d6e6ae79b74	unread
 scripts/test-save-secret-handoff.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	b66a479de98ed32d0810d6d861a05398677b7b95	unread
 scripts/test-secret-dropzone.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	040bcc74857468602530bc3e68098995e4d44a5e	stale
 scripts/test-secret-paste.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1aa38af723e6232cd827e6e795c65b8477efc73f	stale

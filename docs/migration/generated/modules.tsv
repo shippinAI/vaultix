@@ -916,7 +916,7 @@ platform/engine/frontend/src/pages/cert-manager/RequestsPage	pki	React-TypeScrip
 platform/engine/frontend/src/pages/cert-manager/SettingsPage	pki	React-TypeScript	17	539952685025a674484d2d26a1ba91eceba3506bece8a2ddffb3b18d5876b266	0	unassessed
 platform/engine/frontend/src/pages/cert-manager/SignerDetailPage	pki	React-TypeScript	30	e4016219596f006606e81e85f1a882863e6fc39567bb34d3f0898255472ee8ec	0	unassessed
 platform/engine/frontend/src/pages/cert-manager/components	pki	React-TypeScript	4	94f16414b8e41fee7d0c0b6446c456de462686c515e2702956bcb2399805c271	0	unassessed
-platform/engine/frontend/src/pages/integrations/SaveSecretPage	integrations	React-TypeScript	3	26b0aa3302ad865e3abb61c8f4e94c40c0b327bc6c8eb7855726b8acf4dfdb96	3	unassessed
+platform/engine/frontend/src/pages/integrations/SaveSecretPage	integrations	React-TypeScript	3	5d6022f69ed9ecd9db4881fadab6d8b16e210617f21057905138cb44541f05fb	3	unassessed
 platform/engine/frontend/src/pages/kms	kms	React-TypeScript	1	6333c15d68c26e66d9d9816ba9a19d4a775d294b3b4b5d11581f688d74bd7da5	0	unassessed
 platform/engine/frontend/src/pages/kms/KmipPage	kms	React-TypeScript	5	52f4d037843c3ba3f2c78d29e76c7e805f267cd475ed71be24642035d5e5e81c	0	unassessed
 platform/engine/frontend/src/pages/kms/KmipPage	pki	React-TypeScript	2	094ccf5f7301e6d1152c7eb31c4a0f2207411127471e308bd756970e03a55088	0	unassessed
@@ -1093,7 +1093,7 @@ platform/engine/upgrade-impact/src	delivery	supporting-tooling-or-contract	8	aef
 platform/engine/wasm/ironrdp-decoder	pam	Rust-WASM	3	192b4d62aaa2f14615258a0b7a2f40b6a84bad7cd49892203a23d26ef72e5ede	0	unassessed
 platform/engine/wasm/ironrdp-decoder/src	pam	Rust-WASM	1	81c3e3bcacbfa9835064071d6781e9c0d91d406409557830df2393d1e08a9ea6	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	146	ddf78fd36e9bc4ed2c7295fa1842e3fcc6c5f1e3607ddae732c17686d133da03	57	unassessed
+scripts	delivery	supporting-tooling-or-contract	146	b6a05aae1e8b2d48017fd2a5ff906fc4dc52d0ceacfec3a57707af81795e5a1d	57	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	3	1d2aff89334f56081fcbebbab47c6ff9f8f2ef514fd4bc927067e3d6fe619259	3	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	d2d724187d04f25b91851d774d02663e060f51a9fe26b9203b393beb175ed3d5	1	unassessed
 scripts/fixtures/windows-install	delivery	supporting-tooling-or-contract	2	ec46359d82e85605c79c1f82b5dc1754d959eafcb99ee59868c36d43d5253d61	0	unassessed

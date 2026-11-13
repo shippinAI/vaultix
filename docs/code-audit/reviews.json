@@ -11291,14 +11291,15 @@
     },
     {
       "path": "platform/engine/frontend/src/pages/integrations/SaveSecretPage/SaveSecretPage.tsx",
-      "blob": "b493980c81778aadbe755929b23f4bea20a18882",
+      "blob": "ee76c0733d0b9cd23e8d393465b05cef01051428",
       "status": "authored",
       "decision": "retain",
       "scope": "Complete file authored. Handoff page: organization, project, environment, folder and name; save with the person's session; result and close.",
       "evidence": [
         "docs/0125-save-to-vaultix-handoff.md",
         "scripts/test-save-secret-handoff.mjs",
-        "scripts/test-save-secret-handoff-image.mjs"
+        "scripts/test-save-secret-handoff-image.mjs",
+        "2026-11-13: complete file re-read. Environments come from the project itself (useGetWorkspaceById) because the project list omits them; found by scripts/test-save-secret-handoff-image.mjs."
       ]
     }
   ]

@@ -191,9 +191,11 @@ try {
   const readyEvents = await events();
   assert.deepEqual(readyEvents, [{ origin, data: { type: "vaultix.save-secret.ready", v: 1, nonce: first.nonce } }]);
   check("exactly one ready message reaches the partner from the Vaultix origin; the name suggestion is sanitized");
-  const created = popup.waitForResponse(response => new URL(response.url()).pathname === "/api/v4/secrets/nomen_client_secret" && response.request().method() === "POST");
-  await popup.getByRole("button", { name: "Save to Vaultix" }).click();
-  assert.equal((await created).status(), 200);
+  const created = popup.waitForResponse(response => new URL(response.url()).pathname === "/api/v4/secrets/nomen_client_secret" && response.request().method() === "POST", { timeout: 60000 }).catch(() => null);
+  await popup.getByRole("button", { name: "Save to Vaultix" }).click({ timeout: 30000 });
+  const createdResponse = await created;
+  assert.ok(createdResponse, "Save did not call the create-secret API");
+  assert.equal(createdResponse.status(), 200);
   await expect(popup.getByText("Saved", { exact: true })).toBeVisible({ timeout: 30000 });
   const storage = await popup.evaluate(() => JSON.stringify({ local: Object.entries(localStorage), session: Object.entries(sessionStorage), href: location.href, cookie: document.cookie, text: document.body.innerText, title: document.title }));
   assert.ok(!storage.includes(canary) && !storage.includes(decoy), "The value reached storage, the URL, the cookie jar or the page");

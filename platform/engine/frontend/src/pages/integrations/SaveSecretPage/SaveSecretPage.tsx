@@ -24,7 +24,11 @@ import {
 import { apiRequest } from "@app/config/request";
 import { selectOrganization } from "@app/hooks/api/auth/queries";
 import { useGetOrganizations } from "@app/hooks/api/organization/queries";
-import { projectKeys, useGetUserProjectsByType } from "@app/hooks/api/projects";
+import {
+  projectKeys,
+  useGetUserProjectsByType,
+  useGetWorkspaceById
+} from "@app/hooks/api/projects";
 import { ProjectType } from "@app/hooks/api/projects/types";
 import { setAuthToken } from "@app/hooks/api/reactQuery";
 
@@ -135,6 +139,9 @@ const HandoffForm = ({
     ProjectType.SecretManager
   );
   const project = projects.find((candidate) => candidate.id === projectId);
+  // The project list does not carry environments; the project itself does.
+  const { data: projectDetails } = useGetWorkspaceById(project ? projectId : "");
+  const environments = projectDetails?.id === projectId ? projectDetails.environments : [];
 
   useEffect(() => {
     // One session per page load: StrictMode remounts must not post ready twice.
@@ -164,13 +171,18 @@ const HandoffForm = ({
       remembered?.organizationId === organizationId
         ? projects.find((candidate) => candidate.id === remembered.projectId)
         : undefined;
-    const next = preferred ?? projects[0];
-    setProjectId(next?.id ?? "");
-    const preferredEnvironment = next?.environments.find(
-      (env) => preferred && env.slug === remembered?.environment
-    );
-    setEnvironment((preferredEnvironment ?? next?.environments[0])?.slug ?? "");
+    setProjectId((preferred ?? projects[0])?.id ?? "");
+    setEnvironment("");
   }, [projects, projectsLoading, projectId, remembered, organizationId]);
+
+  useEffect(() => {
+    if (environments.length === 0 || environments.some((env) => env.slug === environment)) return;
+    const preferred =
+      remembered?.organizationId === organizationId && remembered.projectId === projectId
+        ? environments.find((env) => env.slug === remembered.environment)
+        : undefined;
+    setEnvironment((preferred ?? environments[0]).slug);
+  }, [environments, environment, remembered, organizationId, projectId]);
 
   const changeOrganization = async (nextOrganizationId: string) => {
     if (nextOrganizationId === organizationId) return;
@@ -200,7 +212,7 @@ const HandoffForm = ({
   const canSave =
     snapshot.phase === "received" &&
     Boolean(project) &&
-    Boolean(environment) &&
+    environments.some((env) => env.slug === environment) &&
     !switchingOrganization;
 
   const onSubmit = async (event: FormEvent) => {
@@ -294,9 +306,7 @@ const HandoffForm = ({
             value={projectId}
             onValueChange={(next) => {
               setProjectId(next);
-              setEnvironment(
-                projects.find((candidate) => candidate.id === next)?.environments[0]?.slug ?? ""
-              );
+              setEnvironment("");
             }}
           >
             <SelectTrigger id="save-secret-project" className="w-full">
@@ -318,12 +328,16 @@ const HandoffForm = ({
         </Field>
         <Field>
           <FieldLabel htmlFor="save-secret-environment">Environment</FieldLabel>
-          <Select value={environment} onValueChange={setEnvironment} disabled={!project}>
+          <Select
+            value={environment}
+            onValueChange={setEnvironment}
+            disabled={environments.length === 0}
+          >
             <SelectTrigger id="save-secret-environment" className="w-full">
               <SelectValue placeholder="Choose an environment" />
             </SelectTrigger>
             <SelectContent>
-              {project?.environments.map((env) => (
+              {environments.map((env) => (
                 <SelectItem key={env.slug} value={env.slug}>
                   {env.name}
                 </SelectItem>
