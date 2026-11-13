@@ -853,7 +853,8 @@ docs/interaction/mesh-knowledge-personas.example.v1.json	experience	ui	docs/inte
 docs/interaction/mesh-knowledge-trigger.example.v1.json	experience	ui	docs/interaction	ef015e95f3db9d21c8fb2fc4ed9d0fc27469a767	unread
 docs/interaction/ui-benchmark-receipt.example.v1.json	experience	ui	docs/interaction	b422b903ce3a62a189be2293ab1fb2357d20ca22	unread
 docs/interaction/workflows.json	experience	ui	docs/interaction	47c4034ef2acbdca39f05a84de9b6aa21104e874	unread
-docs/migration/workstreams.json	operate	foundation	docs/migration	6eccc84ea9c219ef88c01d81a89684baeaf1557f	stale
+docs/lexicon.json	operate	foundation	docs	90b55054b766f819ad3202f5bc5236871169d1f0	unread
+docs/migration/workstreams.json	operate	foundation	docs/migration	3787bc82119ce52f730f3d484e53a15e09717dee	stale
 docs/references/gaps-1.png	experience	ui	docs/references	2073c0d90fe961ebd72a77612e667153346f9a52	unread
 docs/references/gaps2.png	experience	ui	docs/references	c542f09d1973c67b2f1f81a4137b39c47006d655	unread
 docs/references/gaps3.png	experience	ui	docs/references	5e855832e12fe66c3919b2c9fcb3bc05279bf4ac	unread
@@ -9676,6 +9677,7 @@ scripts/fixtures/windows-install/bundle.go	operate	delivery	scripts/fixtures/win
 scripts/fixtures/windows-install/guest.ps1	operate	delivery	scripts/fixtures/windows-install	f77f37cd6e05a1eefefa10e6b6b058724b8aed61	unread
 scripts/fixtures/windows-package/guest.ps1	operate	delivery	scripts/fixtures/windows-package	d55f6c29b01ebd5951c8d164669147bbb71f317e	authored
 scripts/go-test-evidence.mjs	operate	delivery	scripts	d7a3809998aa57ddc40200e7630217d82d9d541f	verified
+scripts/lexicon.test.mjs	operate	delivery	scripts	ad7c73664b3bd4cfe9f20e29d18d1311f7631074	unread
 scripts/lib/ai-journal.mjs	operate	delivery	scripts/lib	d22d234a23e1aa2a6f21666a814510aba3f55ccb	reviewed
 scripts/lib/disposable-image.mjs	operate	delivery	scripts/lib	f8aa39ca705df1c28038e3a41373afa981c444d7	reviewed
 scripts/lib/ldap-consumer-fixture.mjs	operate	delivery	scripts/lib	a351cff3d2f5ed47e82cd1ac50b7a791452721b9	stale

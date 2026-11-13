@@ -974,8 +974,8 @@ docs/capabilities/catalog.mjs	fc1197d55be7b3b76750d031efb6082dbe370731	product-c
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
-docs/capabilities/generated/catalog.json	7de6ac45c14c3cf87989fe2483925de6e3d23b73	generated	unread
-docs/capabilities/generated/source-map.tsv	117dc785c44d462f26ab5bf7d64a29633ff421f5	generated	unread
+docs/capabilities/generated/catalog.json	b0da0422ebae19d56d9ad938657d1416964bfc6a	generated	unread
+docs/capabilities/generated/source-map.tsv	7b507ca29f8d903ba7c2dc1fec1bd68404838752	generated	unread
 docs/capabilities/generated/surface-map.tsv	3ca4a354f751bfb02b36e623bdb5c3bc8d0abdca	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -988,10 +988,10 @@ docs/interaction/workflows.json	47c4034ef2acbdca39f05a84de9b6aa21104e874	product
 docs/lexicon.json	90b55054b766f819ad3202f5bc5236871169d1f0	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	9012b091d6135e9cad1b5600ed68e6bae81687fa	generated	unread
-docs/migration/generated/modules.tsv	c7f8822247c236798fe7ddc38f0cd141c0f461ba	generated	unread
-docs/migration/generated/summary.json	192cbcd8240fae1ffab2af927237e0235cbe08f9	generated	unread
-docs/migration/workstreams.json	6eccc84ea9c219ef88c01d81a89684baeaf1557f	product-code	stale
+docs/migration/generated/files.tsv	835037a664dd69385c926e1fed7868c7eb90be0c	generated	unread
+docs/migration/generated/modules.tsv	1ba611191da116c4bd5f33ed4afca2817378ff53	generated	unread
+docs/migration/generated/summary.json	7c955547026f12cd32de0547b2cf76b27226a489	generated	unread
+docs/migration/workstreams.json	3787bc82119ce52f730f3d484e53a15e09717dee	product-code	stale
 docs/plan/action-plan.md	2700611de78557356d50ea829a9bfdc2525f481a	documentation	unread
 docs/plan/naming.md	5864fda0319b9656eda20aae09e2a44e9ac4fbfd	documentation	unread
 docs/plan/traceability.md	9d100c740c750e64140e6e47542b1fbacb600978	documentation	unread

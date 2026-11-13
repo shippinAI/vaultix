@@ -22,7 +22,7 @@
   ],
   "rules": [
     { "pattern": "^\\.ai/|^\\.agents/", "workstream": "foundation" },
-    { "pattern": "^docs/capabilities/", "workstream": "foundation" },
+    { "pattern": "^docs/capabilities/|^docs/lexicon\\.json$", "workstream": "foundation" },
     { "pattern": "^docs/schema/", "workstream": "foundation" },
     { "pattern": "^go\\.mod$", "workstream": "cli" },
     { "pattern": "^branding/|^platform/engine/(company|img|docs|media)/|^docs/(references|interaction)/", "workstream": "ui" },
