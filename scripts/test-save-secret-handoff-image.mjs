@@ -246,7 +246,13 @@ try {
   check(`the value left the browser only in the create call; ${report.blockedExternalOrigins.length} external origins were attempted and blocked`);
   report.passed = true;
 } catch (error) {
-  report.failure = { phase, message: error.code === "ERR_ASSERTION" ? String(error.message).replaceAll(canary, "[canary]").replaceAll(decoy, "[decoy]").replaceAll(password, "[password]") : `Failed during ${phase}; raw diagnostics withheld.` };
+  const scrub = text => String(text).replaceAll(canary, "[canary]").replaceAll(decoy, "[decoy]").replaceAll(password, "[password]").replaceAll(email, "[email]");
+  const known = error.code === "ERR_ASSERTION" || error.name === "TimeoutError" || /Timed out|toBeVisible|toHaveValue/.test(String(error.message));
+  report.failure = { phase, message: known ? scrub(error.message).slice(0, 2000) : `Failed during ${phase}; raw diagnostics withheld.` };
+  for (const [index, open] of (browser?.contexts().flatMap(context => context.pages()) ?? []).entries()) {
+    report.failure[`page${index}`] = scrub(open.url());
+    await open.screenshot({ path: resolve(evidence, `failure-${index}.png`), fullPage: true }).catch(() => {});
+  }
   process.exitCode = 1;
 } finally {
   phase = "cleanup";

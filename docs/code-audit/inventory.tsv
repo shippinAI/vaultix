@@ -976,9 +976,9 @@ docs/capabilities/catalog.mjs	fc1197d55be7b3b76750d031efb6082dbe370731	product-c
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
-docs/capabilities/generated/catalog.json	7de6ac45c14c3cf87989fe2483925de6e3d23b73	generated	unread
-docs/capabilities/generated/source-map.tsv	117dc785c44d462f26ab5bf7d64a29633ff421f5	generated	unread
-docs/capabilities/generated/surface-map.tsv	3ca4a354f751bfb02b36e623bdb5c3bc8d0abdca	generated	unread
+docs/capabilities/generated/catalog.json	eebfe08445ba2bed9c6b223cd67e39232285df74	generated	unread
+docs/capabilities/generated/source-map.tsv	57a32b9bd2fa6cf49170d75251b50be912257ca9	generated	unread
+docs/capabilities/generated/surface-map.tsv	16afaaeb3d03e28ab229c539ba43bf73857199c6	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
 docs/delivery/implementation.md	efb93e13b9cbc59978f2b27d5bed72c229b71c41	documentation	stale
@@ -989,9 +989,9 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	47c4034ef2acbdca39f05a84de9b6aa21104e874	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	39842eb023b395e9d7a55afb9e61b45b13bf0c51	generated	unread
-docs/migration/generated/modules.tsv	126bf146074c3b0ce3aefb0c08324f7a4d817346	generated	unread
-docs/migration/generated/summary.json	8d3f0a7e16fb1557ee68797137fb850f3567f297	generated	unread
+docs/migration/generated/files.tsv	24b2a6e229700cab866109c7f31f363ff2a32ccd	generated	unread
+docs/migration/generated/modules.tsv	17b31ef068ed8c788f3d6e133e7c7b48f683a283	generated	unread
+docs/migration/generated/summary.json	630707dcc5673ce82dfeeae5adb1eebe43a8fc6c	generated	unread
 docs/migration/workstreams.json	6eccc84ea9c219ef88c01d81a89684baeaf1557f	product-code	stale
 docs/plan/action-plan.md	2700611de78557356d50ea829a9bfdc2525f481a	documentation	unread
 docs/plan/naming.md	5864fda0319b9656eda20aae09e2a44e9ac4fbfd	documentation	unread
@@ -10417,7 +10417,7 @@ platform/engine/frontend/src/pages/cert-manager/pki-docs-urls.ts	42291ede3e53de1
 platform/engine/frontend/src/pages/help.tsx	1c6b3ff488ee15f3a7132ae3c0db115ffba3c8f3	product-code	verified
 platform/engine/frontend/src/pages/index.tsx	2a40c0fd7d556449b62f211680205ad5d4451e35	product-code	reviewed
 platform/engine/frontend/src/pages/integrations/SaveSecretPage/SaveSecretPage.tsx	b493980c81778aadbe755929b23f4bea20a18882	product-code	authored
-platform/engine/frontend/src/pages/integrations/SaveSecretPage/route.tsx	5eb1643e081258efaa8b856ce0c667b725d938a2	product-code	authored
+platform/engine/frontend/src/pages/integrations/SaveSecretPage/route.tsx	f0097239f0f7ef8649305a5ef169c9a7b8ebf8ce	product-code	authored
 platform/engine/frontend/src/pages/integrations/SaveSecretPage/save-secret-handoff.ts	839070a7e931aea96ee2e3481640e39eb8582abc	product-code	authored
 platform/engine/frontend/src/pages/kms/KmipPage/KmipPage.tsx	b9847b25c013354fe09429a955072e5b2247933a	product-code	unread
 platform/engine/frontend/src/pages/kms/KmipPage/components/CreateKmipClientCertificateModal.tsx	49ad991143da84be72abfc33c96ee5e70f23a884	product-code	unread
@@ -12303,8 +12303,8 @@ scripts/test-publication.mjs	1dc36c093d0385b30c2406fdb410ed24e3a45adc	build-and-
 scripts/test-reference-commands.mjs	93d8ca99ee0c516f0df77bb6708138d9586cc05e	build-and-operations	stale
 scripts/test-release-download.mjs	9ab1b0494732b52dbdddb5cc07c00f69925683aa	build-and-operations	authored
 scripts/test-save-secret-handoff-backend.mjs	e42cacf73ee18c01349f7c0800a67a6adeaf2b34	build-and-operations	unread
-scripts/test-save-secret-handoff-image.mjs	9755c10d0d8207e976e34b1ead8f8c73eda09005	build-and-operations	unread
-scripts/test-save-secret-handoff.mjs	a708e9cd5c8aebaade337f93915a1f0af5cfb3d2	build-and-operations	unread
+scripts/test-save-secret-handoff-image.mjs	1964cf887c4146f62828c22932b36348bc21d62e	build-and-operations	unread
+scripts/test-save-secret-handoff.mjs	b66a479de98ed32d0810d6d861a05398677b7b95	build-and-operations	unread
 scripts/test-secret-dropzone.mjs	040bcc74857468602530bc3e68098995e4d44a5e	build-and-operations	stale
 scripts/test-secret-paste.mjs	1aa38af723e6232cd827e6e795c65b8477efc73f	build-and-operations	stale
 scripts/test-self-hosted-build.mjs	5d8def08a7c87ce68835fc52e68ed5265dbf4bf7	build-and-operations	stale

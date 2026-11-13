@@ -7921,7 +7921,7 @@ platform/engine/frontend/src/pages/cert-manager/pki-docs-urls.ts	pki	pki	platfor
 platform/engine/frontend/src/pages/help.tsx	experience	ui	platform/engine/frontend/src/pages	1c6b3ff488ee15f3a7132ae3c0db115ffba3c8f3	verified
 platform/engine/frontend/src/pages/index.tsx	experience	ui	platform/engine/frontend/src/pages	2a40c0fd7d556449b62f211680205ad5d4451e35	reviewed
 platform/engine/frontend/src/pages/integrations/SaveSecretPage/SaveSecretPage.tsx	connect	integrations	platform/engine/frontend/src/pages/integrations/SaveSecretPage	b493980c81778aadbe755929b23f4bea20a18882	authored
-platform/engine/frontend/src/pages/integrations/SaveSecretPage/route.tsx	connect	integrations	platform/engine/frontend/src/pages/integrations/SaveSecretPage	5eb1643e081258efaa8b856ce0c667b725d938a2	authored
+platform/engine/frontend/src/pages/integrations/SaveSecretPage/route.tsx	connect	integrations	platform/engine/frontend/src/pages/integrations/SaveSecretPage	f0097239f0f7ef8649305a5ef169c9a7b8ebf8ce	authored
 platform/engine/frontend/src/pages/integrations/SaveSecretPage/save-secret-handoff.ts	connect	integrations	platform/engine/frontend/src/pages/integrations/SaveSecretPage	839070a7e931aea96ee2e3481640e39eb8582abc	authored
 platform/engine/frontend/src/pages/kms/KmipPage/KmipPage.tsx	kms	kms	platform/engine/frontend/src/pages/kms/KmipPage	b9847b25c013354fe09429a955072e5b2247933a	unread
 platform/engine/frontend/src/pages/kms/KmipPage/components/CreateKmipClientCertificateModal.tsx	pki	pki	platform/engine/frontend/src/pages/kms/KmipPage	49ad991143da84be72abfc33c96ee5e70f23a884	unread
@@ -9788,8 +9788,8 @@ scripts/test-publication.mjs	operate	delivery	scripts	1dc36c093d0385b30c2406fdb4
 scripts/test-reference-commands.mjs	operate	delivery	scripts	93d8ca99ee0c516f0df77bb6708138d9586cc05e	stale
 scripts/test-release-download.mjs	operate	delivery	scripts	9ab1b0494732b52dbdddb5cc07c00f69925683aa	authored
 scripts/test-save-secret-handoff-backend.mjs	operate	delivery	scripts	e42cacf73ee18c01349f7c0800a67a6adeaf2b34	unread
-scripts/test-save-secret-handoff-image.mjs	operate	delivery	scripts	9755c10d0d8207e976e34b1ead8f8c73eda09005	unread
-scripts/test-save-secret-handoff.mjs	operate	delivery	scripts	a708e9cd5c8aebaade337f93915a1f0af5cfb3d2	unread
+scripts/test-save-secret-handoff-image.mjs	operate	delivery	scripts	1964cf887c4146f62828c22932b36348bc21d62e	unread
+scripts/test-save-secret-handoff.mjs	operate	delivery	scripts	b66a479de98ed32d0810d6d861a05398677b7b95	unread
 scripts/test-secret-dropzone.mjs	operate	delivery	scripts	040bcc74857468602530bc3e68098995e4d44a5e	stale
 scripts/test-secret-paste.mjs	operate	delivery	scripts	1aa38af723e6232cd827e6e795c65b8477efc73f	stale
 scripts/test-self-hosted-build.mjs	operate	delivery	scripts	5d8def08a7c87ce68835fc52e68ed5265dbf4bf7	stale

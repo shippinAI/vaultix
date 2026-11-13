@@ -78,6 +78,9 @@ same(suggestSecretName("   "), "", "blank stays blank");
 same(suggestSecretName(undefined), "", "missing stays blank");
 check(suggestSecretName("x".repeat(1000)).length === 255, "long names are capped");
 same(parseHandoffRequest(query({ name: " a:b/c " }), allowed).request.name, "a_b_c", "request name is sanitized");
+same(parseHandoffRequest(query({ name: "nomen client secret" }), allowed).request.name, "nomen_client_secret", "form-encoded spaces (+) decode as spaces");
+check(query({ name: "a b" }).includes("name=a+b"), "the fixture really sends + for a space");
+same(parseHandoffRequest(query().replace("name=GITHUB_PAT", "name=a%20b"), allowed).request.name, "a_b", "percent-encoded spaces decode as spaces");
 
 // Messages and the filter.
 const opener = { posted: [], postMessage(message, targetOrigin) { this.posted.push({ message: structuredClone(message), targetOrigin }); } };
