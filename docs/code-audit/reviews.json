@@ -1924,7 +1924,7 @@
     },
     {
       "path": "platform/engine/backend/src/lib/config/env.ts",
-      "blob": "b6eab8c61fb32de16230e18bdfa48c5c9b09ee30",
+      "blob": "3c44e10ea3bb8224a58d2f1ddc97467968c6b3bf",
       "status": "verified",
       "decision": "modify",
       "scope": "Existing schema review retained. Proxy field and readers traced; this packet changes only the proxy-policy comment, not schema validation, keys, defaults or overrides. Other inherited configuration findings remain open. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. Adds VAULTIX_REFERENCE_DISPATCH, default typescript.",
@@ -1941,7 +1941,11 @@
         "docs/0066-native-reference-reads.md",
         "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store.",
         "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read.",
-        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
+        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
+        "2026-11-13: changed for Save to Vaultix (docs/0125). The changed sections were authored; the whole file was not re-read. Adds VAULTIX_INTEGRATION_ORIGINS, validated at startup by lib/config/integration-origins.ts; the autofix also sorted an import left unsorted by the ee to shippin move.",
+        "docs/0125-save-to-vaultix-handoff.md",
+        "scripts/test-save-secret-handoff.mjs",
+        "scripts/test-save-secret-handoff-image.mjs"
       ]
     },
     {
@@ -3465,7 +3469,7 @@
     },
     {
       "path": "compose/hosted.env.example",
-      "blob": "72635543e8a58ecfe63ac865db29a50d84f64e7f",
+      "blob": "23cf7c4f08492615b96a6ad81990302d536ab6cd",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
@@ -3476,12 +3480,16 @@
         ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json",
         ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json",
         ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json",
-        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
+        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
+        "2026-11-13: changed for Save to Vaultix (docs/0125). The changed sections were authored; the whole file was not re-read. Documents VAULTIX_INTEGRATION_ORIGINS.",
+        "docs/0125-save-to-vaultix-handoff.md",
+        "scripts/test-save-secret-handoff.mjs",
+        "scripts/test-save-secret-handoff-image.mjs"
       ]
     },
     {
       "path": "compose/self.env.example",
-      "blob": "04293bf28414d883fef0ba035d99a88bd6d2d895",
+      "blob": "1bd654efd4f7bef68a7f319994e7e09279a0a272",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
@@ -3493,7 +3501,11 @@
         ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json",
         ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json",
         "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read.",
-        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
+        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
+        "2026-11-13: changed for Save to Vaultix (docs/0125). The changed sections were authored; the whole file was not re-read. Documents VAULTIX_INTEGRATION_ORIGINS.",
+        "docs/0125-save-to-vaultix-handoff.md",
+        "scripts/test-save-secret-handoff.mjs",
+        "scripts/test-save-secret-handoff-image.mjs"
       ]
     },
     {
@@ -10030,14 +10042,18 @@
     },
     {
       "path": "platform/engine/backend/src/server/plugins/serve-ui.ts",
-      "blob": "29346e0cd08b04e6db0dff461fee2b4d779db2ae",
+      "blob": "bfa5596f409215f2070988e25178d90d148c0669",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
       "evidence": [
         "docs/0110-invite-only-instance.md",
         "scripts/test-tenant-isolation.mjs",
-        "scripts/test-invite-only-access.mjs"
+        "scripts/test-invite-only-access.mjs",
+        "2026-11-13: changed for Save to Vaultix (docs/0125). The changed sections were authored; the whole file was not re-read. The index.html handler adds the integration page headers for /integrations/save-secret only.",
+        "docs/0125-save-to-vaultix-handoff.md",
+        "scripts/test-save-secret-handoff.mjs",
+        "scripts/test-save-secret-handoff-image.mjs"
       ]
     },
     {
@@ -10328,7 +10344,7 @@
     },
     {
       "path": "platform/engine/backend/src/server/routes/v1/admin-router.ts",
-      "blob": "518ed9de0a70a6bd9398a9bee2c9688f9b4835db",
+      "blob": "0bcfa528a58d60b6830dd5769c2f5ed531811222",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
@@ -10337,7 +10353,11 @@
         "scripts/test-early-access.mjs",
         "scripts/test-early-access-migration.mjs",
         "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read.",
-        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
+        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
+        "2026-11-13: changed for Save to Vaultix (docs/0125). The changed sections were authored; the whole file was not re-read. GET /api/v1/admin/config returns integrationOrigins to every caller.",
+        "docs/0125-save-to-vaultix-handoff.md",
+        "scripts/test-save-secret-handoff.mjs",
+        "scripts/test-save-secret-handoff-image.mjs"
       ]
     },
     {
@@ -10450,7 +10470,7 @@
     },
     {
       "path": "platform/engine/frontend/src/hooks/api/admin/types.ts",
-      "blob": "ae4fa2b3f14d5e6410c72e50a73d803dc532c44e",
+      "blob": "8ed28a6bf3f10f65977f7a31b2e031ca4622768f",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
@@ -10459,7 +10479,11 @@
         "scripts/test-early-access.mjs",
         "scripts/test-early-access-migration.mjs",
         "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read.",
-        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
+        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
+        "2026-11-13: changed for Save to Vaultix (docs/0125). The changed sections were authored; the whole file was not re-read. Adds integrationOrigins to TServerConfig.",
+        "docs/0125-save-to-vaultix-handoff.md",
+        "scripts/test-save-secret-handoff.mjs",
+        "scripts/test-save-secret-handoff-image.mjs"
       ]
     },
     {
@@ -10603,7 +10627,7 @@
     },
     {
       "path": "platform/engine/frontend/src/routes.ts",
-      "blob": "9f5cbc52a8e3cd117a0371d4bf665d3007c56fb5",
+      "blob": "f769706eb4f7706077c43d72866003466beb0280",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
@@ -10613,7 +10637,11 @@
         "scripts/test-early-access-migration.mjs",
         "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content.",
         "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
-        "Reviewed: assistant providers, personas, routing, signal fabric and chat; panel MCP refuses value actions."
+        "Reviewed: assistant providers, personas, routing, signal fabric and chat; panel MCP refuses value actions.",
+        "2026-11-13: changed for Save to Vaultix (docs/0125). The changed sections were authored; the whole file was not re-read. Adds the top-level /integrations/save-secret route outside the authenticate middleware.",
+        "docs/0125-save-to-vaultix-handoff.md",
+        "scripts/test-save-secret-handoff.mjs",
+        "scripts/test-save-secret-handoff-image.mjs"
       ]
     },
     {
@@ -11198,6 +11226,80 @@
       "scope": "Forwards the verified bearer and socket address to the native reference routes and waits for sidecar health.",
       "evidence": [
         "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "platform/engine/backend/src/lib/config/integration-origins.ts",
+      "blob": "1fe422cc45f6699a1e08735be6a107af171445d1",
+      "status": "authored",
+      "decision": "retain",
+      "scope": "Complete file authored. Parses VAULTIX_INTEGRATION_ORIGINS: exact https or loopback http origins, at most 32, invalid values refuse startup.",
+      "evidence": [
+        "docs/0125-save-to-vaultix-handoff.md",
+        "scripts/test-save-secret-handoff.mjs",
+        "scripts/test-save-secret-handoff-image.mjs"
+      ]
+    },
+    {
+      "path": "platform/engine/backend/src/server/plugins/serve-ui-headers.ts",
+      "blob": "e8b4d5d3b1eadc1bb6bd1e6ee74f329fef6defb4",
+      "status": "authored",
+      "decision": "retain",
+      "scope": "Complete file authored. frame-ancestors none, X-Frame-Options DENY, Referrer-Policy no-referrer and COOP unsafe-none for /integrations/save-secret only.",
+      "evidence": [
+        "docs/0125-save-to-vaultix-handoff.md",
+        "scripts/test-save-secret-handoff.mjs",
+        "scripts/test-save-secret-handoff-image.mjs"
+      ]
+    },
+    {
+      "path": "platform/engine/frontend/src/helpers/return-path.ts",
+      "blob": "ad0f09e58757cee65730f96beee3bfcf237590d5",
+      "status": "authored",
+      "decision": "retain",
+      "scope": "Complete file authored. Sign-in return targets are followed only as same-origin relative paths.",
+      "evidence": [
+        "docs/0125-save-to-vaultix-handoff.md",
+        "scripts/test-save-secret-handoff.mjs",
+        "scripts/test-save-secret-handoff-image.mjs"
+      ]
+    },
+    {
+      "path": "platform/engine/frontend/src/pages/integrations/SaveSecretPage/save-secret-handoff.ts",
+      "blob": "839070a7e931aea96ee2e3481640e39eb8582abc",
+      "status": "authored",
+      "decision": "retain",
+      "scope": "Complete file authored. Save to Vaultix v1 protocol: request validation, message filter, one ready and one result, value held in one closure.",
+      "evidence": [
+        "docs/0125-save-to-vaultix-handoff.md",
+        "scripts/test-save-secret-handoff.mjs",
+        "scripts/test-save-secret-handoff-image.mjs"
+      ]
+    },
+    {
+      "path": "platform/engine/frontend/src/pages/integrations/SaveSecretPage/route.tsx",
+      "blob": "f0097239f0f7ef8649305a5ef169c9a7b8ebf8ce",
+      "status": "authored",
+      "decision": "retain",
+      "scope": "Complete file authored. Validates the request before sign-in and keeps the way back for ten minutes.",
+      "evidence": [
+        "docs/0125-save-to-vaultix-handoff.md",
+        "scripts/test-save-secret-handoff.mjs",
+        "scripts/test-save-secret-handoff-image.mjs",
+        "2026-11-13: complete file re-read. Reads the query the document was opened with, because the router re-encodes it (a + stays a plus) while the contract uses URLSearchParams rules; found by scripts/test-save-secret-handoff-image.mjs."
+      ]
+    },
+    {
+      "path": "platform/engine/frontend/src/pages/integrations/SaveSecretPage/SaveSecretPage.tsx",
+      "blob": "ee76c0733d0b9cd23e8d393465b05cef01051428",
+      "status": "authored",
+      "decision": "retain",
+      "scope": "Complete file authored. Handoff page: organization, project, environment, folder and name; save with the person's session; result and close.",
+      "evidence": [
+        "docs/0125-save-to-vaultix-handoff.md",
+        "scripts/test-save-secret-handoff.mjs",
+        "scripts/test-save-secret-handoff-image.mjs",
+        "2026-11-13: complete file re-read. Environments come from the project itself (useGetWorkspaceById) because the project list omits them; found by scripts/test-save-secret-handoff-image.mjs."
       ]
     }
   ]

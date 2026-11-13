@@ -20,6 +20,7 @@ import { Route as publicShareSecretPageRouteImport } from './pages/public/ShareS
 import { Route as authCliRedirectPageRouteImport } from './pages/auth/CliRedirectPage/route'
 import { Route as indexImport } from './pages/index'
 import { Route as middlewaresInjectOrgDetailsImport } from './pages/middlewares/inject-org-details'
+import { Route as integrationsSaveSecretPageRouteImport } from './pages/integrations/SaveSecretPage/route'
 import { Route as authSignUpInvitePageRouteImport } from './pages/auth/SignUpInvitePage/route'
 import { Route as authRequestNewInvitePageRouteImport } from './pages/auth/RequestNewInvitePage/route'
 import { Route as authEmailNotVerifiedPageRouteImport } from './pages/auth/EmailNotVerifiedPage/route'
@@ -456,6 +457,13 @@ const middlewaresInjectOrgDetailsRoute =
   middlewaresInjectOrgDetailsImport.update({
     id: '/_inject-org-details',
     getParentRoute: () => middlewaresAuthenticateRoute,
+  } as any)
+
+const integrationsSaveSecretPageRouteRoute =
+  integrationsSaveSecretPageRouteImport.update({
+    id: '/integrations/save-secret',
+    path: '/integrations/save-secret',
+    getParentRoute: () => rootRoute,
   } as any)
 
 const authSignUpInvitePageRouteRoute = authSignUpInvitePageRouteImport.update({
@@ -2646,6 +2654,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/signupinvite'
       preLoaderRoute: typeof authSignUpInvitePageRouteImport
       parentRoute: typeof middlewaresRestrictLoginSignupImport
+    }
+    '/integrations/save-secret': {
+      id: '/integrations/save-secret'
+      path: '/integrations/save-secret'
+      fullPath: '/integrations/save-secret'
+      preLoaderRoute: typeof integrationsSaveSecretPageRouteImport
+      parentRoute: typeof rootRoute
     }
     '/_authenticate/_inject-org-details': {
       id: '/_authenticate/_inject-org-details'
@@ -5849,6 +5864,7 @@ export interface FileRoutesByFullPath {
   '/email-not-verified': typeof authEmailNotVerifiedPageRouteRoute
   '/requestnewinvite': typeof authRequestNewInvitePageRouteRoute
   '/signupinvite': typeof authSignUpInvitePageRouteRoute
+  '/integrations/save-secret': typeof integrationsSaveSecretPageRouteRoute
   '/personal-settings': typeof userLayoutRouteWithChildren
   '/login': typeof RestrictLoginSignupLoginRouteWithChildren
   '/signup': typeof RestrictLoginSignupSignupRouteWithChildren
@@ -6128,6 +6144,7 @@ export interface FileRoutesByTo {
   '/email-not-verified': typeof authEmailNotVerifiedPageRouteRoute
   '/requestnewinvite': typeof authRequestNewInvitePageRouteRoute
   '/signupinvite': typeof authSignUpInvitePageRouteRoute
+  '/integrations/save-secret': typeof integrationsSaveSecretPageRouteRoute
   '/personal-settings': typeof userPersonalSettingsPageRouteRoute
   '/login': typeof authLoginPageRouteRoute
   '/signup': typeof authSignUpPageRouteRoute
@@ -6384,6 +6401,7 @@ export interface FileRoutesById {
   '/_restrict-login-signup/email-not-verified': typeof authEmailNotVerifiedPageRouteRoute
   '/_restrict-login-signup/requestnewinvite': typeof authRequestNewInvitePageRouteRoute
   '/_restrict-login-signup/signupinvite': typeof authSignUpInvitePageRouteRoute
+  '/integrations/save-secret': typeof integrationsSaveSecretPageRouteRoute
   '/_authenticate/_inject-org-details': typeof middlewaresInjectOrgDetailsRouteWithChildren
   '/_authenticate/personal-settings': typeof AuthenticatePersonalSettingsRouteWithChildren
   '/_restrict-login-signup/login': typeof RestrictLoginSignupLoginRouteWithChildren
@@ -6674,6 +6692,7 @@ export interface FileRouteTypes {
     | '/email-not-verified'
     | '/requestnewinvite'
     | '/signupinvite'
+    | '/integrations/save-secret'
     | '/personal-settings'
     | '/login'
     | '/signup'
@@ -6952,6 +6971,7 @@ export interface FileRouteTypes {
     | '/email-not-verified'
     | '/requestnewinvite'
     | '/signupinvite'
+    | '/integrations/save-secret'
     | '/personal-settings'
     | '/login'
     | '/signup'
@@ -7206,6 +7226,7 @@ export interface FileRouteTypes {
     | '/_restrict-login-signup/email-not-verified'
     | '/_restrict-login-signup/requestnewinvite'
     | '/_restrict-login-signup/signupinvite'
+    | '/integrations/save-secret'
     | '/_authenticate/_inject-org-details'
     | '/_authenticate/personal-settings'
     | '/_restrict-login-signup/login'
@@ -7490,6 +7511,7 @@ export interface RootRouteChildren {
   middlewaresAuthenticateRoute: typeof middlewaresAuthenticateRouteWithChildren
   middlewaresRestrictLoginSignupRoute: typeof middlewaresRestrictLoginSignupRouteWithChildren
   helpRoute: typeof helpRoute
+  integrationsSaveSecretPageRouteRoute: typeof integrationsSaveSecretPageRouteRoute
   publicViewSecretRequestByIDPageRouteRoute: typeof publicViewSecretRequestByIDPageRouteRoute
   publicViewSharedSecretByIDPageRouteRoute: typeof publicViewSharedSecretByIDPageRouteRoute
 }
@@ -7502,6 +7524,7 @@ const rootRouteChildren: RootRouteChildren = {
   middlewaresRestrictLoginSignupRoute:
     middlewaresRestrictLoginSignupRouteWithChildren,
   helpRoute: helpRoute,
+  integrationsSaveSecretPageRouteRoute: integrationsSaveSecretPageRouteRoute,
   publicViewSecretRequestByIDPageRouteRoute:
     publicViewSecretRequestByIDPageRouteRoute,
   publicViewSharedSecretByIDPageRouteRoute:
@@ -7524,6 +7547,7 @@ export const routeTree = rootRoute
         "/_authenticate",
         "/_restrict-login-signup",
         "/help",
+        "/integrations/save-secret",
         "/secret-request/secret/$secretRequestId",
         "/shared/secret/$secretId"
       ]
@@ -7588,6 +7612,9 @@ export const routeTree = rootRoute
     "/_restrict-login-signup/signupinvite": {
       "filePath": "auth/SignUpInvitePage/route.tsx",
       "parent": "/_restrict-login-signup"
+    },
+    "/integrations/save-secret": {
+      "filePath": "integrations/SaveSecretPage/route.tsx"
     },
     "/_authenticate/_inject-org-details": {
       "filePath": "middlewares/inject-org-details.tsx",

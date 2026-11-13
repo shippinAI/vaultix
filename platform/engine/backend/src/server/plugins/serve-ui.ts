@@ -6,6 +6,8 @@ import RE2 from "re2";
 
 import { getConfig, IS_PACKAGED } from "@app/lib/config/env";
 
+import { integrationPageHeaders } from "./serve-ui-headers";
+
 // to enabled this u need to set standalone mode to true
 export const registerServeUI = async (
   server: FastifyZodProvider,
@@ -149,6 +151,7 @@ export const registerServeUI = async (
           .header("Cache-Control", "no-cache, no-store, must-revalidate")
           .header("Pragma", "no-cache")
           .header("Expires", "0")
+          .headers(integrationPageHeaders(request.url))
           .send(indexHtml);
       }
     });

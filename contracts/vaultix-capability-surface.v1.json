@@ -33,6 +33,7 @@
     "/integrations/gitlab/oauth2/callback",
     "/integrations/heroku/oauth2/callback",
     "/integrations/netlify/oauth2/callback",
+    "/integrations/save-secret",
     "/integrations/vercel/oauth2/callback",
     "/login",
     "/login/",

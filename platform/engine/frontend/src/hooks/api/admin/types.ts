@@ -103,6 +103,8 @@ export type TServerConfig = {
   earlyAccessRequestsEnabled?: boolean;
   // True while the instance is uninitialized and was installed with a one-time setup code.
   setupCodeRequired?: boolean;
+  // Partner origins allowed to open /integrations/save-secret (docs/0125); empty means off.
+  integrationOrigins?: string[];
 };
 
 export type TUpdateServerConfigDTO = {

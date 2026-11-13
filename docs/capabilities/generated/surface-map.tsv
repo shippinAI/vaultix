@@ -29,6 +29,7 @@ UI	connect	/integrations/github/oauth2/callback
 UI	connect	/integrations/gitlab/oauth2/callback
 UI	connect	/integrations/heroku/oauth2/callback
 UI	connect	/integrations/netlify/oauth2/callback
+UI	connect	/integrations/save-secret
 UI	connect	/integrations/vercel/oauth2/callback
 UI	access	/login
 UI	access	/login/

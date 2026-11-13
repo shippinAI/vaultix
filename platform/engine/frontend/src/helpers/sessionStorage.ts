@@ -1,8 +1,10 @@
 import { SessionStorageKeys } from "@app/const";
 
+import { toSafeReturnPath } from "./return-path";
+
 /**
  * Retrieves and consumes the stored login redirect URL (e.g., from deep links like /pam/access).
- * Returns the URL if valid and not expired, otherwise undefined.
+ * Returns it as a same-origin relative path if valid and not expired, otherwise undefined.
  */
 export const consumeLoginRedirectUrl = (): string | undefined => {
   const loginRedirectInfo = sessionStorage.getItem(
@@ -17,8 +19,8 @@ export const consumeLoginRedirectUrl = (): string | undefined => {
       expiry: string;
       data: string;
     };
-    if (new Date() < new Date(expiry) && redirectUrl) {
-      return redirectUrl;
+    if (new Date() < new Date(expiry)) {
+      return toSafeReturnPath(redirectUrl, window.location.origin);
     }
   } catch {
     // Invalid JSON - ignore

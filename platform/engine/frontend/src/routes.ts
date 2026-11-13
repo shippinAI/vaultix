@@ -447,6 +447,7 @@ export const routes = rootRoute("root.tsx", [
   route("/secret-request/secret/$secretRequestId", "public/ViewSecretRequestByIDPage/route.tsx"),
   route("/share-secret", "public/ShareSecretPage/route.tsx"),
   route("/cli-redirect", "auth/CliRedirectPage/route.tsx"),
+  route("/integrations/save-secret", "integrations/SaveSecretPage/route.tsx"),
   middleware("restrict-login-signup.tsx", [
     route("/admin/signup", "admin/SignUpPage/route.tsx"),
     route("/login", [
