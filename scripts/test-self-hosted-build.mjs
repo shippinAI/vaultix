@@ -55,7 +55,7 @@ cp.spawnSync=(name,args,options)=>{
   }
   if(args[0]==='scripts/smoke-image.sh') {
     assert.equal(args[1],'${imageId}','Verify the immutable image');
-    if(process.env.FIXTURE_CASE==='source-change') writeFileSync('core/committed.txt','changed during verification');
+    if(process.env.FIXTURE_CASE==='source-change') writeFileSync('platform/engine/committed.txt','changed during verification');
     if(process.env.FIXTURE_CASE==='application-failure' && args[2]==='dragonfly') return {status:19};
   }
   if(process.env.FIXTURE_CASE==='build-failure' && name==='docker') return {status:23};
@@ -83,18 +83,18 @@ syncBuiltinESMExports();
 const cases = [];
 for (const name of ["preflight", "application", "capabilities", "windows-archive", "login-policy-failure", "dirty", "locked", "build-failure", "application-failure", "recovery-failure", "isolation-failure", "proxy-failure", "admission-failure", "source-change", "tag-change"]) {
   const cwd = resolve(evidence, name);
-  for (const dir of ["scripts/lib", "core/e2e/node_modules/@playwright/test", "core/e2e/node_modules/@axe-core/playwright", ".cache"])
+  for (const dir of ["scripts/lib", "platform/engine/e2e/node_modules/@playwright/test", "platform/engine/e2e/node_modules/@axe-core/playwright", ".cache"])
     mkdirSync(resolve(cwd, dir), { recursive: true });
   copyFileSync(resolve(root, "scripts/build-self-hosted.mjs"), resolve(cwd, "scripts/build-self-hosted.mjs"));
   copyFileSync(resolve(root, "scripts/lib/release-version.mjs"), resolve(cwd, "scripts/lib/release-version.mjs"));
   writeFileSync(resolve(cwd, ".gitignore"), ".cache/\n**/node_modules/\n**/.env\n");
-  writeFileSync(resolve(cwd, "core/e2e/package.json"), "{}");
-  writeFileSync(resolve(cwd, "core/e2e/node_modules/@playwright/test/index.js"), "exports.chromium={executablePath:()=>__filename};");
-  writeFileSync(resolve(cwd, "core/e2e/node_modules/@axe-core/playwright/index.js"), "module.exports={};");
-  writeFileSync(resolve(cwd, "core/Dockerfile.standalone-vaultix"), "FROM scratch\n");
-  writeFileSync(resolve(cwd, "core/committed.txt"), "committed source");
-  writeFileSync(resolve(cwd, "core/line-endings.go"), "package fixture\n\n");
-  writeFileSync(resolve(cwd, "core/.env"), "FIXTURE_ONLY=never-archive-operator-values");
+  writeFileSync(resolve(cwd, "platform/engine/e2e/package.json"), "{}");
+  writeFileSync(resolve(cwd, "platform/engine/e2e/node_modules/@playwright/test/index.js"), "exports.chromium={executablePath:()=>__filename};");
+  writeFileSync(resolve(cwd, "platform/engine/e2e/node_modules/@axe-core/playwright/index.js"), "module.exports={};");
+  writeFileSync(resolve(cwd, "platform/engine/Dockerfile.standalone-vaultix"), "FROM scratch\n");
+  writeFileSync(resolve(cwd, "platform/engine/committed.txt"), "committed source");
+  writeFileSync(resolve(cwd, "platform/engine/line-endings.go"), "package fixture\n\n");
+  writeFileSync(resolve(cwd, "platform/engine/.env"), "FIXTURE_ONLY=never-archive-operator-values");
   git(cwd, "init", "-b", "main"); git(cwd, "add", "."); git(cwd, "commit", "-m", "Build fixture");
   const revision = git(cwd, "rev-parse", "HEAD");
   if (name === "windows-archive") {
@@ -141,7 +141,7 @@ for (const name of ["preflight", "application", "capabilities", "windows-archive
   if (name === "locked") assert.equal(readFileSync(lock, "utf8"), "another build owns this");
   if (name === "dirty") assert.equal(readFileSync(resolve(cwd, "pending.txt"), "utf8"), "preserve this");
   assert.equal(git(cwd, "rev-parse", "HEAD"), revision);
-  assert.equal(readFileSync(resolve(cwd, "core/.env"), "utf8"), "FIXTURE_ONLY=never-archive-operator-values");
+  assert.equal(readFileSync(resolve(cwd, "platform/engine/.env"), "utf8"), "FIXTURE_ONLY=never-archive-operator-values");
   assert.ok(!(result.stdout + result.stderr).includes("never-archive-operator-values"));
   cases.push({ name, fixtures: true, passed: true });
 }

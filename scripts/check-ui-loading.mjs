@@ -4,11 +4,11 @@ import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import fastify from "../core/backend/node_modules/fastify/fastify.js";
-import staticPlugin from "../core/backend/node_modules/@fastify/static/index.js";
+import fastify from "../platform/engine/backend/node_modules/fastify/fastify.js";
+import staticPlugin from "../platform/engine/backend/node_modules/@fastify/static/index.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const require = createRequire(resolve(root, "core/e2e/package.json"));
+const require = createRequire(resolve(root, "platform/engine/e2e/package.json"));
 const { chromium } = require("playwright");
 const baseline = process.argv.includes("--baseline");
 mkdirSync(resolve(root, ".cache"), { recursive: true });
@@ -26,7 +26,7 @@ try {
   server.get("/runtime-ui-env.js", async (_, reply) => reply.type("application/javascript").send(
     'window.__VAULTIX_RUNTIME_ENV__ = { TELEMETRY_CAPTURING_ENABLED: false }; window.__toCdnUrl = f => "/" + f;'
   ));
-  await server.register(staticPlugin, { root: resolve(root, "core/frontend/dist") });
+  await server.register(staticPlugin, { root: resolve(root, "platform/engine/frontend/dist") });
   server.setNotFoundHandler((_, reply) => reply.sendFile("index.html"));
   const origin = await server.listen({ host: "127.0.0.1", port: 0 });
   browser = await chromium.launch({ headless: true, ...(process.env.VAULTIX_BROWSER_CHANNEL ? { channel: process.env.VAULTIX_BROWSER_CHANNEL } : {}) });

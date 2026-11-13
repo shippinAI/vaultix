@@ -7,7 +7,7 @@ before explicit device approval, subject to current tenant method and MFA policy
 
 ## Ownership and state
 
-`core/backend-go/internal/services/auth/device` owns grant creation, inspection,
+`platform/engine/backend-go/internal/services/auth/device` owns grant creation, inspection,
 approval, denial, cancellation, polling and one-use consumption. It uses the
 existing PostgreSQL engine and an additive `vaultix_device_authorizations` table.
 There is no alternate user store, provider runtime or delegated OAuth relabeling.

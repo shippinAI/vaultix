@@ -11,7 +11,7 @@ security entitlements or weaken permissions, approvals or tenant isolation.
 ## Scope and standard
 
 Every existing product-code module must be read and deliberately authored for
-Vaultix. This includes inherited `core/` and `ee/` code, APIs, frontend flows,
+Vaultix. This includes inherited `platform/engine/` and `ee/` code, APIs, frontend flows,
 database schema/migrations, Go services, the CLI, optional panel, integrations,
 tests, deployment/configuration and operational scripts. A rename, an enabled
 feature flag or a passing inherited test is not evidence of complete authorship.

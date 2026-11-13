@@ -7,7 +7,7 @@
 
 You run Vaultix **for yourself** or **for users**. Same engine image
 (`ghcr.io/shippinai/vaultix`) plus overlay (`ghcr.io/shippinai/vaultix-panel`).
-Secrets live in `core/`. License (doc 0013) is orthogonal: community /
+Secrets live in `platform/engine/`. License (doc 0013) is orthogonal: community /
 membership / enterprise.
 
 ## 1. SKUs (where the box lives)

@@ -40,7 +40,7 @@ The script records real project creation and the Clyffy reference workflow,
 verifies completion, hashes the frontend sources and records chapter times.
 The temporary instance contains no customer data or secret values.
 
-`core/media/render-recorded.mjs MANIFEST` validates provenance and unchanged
+`platform/engine/media/render-recorded.mjs MANIFEST` validates provenance and unchanged
 sources, trims pre-workflow frames, and renders the real recording through the
 pinned Remotion composition. It produces H.264 video, JPEG poster, captions and
 review frames. Published provenance records hashes and scope, not credentials

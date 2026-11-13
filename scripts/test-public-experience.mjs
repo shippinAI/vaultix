@@ -6,14 +6,14 @@ import {resolve,dirname,relative} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const hash=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
-function sources(){const files=[];const walk=dir=>{for(const e of readdirSync(dir,{withFileTypes:true})){const p=resolve(dir,e.name);if(e.isDirectory())walk(p);else files.push({path:relative(root,p).replaceAll('\\','/'),sha256:hash(p)});}};walk(resolve(root,'core/frontend/src'));walk(resolve(root,'core/frontend/public/media'));files.push({path:'scripts/test-public-experience.mjs',sha256:hash(fileURLToPath(import.meta.url))});return files;}
+function sources(){const files=[];const walk=dir=>{for(const e of readdirSync(dir,{withFileTypes:true})){const p=resolve(dir,e.name);if(e.isDirectory())walk(p);else files.push({path:relative(root,p).replaceAll('\\','/'),sha256:hash(p)});}};walk(resolve(root,'platform/engine/frontend/src'));walk(resolve(root,'platform/engine/frontend/public/media'));files.push({path:'scripts/test-public-experience.mjs',sha256:hash(fileURLToPath(import.meta.url))});return files;}
 if(process.argv.includes('--verify')){
   const pointer=JSON.parse(readFileSync(resolve(root,'.cache/public-experience-latest.json')));
   const report=JSON.parse(readFileSync(pointer.receipt));assert.equal(report.passed,true);assert.deepEqual(report.sources,sources());
   assert.ok(report.checks.length>=12);console.log(JSON.stringify({passed:true,scope:report.scope,evidence:pointer.evidence,checks:report.checks}));
 }else{
   const origin=process.argv[2]??'http://127.0.0.1:3000';assert.match(origin,/^http:\/\/127\.0\.0\.1:\d+$/);
-  const require=createRequire(resolve(root,'core/e2e/package.json'));
+  const require=createRequire(resolve(root,'platform/engine/e2e/package.json'));
   const {chromium,expect}=require('@playwright/test'),AxeBuilder=require('@axe-core/playwright').default;
   mkdirSync(resolve(root,'.cache'),{recursive:true});const evidence=mkdtempSync(resolve(root,'.cache/public-experience-'));
   const report={passed:false,scope:'Browser against local frontend and real guidance catalog; explicitly sampled public reference data',sources:sources(),checks:[],accessibility:[]};

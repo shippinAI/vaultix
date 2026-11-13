@@ -13,7 +13,7 @@ Draft; track its development without claiming conformance to an unfinished stand
 
 Review every route and reachable state, including dialogs, tables, menus,
 notifications, provisioning, approvals, certificate/key workflows and settings.
-Use `core/frontend/src/routes.ts`, page route modules and their callers to enumerate
+Use `platform/engine/frontend/src/routes.ts`, page route modules and their callers to enumerate
 flows; generated route discovery does not count as review. Track file review in
 [0021](0021-product-authorship-review.md) and workflow evidence in
 [0018](0018-hosted-capability-proof.md).

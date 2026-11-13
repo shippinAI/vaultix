@@ -35,7 +35,7 @@ Preserve error messages, strict timestamp boundaries and fail-closed DB errors.
 - Exercise primary routing and unavailable-primary failure without claiming
   that a single-database fixture proves replication or failover behavior.
 - Run Go unit/race/lint and integrations against Dragonfly and Redis. Build
-  `core/Dockerfile.standalone-vaultix`, then run canonical image/browser gates.
+  `platform/engine/Dockerfile.standalone-vaultix`, then run canonical image/browser gates.
 - Record exact reviewed blobs, evidence and limitations; commit and push.
 
 Other authoritative reads, token-budget cache lifetime, expiry-free legacy grace,
@@ -156,7 +156,7 @@ these files changes in this packet.
   checked-history, non-force publication and executable failure-path tests.
   Current delivery uses ordinary commits and non-force pushes.
 
-Paths in this list are relative to `core/` except `scripts/publish-github.sh`.
+Paths in this list are relative to `platform/engine/` except `scripts/publish-github.sh`.
 These findings are source evidence and pending work, not demonstrated production
 incidents. The next authentication packet should reproduce the expiry-free
 legacy and counter-retention differences before changing lifetime policy.

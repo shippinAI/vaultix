@@ -86,8 +86,8 @@ Do not replace the immediate journey with unrelated UI polish.
 ### 1. LOGIN — complete public native login
 
 Finish discovery and bounded HTTP routes around the existing Go device owner.
-Trace `core/backend-go/internal/services/auth/device`, native auth middleware,
-`core/backend/src/server/routes/vaultix-router.ts`, existing frontend login/org/
+Trace `platform/engine/backend-go/internal/services/auth/device`, native auth middleware,
+`platform/engine/backend/src/server/routes/vaultix-router.ts`, existing frontend login/org/
 session consumers and root `internal/cli`. Extend the existing versioned core
 contract, then author approval UI and CLI method selection/storage/renewal.
 Preserve browser, delegated OAuth, workload and device credential separation;

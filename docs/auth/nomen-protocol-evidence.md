@@ -1,7 +1,7 @@
 # AUTH-03 A protocol verification
 
 Date: 2026-10-30. Scope: the unmounted native Nomen introspection component in
-`core/backend-go/internal/services/auth/nomen/` and the
+`platform/engine/backend-go/internal/services/auth/nomen/` and the
 [researched execution plan](nomen-execution-plan.md). This is one part of AUTH-03;
 account binding, tenant authorization and public source-action integration remain open.
 
@@ -16,7 +16,7 @@ Later documentation/evidence commits leave the runtime source identical.
 | Protocol boundary | Actual TLS requests, Basic form encoding, independently verified RSA client assertions, pinned discovery, wrong issuer/audience/client/type/expiry denial, malformed/duplicate claims, redirect/timeout/body/close failure, cancellation, concurrency and recovery. Fixture tokens only. |
 | Falsifying control | Removing only the issuer equality guard in a disposable container made the specific wrong-issuer test fail at its acceptance assertion. The production checkout and archived source were not modified. |
 | Pinned lint | golangci-lint 2.15.0 with integration build tag: zero issues. Existing deprecated-exhaustruct warning remains. Initial Close-error handling failed lint and was corrected before acceptance. |
-| Canonical artifact | Built from LF committed source with core/Dockerfile.standalone-vaultix; image identity/revision passed. Runtime filesystem layers exactly equal the previously accepted CLI candidate image, so its 16 application/build gates remain relevant to the unchanged runtime. Those gates were not re-run or represented as new protocol/login evidence. |
+| Canonical artifact | Built from LF committed source with platform/engine/Dockerfile.standalone-vaultix; image identity/revision passed. Runtime filesystem layers exactly equal the previously accepted CLI candidate image, so its 16 application/build gates remain relevant to the unchanged runtime. Those gates were not re-run or represented as new protocol/login evidence. |
 | Plan/source accounting | All 86 catalog IDs accounted for; 22 exact source blobs with explicit full/scoped/prior-review distinctions; local links and audit/migration/capability maps passed. Owned-source/branding check passed. Inventory is not authorship. |
 
 Private local receipts are under `.cache/headless-ai-login/.cache/`:

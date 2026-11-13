@@ -34,7 +34,7 @@ Disabled controls remain unavailable. Essential slug warnings remain visible.
 ## Acceptance gate
 
 Run contract and reducer tests, frontend/backend types and scoped lint. Build
-`core/Dockerfile.standalone-vaultix` from committed source. Extend real-image
+`platform/engine/Dockerfile.standalone-vaultix` from committed source. Extend real-image
 create/update acceptance with nested keyboard navigation, scoped focus transfer,
 Escape, pause/resume/completion, retained fields, no mutation from lessons,
 320px reflow and reduced-motion scans. Retain all existing lifecycle, denied,
@@ -73,7 +73,7 @@ checks, scoped ESLint, migration/capability-map checks and route preservation
 passed. Full backend/Go matrices were not rerun for this teaching-only packet.
 No whole-UI, screen-reader, live Nomen, provider, or enterprise parity claim is made.
 
-The evidence follow-up keeps `core/` identical to the tested source revision.
+The evidence follow-up keeps `platform/engine/` identical to the tested source revision.
 
 The local preview at `http://127.0.0.1:8200/` was updated by immutable image ID.
 It is healthy, the original PostgreSQL/Dragonfly container IDs remain unchanged,

@@ -103,5 +103,5 @@ nonexistent input cannot silently become a passing fixture. This correction does
 not add a FIPS image or establish FIPS/government acceptance.
 
 The corrected 23-case run passes with actual build inputs in
-`.cache/publication-proof-FoKjYh`. The architecture guidance in `core/CLAUDE.md`
+`.cache/publication-proof-FoKjYh`. The architecture guidance in `platform/engine/CLAUDE.md`
 now records the missing standalone FIPS image instead of asserting compliance.

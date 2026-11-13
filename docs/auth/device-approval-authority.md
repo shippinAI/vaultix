@@ -1,7 +1,7 @@
 # Native device approval authority
 
 The native device grant now has a real account and tenant policy implementation
-in `core/backend-go/internal/services/auth/device/authority.go`. This advances
+in `platform/engine/backend-go/internal/services/auth/device/authority.go`. This advances
 [the dual-identity plan](../0074-built-in-and-federated-identity.md). Public device
 login still requires native session issuance, refresh/revocation, audit and
 notifications, HTTP/discovery, browser approval and CLI integration.

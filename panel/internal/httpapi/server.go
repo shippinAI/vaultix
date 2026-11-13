@@ -46,7 +46,7 @@ type Server struct {
 	Manager        *manager.Registry
 	IdentityHeader string
 	SourceURL      string
-	// Local is the owned engine in core/ this panel fronts. When set,
+	// Local is the owned engine in platform/engine/ this panel fronts. When set,
 	// secrets live there — not in the overlay store.
 	Local struct {
 		URL, ClientID, ClientSecret string

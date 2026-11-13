@@ -7,7 +7,7 @@ import { createPlanServer } from "./serve-capability-plan.mjs";
 import { capabilities } from "../docs/capabilities/catalog.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const require = createRequire(resolve(root, "core/e2e/package.json"));
+const require = createRequire(resolve(root, "platform/engine/e2e/package.json"));
 const { chromium, expect } = require("@playwright/test");
 const AxeBuilder = require("@axe-core/playwright").default;
 mkdirSync(resolve(root, ".cache"), { recursive: true });

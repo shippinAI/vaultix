@@ -8,7 +8,7 @@ No new public login endpoint or CLI default is enabled by this document.
 
 ## Credential profile
 
-`core/backend-go/internal/services/auth/device/credentials.go` owns version 1
+`platform/engine/backend-go/internal/services/auth/device/credentials.go` owns version 1
 credential encoding and cryptographic verification. It does not establish current
 database authorization. Browser and confidential OAuth credentials remain separate.
 

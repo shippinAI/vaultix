@@ -99,7 +99,7 @@ topology and complete native cutover are not implied by this packet.
 
 ## Verification evidence
 
-Auth candidate built from `core/Dockerfile.standalone-vaultix`:
+Auth candidate built from `platform/engine/Dockerfile.standalone-vaultix`:
 `sha256:51f087cc19778a5e5b76dd7d2ce1cbbaade5a864ccca9205794eb0552599da90`.
 Native integration/runtime snapshot:
 `sha256:bbcc622d3067ca2645fd0d23b2116fc95f48d6a512ed739d15bbf7120c4ef320`.

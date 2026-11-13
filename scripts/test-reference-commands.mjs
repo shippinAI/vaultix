@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import Ajv2020 from '../.ai/node_modules/ajv/dist/2020.js';
-import {readReferenceCommand,referenceCommandCatalog} from '../core/frontend/src/components/vaultix/reference-commands.ts';
+import {readReferenceCommand,referenceCommandCatalog} from '../platform/engine/frontend/src/components/vaultix/reference-commands.ts';
 const scope='test-workspace';
 const base={version:1,scope,action:'reference.project',value:'project-a'};
 assert.deepEqual(readReferenceCommand(base,scope),base);

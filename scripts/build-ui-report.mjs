@@ -4,10 +4,10 @@ import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { gzipSync } from "node:zlib";
-import { build } from "../core/frontend/node_modules/vite/dist/node/index.js";
+import { build } from "../platform/engine/frontend/node_modules/vite/dist/node/index.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const frontend = resolve(root, "core/frontend");
+const frontend = resolve(root, "platform/engine/frontend");
 mkdirSync(resolve(root, ".cache"), { recursive: true });
 const evidence = mkdtempSync(resolve(root, ".cache/bundle-proof-"));
 const normalize = id => id.replaceAll("\\", "/").replaceAll(`${root.replaceAll("\\", "/")}/`, "");

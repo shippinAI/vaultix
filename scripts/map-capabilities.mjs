@@ -207,12 +207,12 @@ export function generate() {
     return { path, module, group: workstreamGroups[workstream], workstream, blob, review };
   });
   const providerRoots = [
-    ["Connection", "core/backend/src/services/app-connection"],
-    ["Connection extension", "core/backend/src/shippin/services/app-connections"],
-    ["Sync", "core/backend/src/services/secret-sync"],
-    ["Sync extension", "core/backend/src/shippin/services/secret-sync"],
-    ["Rotation", "core/backend/src/shippin/services/secret-rotation-v2"],
-    ["Dynamic credentials", "core/backend/src/shippin/services/dynamic-secret/providers"],
+    ["Connection", "platform/engine/backend/src/services/app-connection"],
+    ["Connection extension", "platform/engine/backend/src/shippin/services/app-connections"],
+    ["Sync", "platform/engine/backend/src/services/secret-sync"],
+    ["Sync extension", "platform/engine/backend/src/shippin/services/secret-sync"],
+    ["Rotation", "platform/engine/backend/src/shippin/services/secret-rotation-v2"],
+    ["Dynamic credentials", "platform/engine/backend/src/shippin/services/dynamic-secret/providers"],
   ];
   const providers = providerRoots
     .flatMap(([family, path]) => {

@@ -13,7 +13,7 @@ assert.equal(process.argv.length, 4, "Usage: node scripts/test-mcp-app-image.mjs
 let phase = "inspect";
 const harness = createDisposableImageHarness(process.argv[2], () => phase);
 const { container, docker, request, ready, waitFor, artifact } = harness;
-const require = createRequire(resolve("core/e2e/package.json"));
+const require = createRequire(resolve("platform/engine/e2e/package.json"));
 const { chromium, expect } = require("@playwright/test");
 const axe = readFileSync(require.resolve("axe-core/axe.min.js"), "utf8");
 mkdirSync(".cache", { recursive: true });

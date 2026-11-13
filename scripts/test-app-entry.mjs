@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
-const routes = readFileSync(new URL("../core/frontend/src/routes.ts", import.meta.url), "utf8");
-const index = readFileSync(new URL("../core/frontend/src/pages/index.tsx", import.meta.url), "utf8");
+const routes = readFileSync(new URL("../platform/engine/frontend/src/routes.ts", import.meta.url), "utf8");
+const index = readFileSync(new URL("../platform/engine/frontend/src/pages/index.tsx", import.meta.url), "utf8");
 const authenticate = readFileSync(
-  new URL("../core/frontend/src/pages/middlewares/authenticate.tsx", import.meta.url),
+  new URL("../platform/engine/frontend/src/pages/middlewares/authenticate.tsx", import.meta.url),
   "utf8"
 );
 const root = routes.slice(routes.indexOf("export const routes"));

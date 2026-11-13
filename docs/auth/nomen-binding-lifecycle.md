@@ -34,7 +34,7 @@ No local session is minted, and no email/username match creates a binding.
 ## Schema and deletion behavior
 
 The additive migration is
-`core/backend/src/db/migrations/20261030220000_vaultix-identity-bindings.ts`.
+`platform/engine/backend/src/db/migrations/20261030220000_vaultix-identity-bindings.ts`.
 It owns three tables in the existing store:
 
 - `vaultix_identity_bindings`: exact C-collated issuer/subject unique key, nullable user linkage, immutable ownership, revocation and proof/session identifiers.
@@ -60,15 +60,15 @@ authored/read. Existing consumer review is scoped, not a whole-file authorship c
 
 | Existing source | Reviewed scope | Finding |
 | --- | --- | --- |
-| `core/backend-go/internal/database/pg/pg.go` | Full module | Primary and replicas are explicit; authority reads use primary. |
-| `core/backend-go/internal/services/auditlog/auditlog.go` | Full module | Async queue requires org/project and cannot atomically persist this global account binding. |
-| `core/backend-go/internal/services/auth/auth.go` | Identity/context/session and assumed-privilege types/helpers | Linking accepts only first-party human sessions and rejects assumed privilege. |
-| `core/backend-go/internal/services/auth/apiauth/authenticator.go` | 1-260 and 550-620 | Existing JWT checks reject delegated markers and validate current user/session/membership restrictions. |
-| `core/backend/src/services/user/user-service.ts` | 554-622 | Self-delete deletes the user transactionally and preserves the last-admin guard; FK behavior must not obstruct it. |
-| `core/backend/src/services/super-admin/super-admin-service.ts` | 750-837 | Admin single/bulk delete uses existing transactions and cleanup. |
-| `core/backend/src/server/routes/v1/admin-router.ts` | 497-554 | Existing authenticated admin deletion route used by cross-version acceptance. |
-| `core/backend/src/auto-start-migrations.ts` | 399-439, 546-600 | Startup handles an ahead database without applying missing older migrations; must prove previous binary startup. |
-| `core/backend/src/db/knexfile.ts`, `core/backend/src/db/schemas/users.ts` | Full modules | Existing migration registry and accepted/locked/ghost user constraints. |
+| `platform/engine/backend-go/internal/database/pg/pg.go` | Full module | Primary and replicas are explicit; authority reads use primary. |
+| `platform/engine/backend-go/internal/services/auditlog/auditlog.go` | Full module | Async queue requires org/project and cannot atomically persist this global account binding. |
+| `platform/engine/backend-go/internal/services/auth/auth.go` | Identity/context/session and assumed-privilege types/helpers | Linking accepts only first-party human sessions and rejects assumed privilege. |
+| `platform/engine/backend-go/internal/services/auth/apiauth/authenticator.go` | 1-260 and 550-620 | Existing JWT checks reject delegated markers and validate current user/session/membership restrictions. |
+| `platform/engine/backend/src/services/user/user-service.ts` | 554-622 | Self-delete deletes the user transactionally and preserves the last-admin guard; FK behavior must not obstruct it. |
+| `platform/engine/backend/src/services/super-admin/super-admin-service.ts` | 750-837 | Admin single/bulk delete uses existing transactions and cleanup. |
+| `platform/engine/backend/src/server/routes/v1/admin-router.ts` | 497-554 | Existing authenticated admin deletion route used by cross-version acceptance. |
+| `platform/engine/backend/src/auto-start-migrations.ts` | 399-439, 546-600 | Startup handles an ahead database without applying missing older migrations; must prove previous binary startup. |
+| `platform/engine/backend/src/db/knexfile.ts`, `platform/engine/backend/src/db/schemas/users.ts` | Full modules | Existing migration registry and accepted/locked/ghost user constraints. |
 | `scripts/lib/disposable-image.mjs` | Full module | Tests own isolated containers/networks; operator targets are excluded and raw diagnostics withheld. |
 
 This record and the journal source fingerprints bind the review; unchanged modules

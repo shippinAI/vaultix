@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {readFileSync,existsSync} from 'node:fs';
 
-const cwd='core/backend-go';
+const cwd='platform/engine/backend-go';
 const run=args=>execFileSync('go',args,{cwd,encoding:'utf8',maxBuffer:8*1024*1024});
 const rejectOldGraph=graph=>assert.doesNotMatch(graph,/infisical|(?:github\.com\/vaultix\/gocasl)|third_party[\\/]gocasl/i);
 for(const graph of ['github.com/vaultix-cloud/gocasl v0.0.7 => ./third_party/gocasl','github.com/infisical/gocasl v0.0.7']) {

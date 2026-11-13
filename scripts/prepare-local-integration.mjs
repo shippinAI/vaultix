@@ -1,4 +1,4 @@
-// Creates a loopback-only Postgres role and core/.env.test for integration tests.
+// Creates a loopback-only Postgres role and platform/engine/.env.test for integration tests.
 // Refuses any non-loopback database, cache, or site URL. Does not print secrets.
 import { spawnSync } from "node:child_process";
 import { randomBytes } from "node:crypto";
@@ -84,7 +84,7 @@ if (otherOwned.status !== 0 || otherOwned.stdout.trim() !== "") {
   console.error("Refusing to replace the disposable role because it owns another database");
   process.exit(1);
 }
-const envPath = resolve(root, "core/.env.test");
+const envPath = resolve(root, "platform/engine/.env.test");
 if (existsSync(envPath)) {
   const current = Object.fromEntries(readFileSync(envPath, "utf8").split("\n").filter(line => line.includes("=")).map(line => {
     const index = line.indexOf("=");
@@ -139,7 +139,7 @@ const lines = [
 ];
 writeFileSync(envPath, lines.join("\n"), { mode: 0o600 });
 chmodSync(envPath, 0o600);
-console.log("Prepared loopback integration config at core/.env.test. Secrets were not printed.");
+console.log("Prepared loopback integration config at platform/engine/.env.test. Secrets were not printed.");
 };
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) main();

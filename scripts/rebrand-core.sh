@@ -4,7 +4,7 @@
 # those would break the build. Customer chrome must not say vaultix.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-CORE="$ROOT/core"
+CORE="$ROOT/platform/engine"
 test -d "$CORE/frontend" && test -d "$CORE/backend"
 
 cd "$CORE"

@@ -19,7 +19,7 @@ services:
     stop_grace_period: 90s
     image: ${VAULTIX_ENGINE_IMAGE:-vaultix:local}
     build:
-      context: ../core
+      context: ../platform/engine
       dockerfile: Dockerfile.standalone-vaultix
       args:
         VAULTIX_PLATFORM_VERSION: ${VAULTIX_PLATFORM_VERSION:-dev}

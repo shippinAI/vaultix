@@ -1,4 +1,4 @@
-// Package core talks to the owned secrets engine in this tree (core/).
+// Package core talks to the owned secrets engine in this tree (platform/engine/).
 // Secrets live there. panel/internal/vault is overlay/test fallback only.
 // Wire paths live in wire.go.
 package core

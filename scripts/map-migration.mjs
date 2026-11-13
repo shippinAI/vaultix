@@ -33,11 +33,11 @@ export function validatePlan(plan) {
 
 export function moduleFor(path) {
   for (const pattern of [
-    /^(core\/backend\/src\/(?:ee\/)?services\/[^/]+)\//,
-    /^(core\/backend-go\/internal\/(?:ee\/)?services\/[^/]+)\//,
-    /^(core\/frontend\/src\/pages\/[^/]+\/[^/]+)\//,
-    /^(core\/frontend\/src\/(?:hooks\/api|components\/v[23]\/(?:generic|platform))\/[^/]+)\//,
-    /^(core\/frontend\/src\/(?:components|context|layouts)\/[^/]+)\//,
+    /^(platform\/engine\/backend\/src\/(?:shippin\/)?services\/[^/]+)\//,
+    /^(platform\/engine\/backend-go\/internal\/(?:shippin\/)?services\/[^/]+)\//,
+    /^(platform\/engine\/frontend\/src\/pages\/[^/]+\/[^/]+)\//,
+    /^(platform\/engine\/frontend\/src\/(?:hooks\/api|components\/v[23]\/(?:generic|platform))\/[^/]+)\//,
+    /^(platform\/engine\/frontend\/src\/(?:components|context|layouts)\/[^/]+)\//,
     /^((?:panel\/internal|internal|cmd)\/[^/]+)\//
   ]) {
     const match = path.match(pattern);
@@ -47,10 +47,10 @@ export function moduleFor(path) {
 }
 
 export function targetFor(path) {
-  if (/^core\/frontend\/|^web\//.test(path)) return "React-TypeScript";
-  if (/^core\/backend\//.test(path)) return "Go-domain-migration";
-  if (/^core\/backend-go\//.test(path)) return "Go-native";
-  if (/^core\/wasm\//.test(path)) return "Rust-WASM";
+  if (/^platform\/engine\/frontend\/|^web\//.test(path)) return "React-TypeScript";
+  if (/^platform\/engine\/backend\//.test(path)) return "Go-domain-migration";
+  if (/^platform\/engine\/backend-go\//.test(path)) return "Go-native";
+  if (/^platform\/engine\/wasm\//.test(path)) return "Rust-WASM";
   if (/^(cmd|internal)\//.test(path)) return "Go-client-Rust-injection-boundary";
   if (/^panel\//.test(path)) return "reconcile-into-native-product";
   if (/^db\//.test(path)) return "PostgreSQL-compatible";

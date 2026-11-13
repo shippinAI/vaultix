@@ -3,7 +3,7 @@
 Status: scoped local acceptance passed. Workstream: AUTH-01, prerequisite for
 READ-01 in 0027. Broader authorization parity and native cutover remain incomplete.
 
-The complete `core/backend-go/internal/services/permission/permission.go` was
+The complete `platform/engine/backend-go/internal/services/permission/permission.go` was
 read and traced through project ownership/type checks, direct/group roles,
 additional privileges, temporary grants, identity template variables and service
 token scopes. Its five database query sites select `Replica()`. Authentication

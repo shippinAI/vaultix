@@ -63,7 +63,7 @@ and full capability parity remain under their existing acceptance gates.
 
 ## Domain implementation and discovered differences
 
-`core/backend-go/internal/services/secretmanager/reference` now owns primary-only
+`platform/engine/backend-go/internal/services/secretmanager/reference` now owns primary-only
 project/environment metadata and bounded reference-page queries against the
 existing tables. No TypeScript service is called by this implementation. It is
 not wired to production routes yet; HTTP/MCP, audit ownership and final cutover
@@ -175,7 +175,7 @@ combined receipt was marked passed. The prior 15 gates and native suites were
 retained, not rerun or inferred from the interruption.
 
 Reproduce with `node scripts/build-self-hosted.mjs`, then build the `go-builder`
-stage from that run's archived `source/core`. Run unit/race, integration-tagged vet
+stage from that run's archived `source/platform/engine`. Run unit/race, integration-tagged vet
 and lint against that immutable stage, and
 `node scripts/test-go-core.mjs <image-id> <dragonfly|redis> <go-stage-id>`.
 
@@ -213,7 +213,7 @@ sequence above; the deployment remains usable while that work proceeds.
 ## Serving permission semantics, 2026-11-09
 
 The project permission builder in
-`core/backend/src/shippin/services/permission/permission-service.ts` sorts allows
+`platform/engine/backend/src/shippin/services/permission/permission-service.ts` sorts allows
 before forbids and expands a forbid of `describeSecret` or `readValue` so it
 also forbids the legacy `read` action. CASL then uses the last matching rule,
 so a matching forbid wins. That is the behavior served by

@@ -36,5 +36,5 @@ if compose -f vaultix.yml version >/dev/null 2>&1; then
 fi
 echo "docker/podman compose not found — native core:"
 echo "  $ROOT/scripts/run-core.sh"
-echo "  (frontend: cd $ROOT/core/frontend && npx vite --host 127.0.0.1 --port 3000 — UI http://127.0.0.1:3000)"
+echo "  (frontend: cd $ROOT/platform/engine/frontend && npx vite --host 127.0.0.1 --port 3000 — UI http://127.0.0.1:3000)"
 exit 1

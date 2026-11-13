@@ -5,17 +5,17 @@ run/
 panel/vaultix
 panel/vaultix-panel
 *.exe
-/core/backend/vaultix-transport
+/platform/engine/backend/vaultix-transport
 compose/vaultix.env
 
 # chatmirror — local AI session mirrors (never commit: may contain tokens)
 .chat/
 
 # Engine pin is vendored as files. Do not nest the leftover clone's .git.
-core/.git/
+platform/engine/.git/
 
 **/node_modules/
-core/docs/images/
+platform/engine/docs/images/
 leftover/schema-dump/
 leftover/api-inventory/__pycache__/
 **/.env

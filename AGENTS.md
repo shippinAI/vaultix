@@ -10,6 +10,14 @@ This file is the agent router. Specs live in `docs/`. Humans start at
 
 ## Current direction
 
+Layout (2026-11-12): the product tree moved from `core/` to `platform/engine/`. Commercial cloud code
+goes in `platform/shippin/` and nowhere else. `platform/shippin/` may depend on `platform/engine/`;
+the engine never depends on it (`node scripts/test-platform-boundary.mjs`). `platform` is a folder
+name, not a tier: nothing under `platform/engine/` is paid. The older `shippin` folders inside the
+engine are debt to sort per domain, not the commercial boundary. Read `platform/README.md`. Older
+dated notes below that say `core` mean `platform/engine`. Each hosted customer gets their own
+instance (owner decision; the ADR replacing the shared-deployment paragraph of 0054 is not written).
+
 API changes (2026-11-11): Vaultix is evolving. When an API changes, update every caller (UI, CLI,
 MCP tools, scripts, tests, docs) in the same change and delete the old route: no aliases, shims or
 legacy paths. Update the capability-surface baseline in that commit on purpose. This supersedes the
@@ -175,17 +183,17 @@ the plan. Passing a schema or selected test is not whole-implementation proof.
 | Deploy, install, upgrade an instance (any AI) | `INSTALL-FOR-AI.md` + `docs/0109-native-install-and-upgrade.md` |
 | Pre-release rules, credentials in chat | `docs/0118-pre-release.md` |
 | Table names, new API routes (`vx_` tables, `/api/vx/v1/<domain>`) | `docs/0119-schema-and-api-namespaces.md` + `scripts/lib/table-namespaces.mjs` |
-| MCPL, MCP warp points, new MCP tools, AI sign-in options | `docs/0120-mcpl-framework.md` + `core/backend/src/services/vaultix/warp-points.ts` |
+| MCPL, MCP warp points, new MCP tools, AI sign-in options | `docs/0120-mcpl-framework.md` + `platform/engine/backend/src/services/vaultix/warp-points.ts` |
 | Identity / login / sessions | `docs/0074-built-in-and-federated-identity.md` + existing auth consumers |
-| Engine | `docs/0011-owned-engine.md` + `core/` |
+| Engine | `docs/0011-owned-engine.md` + `platform/engine/` |
 | Whole-tree authorship / product domains | `docs/0021-product-authorship-review.md` + `docs/code-audit/` |
 | Stack migration / AI-managed lifecycle | `docs/0027-native-stack-and-ai-migration.md` + `docs/migration/` |
 | All-UI accessibility | `docs/0022-accessibility-acceptance.md` |
 | Native interactions / guided teaching | `docs/0024-interaction-and-teaching-system.md` |
 | Domain UI events / scripted MCP workflows | `docs/0114-domain-scripted-ui-standard.md` + `docs/interaction/` + `.agents/skills/domain-ui-actions/SKILL.md` |
 | Enterprise capability convergence | `docs/0023-capability-convergence.md` |
-| Signal fabric, outcome receipts, rehearsal demo, hosted agent | `docs/0123-signal-fabric.md` + `core/frontend/src/components/vaultix/` |
-| AI providers, personas and specialists, value requests, inject/redeem, local endpoint | `docs/0124-ai-personas-and-machine-loops.md` + `core/ai/personas/` + `core/backend-go/internal/services/assistant/` |
+| Signal fabric, outcome receipts, rehearsal demo, hosted agent | `docs/0123-signal-fabric.md` + `platform/engine/frontend/src/components/vaultix/` |
+| AI providers, personas and specialists, value requests, inject/redeem, local endpoint | `docs/0124-ai-personas-and-machine-loops.md` + `platform/engine/ai/personas/` + `platform/engine/backend-go/internal/services/assistant/` |
 | Provider import (Doppler, Infisical/Vaultix instances) | `docs/0121-provider-import.md` + `services/external-migration/provider-import.ts` |
 | Estate / Nomen sibling | `nomen/Nomen/docs/product/estate.md` (sibling tree; do not edit it from here) |
 | Public API | `contracts/shippin.vaultix.panel.v1.json` |
@@ -199,8 +207,8 @@ the plan. Passing a schema or selected test is not whole-implementation proof.
 ```bash
 cd panel && go test ./...
 scripts/check-owned.sh
-# engine (native): scripts/run-core.sh
-# UI (native):     cd core/frontend && npx vite --host 127.0.0.1 --port 3000
+# engine (native): scripts/run-core.sh   (runs platform/engine)
+# UI (native):     cd platform/engine/frontend && npx vite --host 127.0.0.1 --port 3000
 # compose: copy compose/self.env.example → compose/vaultix.env, then scripts/up.sh
 # verified local image: node scripts/build-self-hosted.mjs
 # GitHub source only:   bash scripts/publish-github.sh

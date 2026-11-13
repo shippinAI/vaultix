@@ -4,7 +4,7 @@ import { createRequire } from "node:module";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-const require = createRequire(resolve("core/e2e/package.json"));
+const require = createRequire(resolve("platform/engine/e2e/package.json"));
 const { chromium, expect } = require("@playwright/test");
 const AxeBuilder = require("@axe-core/playwright").default;
 const origin = process.env.VAULTIX_UI_ORIGIN || "http://127.0.0.1:3000";

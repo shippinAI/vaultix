@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { classifyLoginFailure, loginRetrySeconds } from "../core/frontend/src/pages/auth/LoginPage/components/InitialStep/login-failure.ts";
+import { classifyLoginFailure, loginRetrySeconds } from "../platform/engine/frontend/src/pages/auth/LoginPage/components/InitialStep/login-failure.ts";
 
 const now = Date.UTC(2026, 9, 28, 12);
 const headerCases = [

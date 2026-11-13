@@ -25,7 +25,7 @@ the existing engine UI. The header no longer advertises a paid software trial.
 ## Artwork
 
 Owned flat vector assets are `vaultix-mark.svg`, `vaultix-wordmark.svg`,
-`vaultix-loading.svg` and `vaultix-social.svg` under `core/frontend/public/images`.
+`vaultix-loading.svg` and `vaultix-social.svg` under `platform/engine/frontend/public/images`.
 The social PNG is rendered from that SVG; the favicon uses the same vault mark.
 The auth header and application navigation display the same mark. Shared-secret,
 OAuth consent and error screens use the owned mark/wordmark. Existing social

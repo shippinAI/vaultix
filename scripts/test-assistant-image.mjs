@@ -128,7 +128,7 @@ try {
   assert.equal(custom.role, "specialist");
   await api("/api/vx/v1/ai/personas/billing", { method: "DELETE", token });
   assert.equal((await api("/api/vx/v1/ai/personas/secrets/reset", { method: "POST", token })).persona.customized, false);
-  check("default personas load from core/ai/personas; administrators change, reset, add and remove them; defaults and Clyffy are protected");
+  check("default personas load from platform/engine/ai/personas; administrators change, reset, add and remove them; defaults and Clyffy are protected");
 
   phase = "providers";
   const created = (await api("/api/vx/v1/ai/providers", { method: "POST", token, status: 201, body: {

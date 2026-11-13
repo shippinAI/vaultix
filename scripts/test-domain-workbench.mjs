@@ -6,7 +6,7 @@ import { extname, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
-const require = createRequire(resolve(root, "core/e2e/package.json"));
+const require = createRequire(resolve(root, "platform/engine/e2e/package.json"));
 const { chromium, expect } = require("@playwright/test");
 const AxeBuilder = require("@axe-core/playwright").default;
 const directory = resolve(root, ".cache/storybook-workbench");

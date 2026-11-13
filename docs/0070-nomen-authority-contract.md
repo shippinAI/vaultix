@@ -157,7 +157,7 @@ readiness, full auth parity or complete migration claim follows from this packet
 Source: `7b059d47838b4b9bebd7fa6c4f7d0e2bf5a99941`. Canonical image:
 `sha256:a744c98fc41ee68cfe620c78c2e383fdb7d79f224e3231bce1e85757d4e63936`. Go test image:
 `sha256:e13b57dc548f50bcff7b122ebc059e69b7f164e552f534c600c844c6ade92b4b`. Both were built locally from
-`core/Dockerfile.standalone-vaultix` using an LF Git archive; image identity matches
+`platform/engine/Dockerfile.standalone-vaultix` using an LF Git archive; image identity matches
 the candidate. Subsequent receipt-only documentation does not change runtime source.
 
 | Check | Observed outcome |

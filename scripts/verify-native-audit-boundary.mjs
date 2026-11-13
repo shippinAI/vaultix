@@ -16,7 +16,7 @@ const directory = mkdtempSync(resolve('.cache/native-audit-boundary-'));
 const run = args => spawnSync('docker', args, {encoding: 'utf8', windowsHide: true, maxBuffer: 64 * 1024 * 1024});
 const required = args => { const r = run(args); assert.equal(r.status, 0, 'Audit boundary runner preparation failed'); return r; };
 const source = resolve(directory, 'go');
-cpSync('core/backend-go', source, {recursive: true});
+cpSync('platform/engine/backend-go', source, {recursive: true});
 const cacheName = 'vaultix-audit-cache-' + directory.slice(-6).toLowerCase();
 let go;
 try {
@@ -29,8 +29,8 @@ try {
 }
 const evidence = collectGoTestEvidence(go.stdout ?? '');
 const report = {passed: false, goImage, backendImage, cacheImage, producer: evidence, cases: [], sources: [], compileDiagnostics: (go.stderr ?? '').split('\n').filter(s => /\.go:\d+:\d+:/.test(s))};
-const paths = ['core/backend-go/internal/services/auditlog/queue_handler.go', 'core/backend-go/internal/services/auditlog/queue_handler_test.go', 'core/backend-go/internal/services/auditlog/auditlog.go', 'core/backend-go/internal/services/auditlog/event.go', 'core/backend/src/shippin/services/audit-log/audit-log-queue.ts', 'core/backend/src/shippin/services/audit-log/audit-log-queue.test.ts', 'core/backend/src/shippin/services/audit-log/fixtures/native-ingest-v1.json', 'scripts/verify-native-audit-boundary.mjs'];
-paths.push('core/backend-go/internal/services/auditlog/producer_integration_test.go', 'core/backend/src/server/plugins/go-sidecar.ts', 'core/backend/src/server/plugins/go-sidecar.test.ts', 'core/backend-go/internal/server/api/secretmanager/secret/list_secrets.go', 'core/backend-go/internal/server/api/secretmanager/secret/get_secret_by_name.go');
+const paths = ['platform/engine/backend-go/internal/services/auditlog/queue_handler.go', 'platform/engine/backend-go/internal/services/auditlog/queue_handler_test.go', 'platform/engine/backend-go/internal/services/auditlog/auditlog.go', 'platform/engine/backend-go/internal/services/auditlog/event.go', 'platform/engine/backend/src/shippin/services/audit-log/audit-log-queue.ts', 'platform/engine/backend/src/shippin/services/audit-log/audit-log-queue.test.ts', 'platform/engine/backend/src/shippin/services/audit-log/fixtures/native-ingest-v1.json', 'scripts/verify-native-audit-boundary.mjs'];
+paths.push('platform/engine/backend-go/internal/services/auditlog/producer_integration_test.go', 'platform/engine/backend/src/server/plugins/go-sidecar.ts', 'platform/engine/backend/src/server/plugins/go-sidecar.test.ts', 'platform/engine/backend-go/internal/server/api/secretmanager/secret/list_secrets.go', 'platform/engine/backend-go/internal/server/api/secretmanager/secret/get_secret_by_name.go');
 report.sources = paths.map(path => ({path, sha256: createHash('sha256').update(readFileSync(path)).digest('hex')}));
 const save = () => writeFileSync(resolve(directory, 'result.json'), JSON.stringify(report, null, 2));
 save();
@@ -41,17 +41,17 @@ for (const line of go.stdout.split('\n')) {
   try { const event = JSON.parse(line); if (event.Output?.startsWith('VAULTIX_AUDIT_FIXTURE:')) envelope = JSON.parse(event.Output.slice('VAULTIX_AUDIT_FIXTURE:'.length)); } catch {}
 }
 assert.ok(envelope, 'Actual producer fixture missing');
-assert.deepEqual(envelope, JSON.parse(readFileSync('core/backend/src/shippin/services/audit-log/fixtures/native-ingest-v1.json')), 'Producer changed independently declared contract fixture');
+assert.deepEqual(envelope, JSON.parse(readFileSync('platform/engine/backend/src/shippin/services/audit-log/fixtures/native-ingest-v1.json')), 'Producer changed independently declared contract fixture');
 const backend = resolve(directory, 'backend');
 mkdirSync(backend);
-cpSync('core/backend/src', resolve(backend, 'src'), {recursive: true});
+cpSync('platform/engine/backend/src', resolve(backend, 'src'), {recursive: true});
 // Feed actual bytes, not only the separately declared fixture, to the consumer.
 writeFileSync(resolve(backend, 'src/shippin/services/audit-log/fixtures/native-ingest-v1.json'), JSON.stringify(envelope));
 const name = 'vaultix-audit-boundary-' + directory.slice(-6).toLowerCase();
 try {
   required(['create', '--init', '--name', name, '--entrypoint', 'node', backendImage, '--max-old-space-size=4096', 'node_modules/vitest/vitest.mjs', 'run', '-c', 'vitest.unit.config.mts', 'src/shippin/services/audit-log/audit-log-queue.test.ts', 'src/server/plugins/go-sidecar.test.ts', '--reporter=json', '--outputFile=/app/audit-boundary.json']);
   required(['cp', resolve(backend, 'src'), name + ':/app/']);
-  required(['cp', resolve('core/backend/vitest.unit.config.mts'), name + ':/app/']);
+  required(['cp', resolve('platform/engine/backend/vitest.unit.config.mts'), name + ':/app/']);
   const consumer = run(['start', '--attach', name]);
   required(['cp', name + ':/app/audit-boundary.json', resolve(directory, 'consumer.json')]);
   const result = JSON.parse(readFileSync(resolve(directory, 'consumer.json')));

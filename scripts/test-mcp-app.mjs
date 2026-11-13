@@ -8,10 +8,10 @@ import { readFileSync, mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 const root = process.cwd();
-const require = createRequire(resolve(root, "core/e2e/package.json"));
+const require = createRequire(resolve(root, "platform/engine/e2e/package.json"));
 const { chromium, expect } = require("@playwright/test");
 const axe = readFileSync(require.resolve("axe-core/axe.min.js"), "utf8");
-const artifact = resolve(root, process.argv[2] ?? "core/frontend/dist/mcp-apps");
+const artifact = resolve(root, process.argv[2] ?? "platform/engine/frontend/dist/mcp-apps");
 const html = readFileSync(resolve(artifact, "references.html"), "utf8");
 const manifest = JSON.parse(readFileSync(resolve(artifact, "manifest.json")));
 assert.equal(createHash("sha256").update(html).digest("hex"), manifest.sha256);

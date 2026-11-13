@@ -58,7 +58,7 @@ try {
   ].join("\n"), { mode: 0o600 });
   docker(["create", "--init", "--name", `${run}-tests`, "--network", run, "--env-file", envFile,
     "--entrypoint", "node", "vaultix:verify-backend", "--max-old-space-size=4096", "node_modules/vitest/vitest.mjs", "run", "-c", "vitest.e2e.config.mts", "--reporter=default", "--reporter=json", "--outputFile=/app/test-results.json", ...selected]);
-  for (const entry of ["src", "e2e-test", "vitest.e2e.config.mts"]) docker(["cp", resolve(root, "core/backend", entry), `${run}-tests:/app/`]);
+  for (const entry of ["src", "e2e-test", "vitest.e2e.config.mts"]) docker(["cp", resolve(root, "platform/engine/backend", entry), `${run}-tests:/app/`]);
   docker(["start", "--attach", `${run}-tests`]);
   const exit = docker(["inspect", "--format", "{{.State.ExitCode}}", `${run}-tests`], { stdio: "pipe", encoding: "utf8" });
   if (exit.stdout.trim() !== "0") throw new Error("Capability tests failed.");

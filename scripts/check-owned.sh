@@ -8,21 +8,21 @@ say() { printf '%s\n' "$*"; }
 bad() { printf 'FAIL  %s\n' "$*"; fail=1; }
 ok()  { printf 'ok    %s\n' "$*"; }
 
-if [[ -d "$ROOT/core/frontend" && -d "$ROOT/core/backend" ]]; then
-  ok "core/ contains the Vaultix product engine and UI"
+if [[ -d "$ROOT/platform/engine/frontend" && -d "$ROOT/platform/engine/backend" ]]; then
+  ok "platform/engine/ contains the Vaultix product engine and UI"
 else
-  bad "core/ frontend+backend missing — the native application is required"
+  bad "platform/engine/ frontend+backend missing — the native application is required"
 fi
 
 if [[ -d "$ROOT/core/.git" ]]; then
-  bad "core/ contains nested git metadata; do not contact a snapshot remote"
-elif grep -q 'v0.162.19' "$ROOT/core/PIN" "$ROOT/core/SHIPPIN.md" 2>/dev/null; then
+  bad "platform/engine/ contains nested git metadata; do not contact a snapshot remote"
+elif grep -q 'v0.162.19' "$ROOT/platform/engine/PIN" "$ROOT/core/SHIPPIN.md" 2>/dev/null; then
   ok "core pin v0.162.19 (SHIPPIN.md / PIN; nested .git not published)"
 else
   bad "core pin v0.162.19 not recorded"
 fi
 
-if grep -q '<title>Vaultix</title>' "$ROOT/core/frontend/index.html"; then
+if grep -q '<title>Vaultix</title>' "$ROOT/platform/engine/frontend/index.html"; then
   ok "frontend title Vaultix"
 else
   bad "frontend title is not Vaultix"
@@ -36,19 +36,19 @@ else
   bad "compose missing the local canonical image default or points at a leftover image"
 fi
 
-if grep -q 'org.opencontainers.image.title="Vaultix"' "$ROOT/core/Dockerfile.standalone-vaultix" \
-   && ! grep -q 'artifacts-cli.vaultix.com' "$ROOT/core/Dockerfile.standalone-vaultix" \
-   && grep -q 'TELEMETRY_ENABLED false' "$ROOT/core/Dockerfile.standalone-vaultix"; then
+if grep -q 'org.opencontainers.image.title="Vaultix"' "$ROOT/platform/engine/Dockerfile.standalone-vaultix" \
+   && ! grep -q 'artifacts-cli.vaultix.com' "$ROOT/platform/engine/Dockerfile.standalone-vaultix" \
+   && grep -q 'TELEMETRY_ENABLED false' "$ROOT/platform/engine/Dockerfile.standalone-vaultix"; then
   ok "engine image is labelled Vaultix, no leftover CLI, telemetry off"
 else
   bad "engine Dockerfile still leftover-labelled, installs leftover CLI, or telemetry on"
 fi
 
-if [[ -f "$ROOT/core/Dockerfile.ghcr" ]] \
-   && grep -q 'org.opencontainers.image.title="Vaultix"' "$ROOT/core/Dockerfile.ghcr"; then
+if [[ -f "$ROOT/platform/engine/Dockerfile.ghcr" ]] \
+   && grep -q 'org.opencontainers.image.title="Vaultix"' "$ROOT/platform/engine/Dockerfile.ghcr"; then
   ok "GHCR engine Dockerfile.ghcr is labelled Vaultix"
 else
-  bad "core/Dockerfile.ghcr missing or unlabelled"
+  bad "platform/engine/Dockerfile.ghcr missing or unlabelled"
 fi
 
 if [[ -f "$ROOT/.github/workflows/ghcr.yml" ]] \
@@ -66,7 +66,7 @@ hits="$(rg -n -i --glob '!*.stories.*' --glob '!**/ironrdp-decoder/**' --glob '!
   --glob '!**/helpers/appConnections.ts' \
   --glob '!**/AppConnectionForm/ExternalVaultixConnectionForm.tsx' \
   -e '\binfisical\b' -e 'infisical\.com' -e 'support@infisical' \
-  "$ROOT/core/frontend/src" "$ROOT/core/frontend/index.html" 2>/dev/null || true)"
+  "$ROOT/platform/engine/frontend/src" "$ROOT/platform/engine/frontend/index.html" 2>/dev/null || true)"
 if [[ -n "$hits" ]]; then
   bad "customer chrome still carries the snapshot brand:"
   printf '%s\n' "$hits" | sed 's/^/      /' | head -40
@@ -75,12 +75,12 @@ else
 fi
 
 for asset in images/vaultix-mark.svg images/vaultix-wordmark.svg images/vaultix-loading.svg images/vaultix-social.png; do
-  if [[ ! -s "$ROOT/core/frontend/public/$asset" ]]; then bad "missing authored asset: $asset"; fi
+  if [[ ! -s "$ROOT/platform/engine/frontend/public/$asset" ]]; then bad "missing authored asset: $asset"; fi
 done
 for asset in infisical.ico images/biglogo.png images/logotransparent.png images/logotransparent_trimmed.png images/loading/loading.gif lotties/infisical_loading.json lotties/vaultix_loading.json; do
-  if [[ -f "$ROOT/core/frontend/public/$asset" ]]; then bad "retired brand artwork still ships: $asset"; fi
+  if [[ -f "$ROOT/platform/engine/frontend/public/$asset" ]]; then bad "retired brand artwork still ships: $asset"; fi
 done
-if rg -n '/images/(logotransparent|gradientLogo|message\.png|loading/loading\.gif)' "$ROOT/core/frontend/src" >/dev/null; then
+if rg -n '/images/(logotransparent|gradientLogo|message\.png|loading/loading\.gif)' "$ROOT/platform/engine/frontend/src" >/dev/null; then
   bad "live UI still requests retired product artwork"
 else
   ok "native UI uses owned Vaultix artwork"

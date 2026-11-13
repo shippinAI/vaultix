@@ -60,7 +60,7 @@ await invoke("stories-preview", { stories });
 let tests;
 if (process.platform === "win32") {
   const result = spawnSync(process.execPath, ["node_modules/vitest/vitest.mjs", "run", "--project=storybook", "src/pages/organization/ProjectsPage/components/ProjectProductCard.stories.tsx"], {
-    cwd: resolve(root, "core/frontend"), encoding: "utf8", timeout: 180_000
+    cwd: resolve(root, "platform/engine/frontend"), encoding: "utf8", timeout: 180_000
   });
   writeFileSync(resolve(evidence, "cli-tests.log"), `${result.stdout ?? ""}\n${result.stderr ?? ""}`);
   assert.equal(result.status, 0, "Windows CLI story tests must pass; see evidence log");

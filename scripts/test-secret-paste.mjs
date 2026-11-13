@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { getKeyValue } from "../core/frontend/src/helpers/parseEnvVar.ts";
+import { getKeyValue } from "../platform/engine/frontend/src/helpers/parseEnvVar.ts";
 
 const cases = [
   ["", [":", "="], { key: "", value: "", hasAssignment: false }],

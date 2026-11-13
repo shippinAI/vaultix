@@ -71,7 +71,7 @@ failed before tests; the final fixture supplies that dependency rather than
 disabling validation. `make lint` passes (`.cache/counter-go-lint-final.log`).
 
 Canonical image `sha256:6a728c527fc2746d53e0e27c365872631de73a4802198d086e0c3d71ad7567b9`
-builds from `core/Dockerfile.standalone-vaultix`. Dragonfly smoke/restart/API
+builds from `platform/engine/Dockerfile.standalone-vaultix`. Dragonfly smoke/restart/API
 checks and the packaged browser workflow pass (`.cache/counter-image-smoke.log`,
 `.cache/app-image-proof-opnKQi/workflow-result.json`). This packet changes a test
 store, not the authored UI; its retained workflow proof does not establish a

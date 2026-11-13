@@ -27,14 +27,14 @@ const callArgument = new RegExp(
 );
 
 const exempt = [
-  /^core\/backend\/src\/db\/table-namespaces\.ts$/,
-  /^core\/backend\/src\/db\/table-namespace-(rename|names|index-names)\.ts$/,
+  /^platform\/engine\/backend\/src\/db\/table-namespaces\.ts$/,
+  /^platform\/engine\/backend\/src\/db\/table-namespace-(rename|names|index-names)\.ts$/,
   /^scripts\/(map-table-namespaces|check-table-namespaces)\.mjs$/,
   /^scripts\/lib\/(table-namespaces|legacy-table-references)\.mjs$/,
   // Generic query-builder tests use "users" as sample input, not the store's table.
-  /^core\/backend-go\/internal\/database\/pg\/qb\/(delete|insert|update)_test\.go$/,
+  /^platform\/engine\/backend-go\/internal\/database\/pg\/qb\/(delete|insert|update)_test\.go$/,
   // The ClickHouse audit table lives in another database.
-  /^core\/backend-go\/internal\/config\/config\.go$/,
+  /^platform\/engine\/backend-go\/internal\/config\/config\.go$/,
   // The upgrade tool reads either side of the rename by design.
   /^internal\/platform\/(schema|docker)\.go$/,
   /^scripts\/test-server-lifecycle\.mjs$/,
@@ -47,24 +47,24 @@ const exempt = [
 // Exact, reviewed uses of a table-like word that are not this store's tables.
 const notTables = [
   // A column alias in SQL, not the super_admin table.
-  { file: /^core\/backend-go\/internal\/services\/auth\/apiauth\/authenticator\.go$/, text: 'db:"super_admin"' },
+  { file: /^platform\/engine\/backend-go\/internal\/services\/auth\/apiauth\/authenticator\.go$/, text: 'db:"super_admin"' },
   // ClickHouse keeps its own audit_logs table in another database.
   {
-    file: /^core\/backend\/src\/(lib\/config\/env|db\/run-clickhouse-migrations|db\/clickhouse-migration-runner|auto-start-migrations|shippin\/services\/audit-log\/audit-log-queue\.test)\.ts$/,
+    file: /^platform\/engine\/backend\/src\/(lib\/config\/env|db\/run-clickhouse-migrations|db\/clickhouse-migration-runner|auto-start-migrations|shippin\/services\/audit-log\/audit-log-queue\.test)\.ts$/,
     text: /ClickHouse|CLICKHOUSE|DEFAULT_TABLE_NAME = "audit_logs"|default\("audit_logs"\)/
   },
   // An error category and metric names.
-  { file: /^core\/backend\/src\/lib\/errors\/classify(\.test)?\.ts$/, text: "rate_limit" },
-  { file: /^core\/backend\/src\/lib\/telemetry\/(metrics|telemetry-attributes)\.ts$/, text: "rate_limit." },
+  { file: /^platform\/engine\/backend\/src\/lib\/errors\/classify(\.test)?\.ts$/, text: "rate_limit" },
+  { file: /^platform\/engine\/backend\/src\/lib\/telemetry\/(metrics|telemetry-attributes)\.ts$/, text: "rate_limit." },
   // Datadog's API path.
-  { file: /^core\/backend\/src\/shippin\/services\/secret-rotation-v2\/datadog-api-key\//, text: "api_keys" },
+  { file: /^platform\/engine\/backend\/src\/shippin\/services\/secret-rotation-v2\/datadog-api-key\//, text: "api_keys" },
   // Progress messages inside migrations.
   { file: /\/db\/migrations\//, text: /console\.(info|log)|\blog\(|^\s*"[^"]*",?\s*$/ }
 ];
 const matches = (entry, source) => (typeof entry.text === "string" ? source.includes(entry.text) : entry.text.test(source));
 
 const failures = [];
-for (const { path, rel } of sourceFiles(root, ["core/backend/src", "core/backend/e2e-test", "core/backend-go", "scripts", "internal", "cmd"])) {
+for (const { path, rel } of sourceFiles(root, ["platform/engine/backend/src", "platform/engine/backend/e2e-test", "platform/engine/backend-go", "scripts", "internal", "cmd"])) {
   if (exempt.some(pattern => pattern.test(rel))) continue;
   const migration = rel.includes("/db/migrations/");
   const text = readFileSync(path, "utf8");

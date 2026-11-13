@@ -40,7 +40,7 @@ review; do not silently broaden this compiler change into their upgrade.
    suites and the backend Go lint gate. Record failures and prerequisite gaps.
 2. Exercise backend Go integration tests against disposable infrastructure;
    preserve provider/hardware distinctions and existing denial cases.
-3. Build `core/Dockerfile.standalone-vaultix`, verify the embedded sidecar's Go
+3. Build `platform/engine/Dockerfile.standalone-vaultix`, verify the embedded sidecar's Go
    version, then run the real application and both cache smoke/restart suites.
 4. Build the optional panel and SoftHSM test images and verify their toolchains.
 5. Retain the UI/API baseline, reconcile exact-content reviews/maps, commit/push

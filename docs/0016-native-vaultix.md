@@ -15,7 +15,7 @@ Release priority updated 2026-10-26: hosted Vaultix first. Implement and prove
 the code before offering the hosted service. Track capability evidence in
 [0018](0018-hosted-capability-proof.md); an enabled plan flag is not a test.
 
-Vaultix is a secrets product built in `core/`, with a native UI and API, and
+Vaultix is a secrets product built in `platform/engine/`, with a native UI and API, and
 Clyffy as its AI specialist. Software capabilities are included for every
 deployment. Hosting, support, and the user's AI subscription are separate
 services. Membership is not a security-feature paywall.
@@ -97,7 +97,7 @@ and component provenance while rewriting code in place.
 | Image | Build the standalone image; start it against PostgreSQL and Dragonfly; verify migrations, health, UI assets, and restart recovery. |
 | Secrets | Create/update/version/rollback/delete in the real database; ciphertext at rest; no values in metadata, logs, or AI output. |
 | Native API | Move project, environment, secret metadata, write, and single-use injection flows into the versioned native contract using existing services and authorization. Legacy `/api/v1`–`/api/v4` compatibility routes are not a metadata-only model API. |
-| UI | Replace the remaining inherited authenticated screens with authored Vaultix workflows in `core/frontend`; test keyboard, empty, loading, failure, and permission states. |
+| UI | Replace the remaining inherited authenticated screens with authored Vaultix workflows in `platform/engine/frontend`; test keyboard, empty, loading, failure, and permission states. |
 | Nomen | Verify issuer discovery, audience, token exchange, session ownership, expiry, logout, and tenant isolation against the real issuer. |
 | Clyffy | Project/reference source actions now share UI/MCP authorization and audit reference reads. Verify real Nomen client sign-in, visible execution history and target-process-only injection. |
 | Policies | Cross-tenant denial, scoped RBAC, custom roles, approvals, temporary access, IP allowlists, groups, SSO, SCIM, and identity revocation. |
@@ -111,4 +111,4 @@ paths. Do not delete working engine capabilities in favor of a new small store.
 Do not mark this migration complete based solely on entitlement or unit tests.
 
 Read [cache deployment](0017-cache-deployment.md) and
-[Clyffy instructions](../core/ai/README.md) before changing those boundaries.
+[Clyffy instructions](../platform/engine/ai/README.md) before changing those boundaries.

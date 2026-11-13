@@ -5,12 +5,12 @@ import { resolve } from 'node:path';
 import { once } from 'node:events';
 import { testCertificates } from './lib/test-certificates.mjs';
 import { ldapConfigurationConsumer } from './lib/ldap-consumer-fixture.mjs';
-import { patchLdapts } from '../core/backend/scripts/patch-ldapts.mjs';
+import { patchLdapts } from '../platform/engine/backend/scripts/patch-ldapts.mjs';
 
 await patchLdapts();
-const { directoryCommonName, resolveDirectoryPrincipal } = await import('../core/backend/src/lib/ldap/directory.ts');
-const { executeDirectoryChanges, parseDirectoryChanges } = await import('../core/backend/src/lib/ldap/ldif.ts');
-const require = createRequire(resolve('core/backend/package.json'));
+const { directoryCommonName, resolveDirectoryPrincipal } = await import('../platform/engine/backend/src/lib/ldap/directory.ts');
+const { executeDirectoryChanges, parseDirectoryChanges } = await import('../platform/engine/backend/src/lib/ldap/ldif.ts');
+const require = createRequire(resolve('platform/engine/backend/package.json'));
 const {Client, Attribute, Change, InvalidCredentialsError} = require('ldapts');
 const {testLDAPConfig,searchGroups,buildReferralUrl,isLdapReferralError}=await ldapConfigurationConsumer();
 assert.equal(buildReferralUrl('ldaps://dc1.example.test:1636','dc2.example.test'),'ldaps://dc2.example.test:1636');

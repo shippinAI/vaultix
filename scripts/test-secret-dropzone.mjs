@@ -4,16 +4,16 @@ import { createRequire } from "node:module";
 import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { createServer } from "../core/frontend/node_modules/vite/dist/node/index.js";
+import { createServer } from "../platform/engine/frontend/node_modules/vite/dist/node/index.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const require = createRequire(resolve(root, "core/e2e/package.json"));
+const require = createRequire(resolve(root, "platform/engine/e2e/package.json"));
 const { chromium, expect } = require("@playwright/test");
 const AxeBuilder = require("@axe-core/playwright").default;
 mkdirSync(resolve(root, ".cache"), { recursive: true });
 const evidence = mkdtempSync(resolve(root, ".cache/dropzone-proof-"));
 const cases = [];
-process.chdir(resolve(root, "core/frontend"));
+process.chdir(resolve(root, "platform/engine/frontend"));
 const server = await createServer({
   server: { host: "127.0.0.1", port: 0, hmr: false, open: false }, logLevel: "error",
   plugins: [{

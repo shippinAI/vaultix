@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { getVaultixGuidance } from '../core/backend/src/services/vaultix/guidance.ts';
-import { assertMediaBudget, mediaBudgets, mediaSpec, referenceStory, transcript } from '../core/media/story.mjs';
+import { getVaultixGuidance } from '../platform/engine/backend/src/services/vaultix/guidance.ts';
+import { assertMediaBudget, mediaBudgets, mediaSpec, referenceStory, transcript } from '../platform/engine/media/story.mjs';
 
 const document = getVaultixGuidance();
 const story = referenceStory(document);
@@ -24,9 +24,9 @@ for (const kind of ['video', 'poster']) {
 }
 assert.throws(() => assertMediaBudget('unknown', 1));
 assert.throws(() => assertMediaBudget('toString', 1));
-const pkg = JSON.parse(readFileSync(new URL('../core/media/package.json', import.meta.url)));
+const pkg = JSON.parse(readFileSync(new URL('../platform/engine/media/package.json', import.meta.url)));
 for (const dependency of ['remotion', '@remotion/renderer', '@remotion/bundler']) assert.equal(pkg.dependencies[dependency], '4.0.538');
-const uiPackage = JSON.parse(readFileSync(new URL('../core/frontend/package.json', import.meta.url)));
+const uiPackage = JSON.parse(readFileSync(new URL('../platform/engine/frontend/package.json', import.meta.url)));
 assert.equal(Object.keys(uiPackage.dependencies).some(name => name.includes('remotion')), false);
 const spec = readFileSync(new URL('../docs/0024-interaction-and-teaching-system.md', import.meta.url), 'utf8').replace(/\s+/g, ' ');
 for (const obligation of ['Take over', 'replayed IDs', 'assistant provenance', 'real AI client']) assert.ok(spec.includes(obligation), obligation);

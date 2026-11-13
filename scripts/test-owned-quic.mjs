@@ -7,17 +7,17 @@ import {pathToFileURL} from 'node:url';
 import net from 'node:net';
 import {randomBytes,webcrypto} from 'node:crypto';
 import {testCertificates} from './lib/test-certificates.mjs';
-import {startGatewayTransport} from '../core/backend/src/lib/gateway/transport.ts';
+import {startGatewayTransport} from '../platform/engine/backend/src/lib/gateway/transport.ts';
 
 const require=createRequire(resolve('scripts/fixtures/quic-peer/package.json'));
 const {QUICServer,events}=await import(new URL('./dist/index.js',pathToFileURL(require.resolve('@matrixai/quic/package.json'))));
 const binary=resolve('.cache',process.platform==='win32'?'vaultix-transport-test.exe':'vaultix-transport-test');
 mkdirSync('.cache',{recursive:true});
-execFileSync('go',['build','-o',binary,'./cmd/vaultix-transport'],{cwd:'core/backend-go',stdio:'pipe',timeout:120000});
+execFileSync('go',['build','-o',binary,'./cmd/vaultix-transport'],{cwd:'platform/engine/backend-go',stdio:'pipe',timeout:120000});
 const crossCompiled=[];
 for(const arch of ['amd64','arm64']) {
   execFileSync('go',['build','-trimpath','-o',resolve('.cache',`vaultix-transport-linux-${arch}`),'./cmd/vaultix-transport'],{
-    cwd:'core/backend-go',env:{...process.env,CGO_ENABLED:'0',GOOS:'linux',GOARCH:arch},stdio:'pipe',timeout:120000
+    cwd:'platform/engine/backend-go',env:{...process.env,CGO_ENABLED:'0',GOOS:'linux',GOARCH:arch},stdio:'pipe',timeout:120000
   });
   crossCompiled.push(`linux/${arch}`);
 }

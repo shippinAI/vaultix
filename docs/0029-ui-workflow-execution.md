@@ -19,7 +19,7 @@ historical slices and receipts below remain scoped to their original changes.
 | 4. Prove the result | Test nonempty/empty/long-label cards, narrow layout, reduced motion and scoped axe rules; retain real application checks | Explicit fixture report separate from real sign-in/project navigation and provider acceptance |
 | 5. Deliver | Build the canonical standalone image; run Dragonfly/Redis checks; reconcile source hashes and maps; commit, push and update local dev | Record image identity, exact evidence and remaining gaps |
 
-Authored sources remain in `core/frontend`; generated routes and bundles are
+Authored sources remain in `platform/engine/frontend`; generated routes and bundles are
 produced by the normal build. The certificate feature owns its composition;
 shared v3 primitives own control styling. No new runtime, separate viewport,
 secret store or dependency is needed for this slice.

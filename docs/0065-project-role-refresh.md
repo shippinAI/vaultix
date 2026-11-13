@@ -4,7 +4,7 @@ AUTH-01 / native React permission consumers. Scoped refresh behavior accepted; f
 
 ## Work packet
 
-Read `core/frontend/src/context/ProjectPermissionContext/ProjectPermissionContext.tsx`
+Read `platform/engine/frontend/src/context/ProjectPermissionContext/ProjectPermissionContext.tsx`
 and the permissions query contract. The hook uses the route project ID, falling
 back to the organization's PAM project, and polls the existing permission API
 every minute. CASL rules and memberships come from the same response. Keep this

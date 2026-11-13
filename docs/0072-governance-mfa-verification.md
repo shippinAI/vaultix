@@ -4,7 +4,7 @@
 
 Source: `def9b6b2012f73245aebaa61d781a8aac467d142`. Canonical standalone image:
 `sha256:9003c44f44cf9516de4d974e9acb8e76ca9543d63401abb49557877e26307f28`. Built locally from committed LF source using
-`core/Dockerfile.standalone-vaultix`. Receipt-only documentation does not change
+`platform/engine/Dockerfile.standalone-vaultix`. Receipt-only documentation does not change
 the tested runtime source.
 
 ## Observed acceptance

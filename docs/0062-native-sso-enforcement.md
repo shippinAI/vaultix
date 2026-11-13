@@ -149,7 +149,7 @@ complete native domain ownership, capacity and public-cloud release remain
 separate gates. No enterprise/government certification or full parity is claimed.
 
 Reproduce application acceptance with `node scripts/build-self-hosted.mjs`.
-Build its `go-builder` stage from the receipt's archived `source/core`, then run
+Build its `go-builder` stage from the receipt's archived `source/platform/engine`, then run
 `node scripts/test-go-core.mjs <canonical-image-id> <dragonfly|redis> <go-stage-id>`
 for each cache. The shared policy comparison is
 `node scripts/test-sso-policy-parity.mjs [backend-package-json]`; native unit/race,

@@ -1,6 +1,6 @@
 # Vaultix DevSCIF workspace and API
 
-The native entry point is `core/frontend`, served by the standalone core image.
+The native entry point is `platform/engine/frontend`, served by the standalone core image.
 As of 2026-10-27, `/` follows existing setup/authentication into the full project
 application. The reference/AI guide described below is at `/help`; it must not
 replace login or the authenticated application. See
@@ -63,7 +63,7 @@ Codex subscription sign-in happens in the user's local Codex client using
 `codex login`. Existing API accounts, gateways and local model providers remain
 configured in that client. Vaultix supplies MCP tools; it does not exchange or
 collect ChatGPT sessions. The UI copies an MCP entry or URL, not a replacement
-configuration file. See [the packaged AI instructions](../core/ai/README.md).
+configuration file. See [the packaged AI instructions](../platform/engine/ai/README.md).
 
 Public guidance works without a Vaultix session. Hosted Nomen client registration,
 token exchange and tenant mapping remain release gates. This connection guide

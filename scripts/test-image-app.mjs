@@ -30,7 +30,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const origin = process.argv[2];
 assert.equal(process.env.VAULTIX_IMAGE_APP_PROOF, "1", "Only run with a disposable smoke instance.");
 assert.match(origin ?? "", /^http:\/\/127\.0\.0\.1:\d+$/);
-const require = createRequire(resolve(root, "core/e2e/package.json"));
+const require = createRequire(resolve(root, "platform/engine/e2e/package.json"));
 const { chromium, expect } = require("@playwright/test");
 const AxeBuilder = require("@axe-core/playwright").default;
 const config = await (await fetch(`${origin}/api/v1/admin/config`)).json();

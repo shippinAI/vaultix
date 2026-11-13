@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
-const frontend = resolve(root, "core/frontend");
+const frontend = resolve(root, "platform/engine/frontend");
 const packageRoot = resolve(frontend, "node_modules/storybook");
 const { bin } = JSON.parse(readFileSync(resolve(packageRoot, "package.json"), "utf8"));
 const entry = typeof bin === "string" ? bin : bin.storybook;

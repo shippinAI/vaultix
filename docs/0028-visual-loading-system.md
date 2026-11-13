@@ -7,7 +7,7 @@ authentication and project application remain the entry point.
 
 ## Source and ownership
 
-`core/frontend/src/index.css` owns semantic surfaces, colors and elevation.
+`platform/engine/frontend/src/index.css` owns semantic surfaces, colors and elevation.
 Shared primitives own control states. Authentication owns its layout and
 `AuthVaultIllustration.tsx` composition. Tailwind/Vite generate CSS and JavaScript
 during the frontend build; generated files are never edited to change appearance.

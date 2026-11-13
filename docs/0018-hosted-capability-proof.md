@@ -136,15 +136,15 @@ and cross-tenant denial. Vaultix must not create a second identity session store
 ## Reproduce the evidence
 
 ```sh
-docker build -f core/Dockerfile.standalone-vaultix -t vaultix:hosted-verify core
+docker build -f platform/engine/Dockerfile.standalone-vaultix -t vaultix:hosted-verify core
 bash scripts/smoke-image.sh vaultix:hosted-verify dragonfly
 bash scripts/smoke-image.sh vaultix:hosted-verify redis
-docker build --target backend-build -f core/Dockerfile.standalone-vaultix -t vaultix:verify-backend core
+docker build --target backend-build -f platform/engine/Dockerfile.standalone-vaultix -t vaultix:verify-backend core
 node scripts/test-unit-core.mjs
 node scripts/test-core.mjs dragonfly
 node scripts/test-core.mjs redis
-# After installing core/e2e dependencies and Playwright Chromium, and building
-# core/backend and core/frontend locally:
+# After installing platform/engine/e2e dependencies and Playwright Chromium, and building
+# platform/engine/backend and platform/engine/frontend locally:
 node scripts/test-native-ui.mjs
 ```
 
@@ -328,7 +328,7 @@ DevSCIF workspace and sign-in changes in source revision `12ec63b`:
 
 The local verified image is `vaultix:hosted-verify`, image ID
 `sha256:9abd59f3403008d509597c306bdb94a9a6aeb4e214606d69ff2e65d550214d4c`.
-It was built from `core/Dockerfile.standalone-vaultix`. Docker Desktop reassigns ephemeral ports
+It was built from `platform/engine/Dockerfile.standalone-vaultix`. Docker Desktop reassigns ephemeral ports
 on restart, so the smoke runner resolves the published port again before
 checking recovery.
 
@@ -388,7 +388,7 @@ cross-tenant denial. Unit tests also cover name/tag-scoped reference access.
 | ElastiCache | Configuration validation | AWS TLS, ACL, cluster/failover and queue tests; IAM refresh/serverless are not established |
 | Supply chain | Locked packages, retained third-party notices | Triage production dependency audit findings before offering the hosted release |
 
-All engine test paths in this table are relative to `core/backend/`. A test path
+All engine test paths in this table are relative to `platform/engine/backend/`. A test path
 identifies where evidence belongs, not a claim that every scenario in that
 capability passed. Provider/hardware-dependent capabilities remain unverified
 until their external prerequisites and acceptance tests are available.

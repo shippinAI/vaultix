@@ -7,7 +7,7 @@ import {collectGoTestEvidence} from './go-test-evidence.mjs';
 
 const image=process.argv[2]??'sha256:184687667e4f1bcf0c45a0f5bd9e4593fed1ccbc12c3f3fdfaf8a87d361f42e8';
 const runner='sha256:812899ac172fd5cb46363316d1d0ea65892b17368799a4ff9dfaaa1fecc2d0cd';
-const root=resolve('core/backend-go');
+const root=resolve('platform/engine/backend-go');
 const snapshot=()=>{
  const files=[];
  function walk(dir){for(const f of readdirSync(dir,{withFileTypes:true})){const path=resolve(dir,f.name);if(f.isDirectory())walk(path);else files.push({path:relative(root,path).replaceAll('\\','/'),sha256:createHash('sha256').update(readFileSync(path)).digest('hex')});}}

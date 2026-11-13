@@ -143,7 +143,7 @@ used as a second application. Its historical v0.9.1 envelope implementation must
 be reconciled with the native contract before claiming transport interoperability.
 
 Guided motion currently means interactive, user-paced lessons. The local Remotion
-authoring package in `core/media/` renders the existing reference lesson into a
+authoring package in `platform/engine/media/` renders the existing reference lesson into a
 workflow illustration, poster and transcript. It is separate from the live assist
 driver. Public landing integration must use explicit playback, a static initial
 poster, accessible controls and the transcript; no autoplay or renderer dependency

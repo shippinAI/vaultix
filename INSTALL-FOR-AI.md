@@ -48,7 +48,7 @@ and needs to be replaced at its source. Do not repeat it, store it or use it.
 From a clean, committed checkout of `main`:
 
 ```sh
-cd core/e2e && npm ci && npx playwright install chromium && cd ../..
+cd platform/engine/e2e && npm ci && npx playwright install chromium && cd ../..
 node scripts/build-self-hosted.mjs --check
 node scripts/build-self-hosted.mjs
 ```
@@ -143,5 +143,5 @@ Report to the owner:
 | Self-hosted build and verification | [docs/0048](docs/0048-self-hosted-builds.md) |
 | Built-in and federated identity | [docs/0074](docs/0074-built-in-and-federated-identity.md) |
 | Importing from Doppler or Infisical | [docs/0121](docs/0121-provider-import.md) |
-| AI assistant (Clyffy) and MCP | [core/ai/README.md](core/ai/README.md) |
+| AI assistant (Clyffy) and MCP | [platform/engine/ai/README.md](platform/engine/ai/README.md) |
 | MCP warp points and how an AI client signs in | [docs/0120](docs/0120-mcpl-framework.md); on a running instance, `vaultix.auth.options.get` on `POST /api/v1/vaultix/mcp` |

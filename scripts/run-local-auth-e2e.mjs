@@ -17,7 +17,7 @@ if (!selected) {
   process.exit(1);
 }
 
-const envPath = resolve(root, "core/.env.test");
+const envPath = resolve(root, "platform/engine/.env.test");
 const file = readFileSync(envPath, "utf8");
 const values = Object.fromEntries(file.split("\n").filter(line => line.includes("=")).map(line => {
   const index = line.indexOf("=");
@@ -35,13 +35,13 @@ const redact = text => secretValues.reduce((current, secret) => current.split(se
   .replace(/postgres(?:ql)?:\/\/[^@\s]+@/g, "postgres://[redacted]@");
 
 const child = spawn(process.execPath, [
-  resolve(root, "core/backend/node_modules/vitest/vitest.mjs"),
+  resolve(root, "platform/engine/backend/node_modules/vitest/vitest.mjs"),
   "run",
   "-c",
   "vitest.e2e.config.mts",
   ...selected
 ], {
-  cwd: resolve(root, "core/backend"),
+  cwd: resolve(root, "platform/engine/backend"),
   env: { ...process.env, NODE_OPTIONS: "--max-old-space-size=6144", PATH: process.env.PATH },
   stdio: ["ignore", "pipe", "pipe"]
 });

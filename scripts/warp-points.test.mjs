@@ -6,8 +6,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-import { listWarpPoints, MAIN_MCP_TOOLS, VAULTIX_DOMAINS, WARP_POINTS } from '../core/backend/src/services/vaultix/warp-points.ts';
-import { DEFAULT_MCPL_MODULES, MCPL_ACTIONS, MCPL_DOMAIN_ORDER } from '../core/frontend/src/components/vaultix/mcpl-manifest.ts';
+import { listWarpPoints, MAIN_MCP_TOOLS, VAULTIX_DOMAINS, WARP_POINTS } from '../platform/engine/backend/src/services/vaultix/warp-points.ts';
+import { DEFAULT_MCPL_MODULES, MCPL_ACTIONS, MCPL_DOMAIN_ORDER } from '../platform/engine/frontend/src/components/vaultix/mcpl-manifest.ts';
 
 const read = path => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 const canonical = JSON.parse(read('docs/interaction/workflows.json')).domains.map(domain => domain.id);
@@ -49,7 +49,7 @@ test('MCPL actions and modules sit in canonical domains', () => {
 });
 
 test('Vaultix API routers mount under canonical domains', () => {
-  const index = read('core/backend/src/server/routes/vx/index.ts');
+  const index = read('platform/engine/backend/src/server/routes/vx/index.ts');
   const prefixes = [...index.matchAll(/prefix:\s*"\/([a-z-]+)\//g)].map(match => match[1]);
   assert.ok(prefixes.length > 0, 'No /api/vx/v1 domain routers found');
   for (const domain of prefixes) assert.ok(canonical.includes(domain), `/api/vx/v1/${domain} is not a canonical domain`);

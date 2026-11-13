@@ -3,13 +3,13 @@ import { spawn } from "node:child_process";
 import { mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { createServer } from "../core/frontend/node_modules/vite/dist/node/index.js";
+import { createServer } from "../platform/engine/frontend/node_modules/vite/dist/node/index.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 mkdirSync(resolve(root, ".cache"), { recursive: true });
 const evidence = mkdtempSync(resolve(root, ".cache/notification-proof-"));
 const cases = [];
-process.chdir(resolve(root, "core/frontend"));
+process.chdir(resolve(root, "platform/engine/frontend"));
 const server = await createServer({
   server: { host: "127.0.0.1", port: 0, hmr: false, open: false },
   logLevel: "error",
