@@ -853,7 +853,7 @@ docs/interaction/mesh-knowledge-personas.example.v1.json	docs/interaction	ui	sup
 docs/interaction/mesh-knowledge-trigger.example.v1.json	docs/interaction	ui	supporting-tooling-or-contract	json	ef015e95f3db9d21c8fb2fc4ed9d0fc27469a767	unread
 docs/interaction/ui-benchmark-receipt.example.v1.json	docs/interaction	ui	supporting-tooling-or-contract	json	b422b903ce3a62a189be2293ab1fb2357d20ca22	unread
 docs/interaction/workflows.json	docs/interaction	ui	supporting-tooling-or-contract	json	47c4034ef2acbdca39f05a84de9b6aa21104e874	unread
-docs/migration/workstreams.json	docs/migration	foundation	supporting-tooling-or-contract	json	6eccc84ea9c219ef88c01d81a89684baeaf1557f	reviewed
+docs/migration/workstreams.json	docs/migration	foundation	supporting-tooling-or-contract	json	7cb000d9f20a57624e4ae0ca0e00d08b09c2e0c2	reviewed
 docs/references/gaps-1.png	docs/references	ui	supporting-tooling-or-contract	png	2073c0d90fe961ebd72a77612e667153346f9a52	unread
 docs/references/gaps2.png	docs/references	ui	supporting-tooling-or-contract	png	c542f09d1973c67b2f1f81a4137b39c47006d655	unread
 docs/references/gaps3.png	docs/references	ui	supporting-tooling-or-contract	png	5e855832e12fe66c3919b2c9fcb3bc05279bf4ac	unread
@@ -2472,7 +2472,7 @@ platform/engine/backend/src/server/plugins/swagger.ts	platform/engine/backend/sr
 platform/engine/backend/src/server/routes/bdd/bdd-nock-router.dev.ts	platform/engine/backend/src/server/routes/bdd	foundation	Go-domain-migration	ts	c5f6001f5586916623884563c6b5eaafdf65ae17	unread
 platform/engine/backend/src/server/routes/bdd/bdd-nock-router.ts	platform/engine/backend/src/server/routes/bdd	foundation	Go-domain-migration	ts	90f2ed00c62b0b74ac9f7f6f4d6834a5001e2ad3	unread
 platform/engine/backend/src/server/routes/early-access-router.ts	platform/engine/backend/src/server/routes	foundation	Go-domain-migration	ts	f4c9626832568cba727d1e04882905b02160c62f	authored
-platform/engine/backend/src/server/routes/index.ts	platform/engine/backend/src/server/routes	foundation	Go-domain-migration	ts	c029601238276a4e6436ef5637171febdcc09bce	authored
+platform/engine/backend/src/server/routes/index.ts	platform/engine/backend/src/server/routes	foundation	Go-domain-migration	ts	684b5b248f11157a58f5fb7d2f1aa070c9eb67e9	authored
 platform/engine/backend/src/server/routes/mfa-step-up-fns.ts	platform/engine/backend/src/server/routes	identity	Go-domain-migration	ts	bbb188347747e61f33ec65724ef655e57f8707d9	unread
 platform/engine/backend/src/server/routes/sanitizedSchema/directory-config.ts	platform/engine/backend/src/server/routes/sanitizedSchema	foundation	Go-domain-migration	ts	61be4d9cf681e33683e8cc29df9ae3ba20c7fe5c	unread
 platform/engine/backend/src/server/routes/sanitizedSchema/identitiy-additional-privilege.ts	platform/engine/backend/src/server/routes/sanitizedSchema	authorization	Go-domain-migration	ts	0feb1ba55c197387eb6926e023b5ce807979ce8c	unread
@@ -2808,8 +2808,8 @@ platform/engine/backend/src/server/routes/vx/index.ts	platform/engine/backend/sr
 platform/engine/backend/src/server/routes/vx/warp-point-router.test.ts	platform/engine/backend/src/server/routes/vx	foundation	Go-domain-migration	ts	ce9c5c6a7f30920fa28360f83458c933beeedc16	unread
 platform/engine/backend/src/server/routes/vx/warp-point-router.ts	platform/engine/backend/src/server/routes/vx	foundation	Go-domain-migration	ts	5b8dc905408668b3aafaf51d03d4455eb61c3158	unread
 platform/engine/backend/src/services/access-token-queue/access-token-queue.ts	platform/engine/backend/src/services/access-token-queue	foundation	Go-domain-migration	ts	bb1fefef60093c8a23fc03ffa46b1592cb59ca1a	unread
-platform/engine/backend/src/services/account-recovery/account-recovery-service.test.ts	platform/engine/backend/src/services/account-recovery	identity	Go-domain-migration	ts	62de9b555bc97e68a135f1992d6a886443992c4e	unread
-platform/engine/backend/src/services/account-recovery/account-recovery-service.ts	platform/engine/backend/src/services/account-recovery	identity	Go-domain-migration	ts	7c54490a4f619f6cb8c22c597bae1d002bf95e61	unread
+platform/engine/backend/src/services/account-recovery/account-recovery-service.test.ts	platform/engine/backend/src/services/account-recovery	identity	Go-domain-migration	ts	c400b04e3bd9bb8de0ae5007b477198a5477d20e	unread
+platform/engine/backend/src/services/account-recovery/account-recovery-service.ts	platform/engine/backend/src/services/account-recovery	identity	Go-domain-migration	ts	1b13150a1009cc8562ce96daa682646a8b0afd27	unread
 platform/engine/backend/src/services/account-recovery/host-recovery-code.test.ts	platform/engine/backend/src/services/account-recovery	identity	Go-domain-migration	ts	b3e32bb86482a102276090ff011dea1c27356ba2	unread
 platform/engine/backend/src/services/account-recovery/host-recovery-code.ts	platform/engine/backend/src/services/account-recovery	identity	Go-domain-migration	ts	6b7d1c5d06a1e354d473afd679dedaf1b07f6e05	unread
 platform/engine/backend/src/services/additional-privilege/additional-privilege-dal.ts	platform/engine/backend/src/services/additional-privilege	authorization	Go-domain-migration	ts	8f6f78bb3ac3d507f6eaa1877b5590a0632f0af7	unread
@@ -9652,6 +9652,12 @@ platform/engine/wasm/ironrdp-decoder/.gitignore	platform/engine/wasm/ironrdp-dec
 platform/engine/wasm/ironrdp-decoder/Cargo.toml	platform/engine/wasm/ironrdp-decoder	pam	Rust-WASM	toml	bb48bc6e08dccfa96e46d177142bbf337ee878d7	unread
 platform/engine/wasm/ironrdp-decoder/Makefile	platform/engine/wasm/ironrdp-decoder	pam	Rust-WASM	build-config	161976e2b2a7a2a384265ba05b4470bd1755f123	unread
 platform/engine/wasm/ironrdp-decoder/src/lib.rs	platform/engine/wasm/ironrdp-decoder/src	pam	Rust-WASM	rs	4644851ccc130cfc130f9012a326e13a41910464	unread
+platform/shippin/cmd/vaultix-control/main.go	platform/shippin/cmd/vaultix-control	hosted-service	Go-hosted-service	go	a24224174de387331a131602cc84dfa92f14fbcc	unread
+platform/shippin/console/console.go	platform/shippin/console	hosted-service	Go-hosted-service	go	75cfb5e902b2dc7f5103d86e402934561fb49992	unread
+platform/shippin/console/console_test.go	platform/shippin/console	hosted-service	Go-hosted-service	go	6127ec8995c2b1d7513bc2dcffe0895e22e7077e	unread
+platform/shippin/console/page.html	platform/shippin/console	hosted-service	Go-hosted-service	html	ae5bc13246cbca929535c11dfc1ce619cde213b2	unread
+platform/shippin/fleet/fleet.go	platform/shippin/fleet	hosted-service	Go-hosted-service	go	e452553ce8a3451720182021e569c69b8082d796	unread
+platform/shippin/fleet/fleet_test.go	platform/shippin/fleet	hosted-service	Go-hosted-service	go	c6e7d1480e8ec92a74a23c4b53b2a112969e8eda	unread
 schemas/shippin.vaultix.api.v1.json	schemas	foundation	supporting-tooling-or-contract	json	09efa4d202f917c8fafbe02758906309b233a0dd	unread
 scripts/ai-journal.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	11062148c5626ab31973d252c0379e30c2d4824b	reviewed
 scripts/ai-journal.test.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	c7de74158d058d9820f8c4f53ccb7990e3dcd856	reviewed
@@ -9697,8 +9703,8 @@ scripts/lib/table-namespaces.mjs	scripts/lib	delivery	supporting-tooling-or-cont
 scripts/lib/test-certificates.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	dfcdc9c3a254228cebe262fdf7a96963620148a0	reviewed
 scripts/lib/ui-action-standard.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	946798a4d7d600fe526b2062cd90d2d679fc059c	unread
 scripts/lib/ui-benchmark-receipt.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	a6171d6245aa73f31d28c6f4dc50f534557e0963	unread
-scripts/map-capabilities.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3ab54994095fc15018b456b6b34edd9212bf0dac	verified
-scripts/map-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	89c2848452ebd8f68a636f5d7e5ad492fa4c2f0f	verified
+scripts/map-capabilities.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d7841cba3a120029569ab3b3a13272e37c044d29	verified
+scripts/map-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	94c05156cd3751947b16c6e6d482c4011a1d0952	verified
 scripts/map-table-namespaces.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	5373b766a1d706adabb0ffceb6f5804e8ac453f4	unread
 scripts/move-core-to-platform-engine.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f1832d0580a81d53e24235b050c8fc1c21265c8f	unread
 scripts/pr-verification.test.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	bc1d5e85cf758dae3c94f0cbaf55c06ec716987e	authored

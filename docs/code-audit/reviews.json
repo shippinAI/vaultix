@@ -285,10 +285,10 @@
     },
     {
       "path": "scripts/map-migration.mjs",
-      "blob": "89c2848452ebd8f68a636f5d7e5ad492fa4c2f0f",
+      "blob": "94c05156cd3751947b16c6e6d482c4011a1d0952",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete authored discovery generator read. Uses exact inventory paths/blobs and explicit domain rules, validates prerequisite DAG, detects duplicate paths and unmapped inputs, preserves unassessed migration state, hashes groups, checks drift and rejects intake in CI. Generated inputs excluded to avoid self-reference. Mapping is not module review, an extracted call graph, workflow parity or completed port. Planning checkpoint 2026-10-28: Read complete module-map implementation. Exclude generated capability artifacts to prevent recursive source/hash inputs; retain all existing source coverage and unassessed migration state. 2026-11-13: re-read the diff; changes are the platform/engine layout only (path patterns, link depth, ee to shippin pattern, layout note).",
+      "scope": "Complete authored discovery generator read. Uses exact inventory paths/blobs and explicit domain rules, validates prerequisite DAG, detects duplicate paths and unmapped inputs, preserves unassessed migration state, hashes groups, checks drift and rejects intake in CI. Generated inputs excluded to avoid self-reference. Mapping is not module review, an extracted call graph, workflow parity or completed port. Planning checkpoint 2026-10-28: Read complete module-map implementation. Exclude generated capability artifacts to prevent recursive source/hash inputs; retain all existing source coverage and unassessed migration state. 2026-11-13: re-read the diff; changes are the platform/engine layout only (path patterns, link depth, ee to shippin pattern, layout note). 2026-11-13: authored the hosted-service workstream for platform/shippin (docs/0125); one rule, one group and one target added.",
       "evidence": [
         "docs/0027-native-stack-and-ai-migration.md",
         "docs/migration/README.md",
@@ -321,10 +321,10 @@
     },
     {
       "path": "docs/migration/workstreams.json",
-      "blob": "6eccc84ea9c219ef88c01d81a89684baeaf1557f",
+      "blob": "7cb000d9f20a57624e4ae0ca0e00d08b09c2e0c2",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete workstream DAG and first-match rules; classify the new interaction ledger under native UI ownership. No migration state or acceptance gate is promoted. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
+      "scope": "Read complete workstream DAG and first-match rules; classify the new interaction ledger under native UI ownership. No migration state or acceptance gate is promoted. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison. 2026-11-13: authored the hosted-service workstream for platform/shippin (docs/0125); one rule, one group and one target added.",
       "evidence": [
         "docs/0114-domain-scripted-ui-standard.md",
         "scripts/ui-action-standard.test.mjs",
@@ -2865,10 +2865,10 @@
     },
     {
       "path": "scripts/map-capabilities.mjs",
-      "blob": "3ab54994095fc15018b456b6b34edd9212bf0dac",
+      "blob": "d7841cba3a120029569ab3b3a13272e37c044d29",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Provider discovery now requires mapped source, so empty untracked historical directories cannot inflate a clean-checkout inventory. Existing UI/API baseline and capability requirements are unchanged; discovery remains separate from provider acceptance. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
+      "scope": "Complete file read. Provider discovery now requires mapped source, so empty untracked historical directories cannot inflate a clean-checkout inventory. Existing UI/API baseline and capability requirements are unchanged; discovery remains separate from provider acceptance. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison. 2026-11-13: authored the hosted-service workstream for platform/shippin (docs/0125); one rule, one group and one target added.",
       "evidence": [
         "Implementation commit 6a7340c52b47b4d810b919f8dccb9b1fd9bbef1f",
         "docs/0051-first-owner-transaction.md",
@@ -3281,10 +3281,10 @@
     },
     {
       "path": "docs/0054-public-cloud-service.md",
-      "blob": "5e7fc2ffc962688482e6f3143bc8760d673ac10b",
+      "blob": "4a6669cb2a13b927f799322ae94dcd4326b66f5d",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored public service boundaries, eight explicitly open release gates, implementation sequence and limits of local build evidence. Requirements only; no cloud readiness or performance acceptance claimed. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
+      "scope": "Authored public service boundaries, eight explicitly open release gates, implementation sequence and limits of local build evidence. Requirements only; no cloud readiness or performance acceptance claimed. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison. 2026-11-13: authored the pointer marking the shared-deployment paragraph superseded by 0125.",
       "evidence": [
         "docs/0054-public-cloud-service.md",
         ".cache/public-cloud-plan/.cache/cloud-plan-proof/result.json"
@@ -4979,10 +4979,10 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "f4249f93bdba2493400ff51327827c6a68dbaa49",
+      "blob": "f6384667a58e93749ab5b255be076b0329c6862b",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete merged router including invite-only, early-access and lifecycle corrections. Add domain-event routing while preserving all authority and release boundaries. 2026-11-13: re-read the diff; changes are the platform/engine layout only (path patterns, link depth, ee to shippin pattern, layout note).",
+      "scope": "Read complete merged router including invite-only, early-access and lifecycle corrections. Add domain-event routing while preserving all authority and release boundaries. 2026-11-13: re-read the diff; changes are the platform/engine layout only (path patterns, link depth, ee to shippin pattern, layout note). 2026-11-13: authored the hosted-instance note and router row for docs/0125.",
       "evidence": [
         "docs/0114-domain-scripted-ui-standard.md",
         "scripts/ui-action-standard.test.mjs",
@@ -6507,10 +6507,10 @@
     },
     {
       "path": "platform/engine/backend/src/server/routes/index.ts",
-      "blob": "c029601238276a4e6436ef5637171febdcc09bce",
+      "blob": "684b5b248f11157a58f5fb7d2f1aa070c9eb67e9",
       "status": "authored",
       "decision": "modify",
-      "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim. Go dispatch waits for the sidecar and skips the TypeScript reference audit. 2026-11-13: account recovery without email (admin reset link, owner recovery from the host, issue-password-reset-link audit event, password-reset image step) authored and re-read.",
+      "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim. Go dispatch waits for the sidecar and skips the TypeScript reference audit. 2026-11-13: account recovery without email (admin reset link, owner recovery from the host, issue-password-reset-link audit event, password-reset image step) authored and re-read. 2026-11-13: authored the recordResetLinkIssued wiring to the audit log; only those lines changed.",
       "evidence": [
         "docs/auth/device-event-worker.md",
         "docs/0110-invite-only-instance.md",

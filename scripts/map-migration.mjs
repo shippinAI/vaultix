@@ -53,6 +53,7 @@ export function targetFor(path) {
   if (/^platform\/engine\/wasm\//.test(path)) return "Rust-WASM";
   if (/^(cmd|internal)\//.test(path)) return "Go-client-Rust-injection-boundary";
   if (/^panel\//.test(path)) return "reconcile-into-native-product";
+  if (/^platform\/shippin\//.test(path)) return "Go-hosted-service";
   if (/^db\//.test(path)) return "PostgreSQL-compatible";
   return "supporting-tooling-or-contract";
 }

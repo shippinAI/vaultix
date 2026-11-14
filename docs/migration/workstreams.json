@@ -18,6 +18,7 @@
     { "id": "pam", "title": "Privileged access and session protocols", "dependsOn": ["authorization", "audit", "automation"], "gates": ["grant-expiry-revocation", "session-recording-integrity", "command-restrictions", "protocol-fuzzing", "resource-provider-proof"] },
     { "id": "scanning", "title": "Scanning, detection and honeytokens", "dependsOn": ["integrations", "audit"], "gates": ["fixture-corpus", "redacted-findings", "detector-delivery", "provider-outage", "resource-limits"] },
     { "id": "legacy-panel", "title": "Reconcile optional panel and retire duplicate paths", "dependsOn": ["ai", "cli"], "gates": ["feature-by-feature-replacement", "no-second-store", "no-second-auth-session", "operator-migration"] },
+    { "id": "hosted-service", "title": "Run the commercial hosted service around the engine (docs/0125)", "dependsOn": ["cli", "delivery"], "gates": ["engine-never-depends-on-it", "no-second-store", "no-secret-values", "loopback-only-operator-access"] },
     { "id": "intake", "title": "Unclassified module investigation", "dependsOn": [], "gates": ["manual-domain-assignment", "caller-data-auth-trace", "explicit-target-decision"] }
   ],
   "rules": [
@@ -27,6 +28,7 @@
     { "pattern": "^go\\.mod$", "workstream": "cli" },
     { "pattern": "^branding/|^platform/engine/(company|img|docs|media)/|^docs/(references|interaction)/", "workstream": "ui" },
     { "pattern": "^platform/engine/[^/]+$|^platform/engine/(docker|docker-swarm|cloudformation|nginx|\\.husky|\\.greptile|upgrade-impact)/|^\\.gitignore$", "workstream": "delivery" },
+    { "pattern": "^platform/shippin/", "workstream": "hosted-service" },
     { "pattern": "^panel/", "workstream": "legacy-panel" },
     { "pattern": "^(cmd|internal)/", "workstream": "cli" },
     { "pattern": "^platform/engine/wasm/", "workstream": "pam" },
