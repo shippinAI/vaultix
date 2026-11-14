@@ -77,6 +77,7 @@ try {
   node("migration-map", "scripts/map-migration.mjs", "--check");
   step("ui-action-standard", process.execPath, ["--experimental-strip-types", "--test", "scripts/ui-action-standard.test.mjs"]);
   step("warp-points", process.execPath, ["--experimental-strip-types", "--test", "scripts/warp-points.test.mjs"]);
+  node("ai-contracts", "scripts/test-ai-contracts.mjs");
   step("ui-command-compatibility", process.execPath, ["--experimental-strip-types", "scripts/test-reference-commands.mjs"]);
   step("login-failure-policy", process.execPath, ["--experimental-strip-types", "scripts/test-login-failure.mjs"]);
   step("owned-source", bash, ["scripts/check-owned.sh"]);
@@ -100,6 +101,7 @@ try {
   node("proxy-boundary", "scripts/test-proxy-boundary.mjs", report.imageId);
   node("provider-import", "scripts/test-provider-import-image.mjs", report.imageId);
   node("assistant", "scripts/test-assistant-image.mjs", report.imageId);
+  node("password-reset", "scripts/test-password-reset-image.mjs", report.imageId);
   node("setup-code", "scripts/test-setup-code.mjs", report.imageId);
   for (const cache of ["dragonfly", "redis"]) node(`admission-${cache}`, "scripts/test-production-admission.mjs", report.imageId, cache);
   if (mode === "--capabilities") {

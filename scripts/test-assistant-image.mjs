@@ -113,6 +113,13 @@ try {
   assert.equal(raw(app, "/api/vx/v1/ai/messages", { method: "POST", token, body: { messages: [{ role: "user", content: "hi" }] } }).status, 400);
   check("with no provider the assistant is off and says where to turn it on");
 
+  phase = "schema";
+  const { schemas } = await api("/api/vx/v1/ai/schema", { token });
+  assert.equal(schemas.connection.$id, "https://vaultix.cloud/schemas/vaultix.ai-connection.v1.schema.json");
+  assert.equal(schemas.persona.$id, "https://vaultix.cloud/schemas/vaultix.ai-persona.v1.schema.json");
+  assert.ok(schemas.connection.properties.kind.enum.includes("huggingface") && schemas.connection.properties.kind.enum.includes("custom"));
+  check("the v1 connection and persona schemas the UI builds its forms from are served to a signed-in person");
+
   phase = "personas";
   const personas = (await api("/api/vx/v1/ai/personas", { token })).personas;
   assert.deepEqual(personas.map(p => `${p.slug}:${p.role}`),

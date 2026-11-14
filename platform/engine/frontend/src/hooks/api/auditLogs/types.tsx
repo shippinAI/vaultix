@@ -832,6 +832,11 @@ interface OrgAdminBypassSSOEvent {
   metadata: Record<string, string>; // no metadata yet
 }
 
+interface IssuePasswordResetLinkEvent {
+  type: EventType.ISSUE_PASSWORD_RESET_LINK;
+  metadata: { userId: string; username: string; origin: "administrator" | "host" };
+}
+
 interface DeviceSessionEvent {
   type:
     | EventType.DEVICE_SESSION_ISSUED
@@ -1077,6 +1082,7 @@ export type Event =
   | DeletePkiCollectionItem
   | OrgAdminAccessProjectEvent
   | OrgAdminBypassSSOEvent
+  | IssuePasswordResetLinkEvent
   | CreateCertificateTemplate
   | UpdateCertificateTemplate
   | GetCertificateTemplate

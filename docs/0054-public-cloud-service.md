@@ -43,6 +43,9 @@ flow creates an instance administrator: it is not a public tenant signup flow.
 | Service operations | Native provisioning, resource quotas, usage metadata, support/operator access and deletion/export lifecycle. The legacy panel is not the permanent service control plane. Control metadata cannot become a second secret-value store. |
 | AI | UI, CLI and MCP use shared authorized domain actions. Clyffy receives references and redacted execution receipts. Codex credentials stay local. Target-only delivery requires the separate workload-bound broker acceptance. |
 
+> Superseded 2026-11-13 by [0125](0125-hosted-control-panel.md): each hosted customer gets their
+> own instance. The paragraph below is kept as the earlier design.
+
 Initially preserve the existing organization-scoped model within one deployment;
 prove its isolation before sharing it with public tenants. Do not introduce the
 old unmerged table-prefix proposal as an isolation guarantee. If capacity or fault

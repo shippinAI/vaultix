@@ -427,6 +427,7 @@ export enum EventType {
   LOAD_PROJECT_KMS_BACKUP = "load-project-kms-backup",
   ORG_ADMIN_ACCESS_PROJECT = "org-admin-accessed-project",
   ORG_ADMIN_BYPASS_SSO = "org-admin-bypassed-sso",
+  ISSUE_PASSWORD_RESET_LINK = "issue-password-reset-link",
   USER_LOGIN = "user-login",
   DEVICE_SESSION_ISSUED = "device-session-issued",
   DEVICE_SESSION_ROTATED = "device-session-rotated",
@@ -3437,6 +3438,15 @@ interface OrgAdminAccessProjectEvent {
 interface OrgAdminBypassSSOEvent {
   type: EventType.ORG_ADMIN_BYPASS_SSO;
   metadata: Record<string, string>; // no metadata yet
+}
+
+interface IssuePasswordResetLinkEvent {
+  type: EventType.ISSUE_PASSWORD_RESET_LINK;
+  metadata: {
+    userId: string;
+    username: string;
+    origin: "administrator" | "host";
+  };
 }
 
 interface UserLoginEvent {
@@ -7267,6 +7277,7 @@ export type Event =
   | LoadProjectKmsBackupEvent
   | OrgAdminAccessProjectEvent
   | OrgAdminBypassSSOEvent
+  | IssuePasswordResetLinkEvent
   | CreateCertificateTemplateEstConfig
   | UpdateCertificateTemplateEstConfig
   | GetCertificateTemplateEstConfig

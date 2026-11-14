@@ -2544,13 +2544,13 @@
       "capabilities": 11,
       "ui": 20,
       "api": 56,
-      "sourceFiles": 682
+      "sourceFiles": 686
     },
     "access": {
       "capabilities": 10,
       "ui": 53,
       "api": 133,
-      "sourceFiles": 1411
+      "sourceFiles": 1414
     },
     "automation": {
       "capabilities": 6,
@@ -2604,19 +2604,19 @@
       "capabilities": 8,
       "ui": 15,
       "api": 2,
-      "sourceFiles": 1526
+      "sourceFiles": 1544
     },
     "experience": {
       "capabilities": 6,
       "ui": 1,
       "api": 2,
-      "sourceFiles": 892
+      "sourceFiles": 893
     }
   },
   "coverage": {
     "uiRoutes": 275,
     "apiOperations": 2324,
-    "sourceFiles": 9814,
+    "sourceFiles": 9840,
     "providerEntries": 187,
     "capabilityRequirements": 86,
     "unclassified": 0

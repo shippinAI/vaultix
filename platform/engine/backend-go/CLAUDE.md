@@ -363,3 +363,10 @@ A persona's model is its pinned `model`, else its provider's model for its tier 
 Memories (`memory.go`, `vx_ai_memories`) reach the prompt as notes; `LooksLikeSecret` refuses
 credential-shaped text, and the built-in `propose_memory` tool only returns a suggestion the
 person accepts in the UI. It is the one tool that is not a warp-point action, and it writes nothing.
+
+AI connections and personas have one v1 schema each (docs/0126) in `internal/services/assistant/spec/schema/`,
+embedded and served to the UI. `spec.Validate*` applies exactly the schema's rules (lengths in characters);
+`assistant.CheckConnection` / `CheckPersona` add the server-only checks. `spec/testdata` fixtures are
+checked by Go (`documents_test.go`) and by Ajv (`scripts/test-ai-contracts.mjs`); change a rule in the
+schema, the Go rules and the fixtures together. Default `PERSONA.md` files are v1 documents (front matter
+without `instructions`, which is the body), read strictly.

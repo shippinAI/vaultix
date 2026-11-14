@@ -1,7 +1,6 @@
 package platform
 
 import (
-	"bytes"
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
@@ -21,8 +20,8 @@ import (
 )
 
 type Options struct {
-	Directory, Project, SiteURL, BuildReceipt, Bundle, Trust, Apply, Environment string
-	Port                                                                         int
+	Directory, Project, SiteURL, BuildReceipt, Bundle, Trust, Apply, Environment, Email string
+	Port, Keep                                                                   int
 	Plan, DiscardWrites                                                          bool
 	ProxyBindings                                                                []string
 }
@@ -54,6 +53,10 @@ type Result struct {
 	// Present only while the running application still requires the first-owner code.
 	SetupCode string `json:"setupCode,omitempty"`
 	SetupURL  string `json:"setupUrl,omitempty"`
+	// Present only on owner-reset-link: a one-use link for an instance administrator.
+	PasswordResetLink *PasswordResetLink `json:"passwordResetLink,omitempty"`
+	// Present only on backup: the verified backup just written.
+	Backup *BackupRecord `json:"backup,omitempty"`
 }
 
 func Execute(ctx context.Context, action string, o Options, progress io.Writer) (Result, error) {
@@ -74,10 +77,10 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 	if len(bindings) != 0 && action != "install" && action != "adopt" {
 		return result, errors.New("--proxy-bind is only for install or adopt; upgrades use the saved listeners")
 	}
-	if action != "install" && action != "upgrade" && action != "status" && action != "recover" && action != "adopt" && action != "rollback" {
-		return result, errors.New("use server install, upgrade, adopt, status, recover or rollback")
+	if action != "install" && action != "upgrade" && action != "status" && action != "recover" && action != "adopt" && action != "rollback" && action != "owner-reset-link" && action != "backup" {
+		return result, errors.New("use server install, upgrade, adopt, status, recover, rollback, backup or owner-reset-link")
 	}
-	if o.Apply != "" && action != "upgrade" || o.DiscardWrites && action != "rollback" || o.Environment != "" && action != "install" && action != "adopt" || (action == "adopt" || action == "status" || action == "rollback") && (o.BuildReceipt != "" || o.Bundle != "" || o.Trust != "" || o.Plan) {
+	if o.Apply != "" && action != "upgrade" || o.DiscardWrites && action != "rollback" || o.Environment != "" && action != "install" && action != "adopt" || o.Email != "" && action != "owner-reset-link" || o.Keep != 0 && action != "backup" || o.Keep < 0 || (action == "adopt" || action == "status" || action == "rollback" || action == "owner-reset-link" || action == "backup") && (o.BuildReceipt != "" || o.Bundle != "" || o.Trust != "" || o.Plan) {
 		return result, errors.New("arguments do not belong to the selected server operation")
 	}
 	root, err := privateDirectory(o.Directory, action == "install" || action == "adopt")
@@ -138,6 +141,32 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 			withSetupCode(ctx, d, root, &result)
 		}
 		return result, nil
+	}
+	if action == "backup" {
+		if s == nil || s.Phase != "ready" {
+			return result, errors.New("the instance has a pending operation; inspect status and recover it first")
+		}
+		if err = d.healthy(ctx, s.Candidate.Image); err != nil {
+			return result, err
+		}
+		backupCtx, cancel := context.WithTimeout(ctx, 30*time.Minute)
+		defer cancel()
+		result = Result{Instance: instance, Operation: s, Ready: true}
+		result.Backup, err = instanceBackup(backupCtx, d, root, s, o.Keep)
+		if err == nil {
+			result.Message = "Backup " + result.Backup.Name + " restored cleanly into an isolated copy and was kept."
+		}
+		return result, err
+	}
+	if action == "owner-reset-link" {
+		if s == nil || s.Phase != "ready" {
+			return result, errors.New("the instance has a pending operation; inspect status and recover it first")
+		}
+		if err = d.healthy(ctx, s.Candidate.Image); err != nil {
+			return result, err
+		}
+		result = Result{Instance: instance, Operation: s, Ready: true}
+		return result, withOwnerResetLink(ctx, d, o.Email, &result)
 	}
 	ctx, cancel := context.WithTimeout(ctx, 30*time.Minute)
 	defer cancel()
@@ -642,50 +671,10 @@ func checkpoint(ctx context.Context, d *Docker, s *State) error {
 	// Every interrupted attempt gets new files and a new salt. No existing backup
 	// is truncated, replaced or removed to make recovery appear successful.
 	name := s.Operation + "-" + randomHex(6) + ".database.age"
-	file, err := os.OpenFile(filepath.Join(d.root, name), os.O_CREATE|os.O_EXCL|os.O_WRONLY, 0600)
-	if err != nil {
-		return err
-	}
-	reader, writer := io.Pipe()
-	result := make(chan error, 1)
-	go func() {
-		err := d.stream(ctx, nil, writer, "exec", s.Database, "pg_dump", "-U", user, "-d", db, "--format=custom", "--no-owner", "--no-acl")
-		writer.CloseWithError(err)
-		result <- err
-	}()
-	err = encryptBackup(file, reader, key)
-	reader.Close()
-	dumpErr := <-result
-	if err == nil {
-		err = dumpErr
-	}
-	if err == nil {
-		err = file.Sync()
-	}
-	closeErr := file.Close()
-	if err == nil {
-		err = closeErr
-	}
-	if err != nil {
+	if s.BackupHash, s.EnvironmentHash, err = d.sealStore(ctx, key, s.Database, user, db, name); err != nil {
 		return err
 	}
 	s.Backup = name
-	s.BackupHash, err = fileDigest(filepath.Join(d.root, name))
-	if err != nil {
-		return err
-	}
-	env, err := privateRead(configPath(d.root, "vaultix.env"), 1024*1024)
-	if err != nil {
-		return err
-	}
-	var sealed bytes.Buffer
-	if err = encryptBackup(&sealed, bytes.NewReader(env), key); err != nil {
-		return err
-	}
-	if err = newFile(filepath.Join(d.root, name+".environment"), sealed.Bytes()); err != nil {
-		return err
-	}
-	s.EnvironmentHash = digest(sealed.Bytes())
 	if err = d.restoreProbe(ctx, s, key); err != nil {
 		return err
 	}

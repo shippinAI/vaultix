@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vaultix.cloud/schemas/vaultix.ai-connection.v1.schema.json",
+  "title": "Vaultix AI connection",
+  "description": "How the instance reaches one AI model provider (docs/0126). Every length is in characters. The credential is write-only: it is encrypted on save and never returned.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "name", "kind", "models"],
+  "properties": {
+    "schemaVersion": { "const": "vaultix.ai-connection.v1" },
+    "name": { "title": "Name", "description": "What administrators call this connection.", "type": "string", "minLength": 1, "maxLength": 64, "pattern": "\\S" },
+    "kind": {
+      "title": "Provider",
+      "enum": ["anthropic", "openai", "bedrock", "vertex", "huggingface", "huggingface-endpoint", "custom"],
+      "description": "anthropic, openai: the vendor API. bedrock, vertex: the cloud's model service. huggingface: Hugging Face Inference Providers through https://router.huggingface.co/v1. huggingface-endpoint: a dedicated Hugging Face Inference Endpoint. custom: any OpenAI Chat Completions or Anthropic Messages endpoint."
+    },
+    "endpoint": {
+      "title": "Endpoint URL",
+      "description": "huggingface-endpoint and custom only. https, or http on loopback or when no key is sent. No credentials, query or fragment.",
+      "type": "string", "maxLength": 512,
+      "pattern": "^https?://[A-Za-z0-9.\\-\\[\\]:]+(/[A-Za-z0-9._~!$&'()*+,;=:@%/\\-]*)?$"
+    },
+    "apiStyle": { "title": "API style", "description": "custom only.", "enum": ["openai-chat", "anthropic-messages"] },
+    "auth": { "$ref": "#/$defs/auth" },
+    "headers": { "title": "Extra headers", "description": "custom only. Non-secret headers sent with every request.", "type": "array", "maxItems": 8, "items": { "$ref": "#/$defs/header" } },
+    "region": { "title": "Region", "description": "bedrock and vertex only.", "type": "string", "minLength": 1, "maxLength": 32 },
+    "cloudProject": { "title": "Google Cloud project", "description": "vertex only.", "type": "string", "pattern": "^[a-z][a-z0-9-]{4,28}[a-z0-9]$" },
+    "billTo": { "title": "Bill to", "description": "huggingface only. The Hugging Face account or organization billed, sent as X-HF-Bill-To. Omit to bill the token's owner.", "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$" },
+    "models": { "$ref": "#/$defs/models" },
+    "timeoutSeconds": { "title": "Timeout (seconds)", "type": "integer", "minimum": 5, "maximum": 120, "default": 60 },
+    "active": { "title": "Use for the assistant", "type": "boolean" },
+    "credential": { "$ref": "#/$defs/credential" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "enum": ["anthropic", "openai", "huggingface", "huggingface-endpoint"] } } },
+      "then": { "properties": { "credential": { "propertyNames": { "const": "apiKey" } } } }
+    },
+    {
+      "if": { "properties": { "kind": { "enum": ["anthropic", "openai"] } } },
+      "then": { "not": { "anyOf": [{ "required": ["endpoint"] }, { "required": ["apiStyle"] }, { "required": ["auth"] }, { "required": ["headers"] }, { "required": ["region"] }, { "required": ["cloudProject"] }, { "required": ["billTo"] }] } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "bedrock" } } },
+      "then": {
+        "required": ["region"],
+        "properties": {
+          "region": { "pattern": "^[a-z]{2}(-[a-z]+)+-[0-9]$" },
+          "credential": { "propertyNames": { "enum": ["accessKeyId", "secretAccessKey", "sessionToken"] }, "dependentRequired": { "accessKeyId": ["secretAccessKey"], "secretAccessKey": ["accessKeyId"] } }
+        },
+        "not": { "anyOf": [{ "required": ["endpoint"] }, { "required": ["apiStyle"] }, { "required": ["auth"] }, { "required": ["headers"] }, { "required": ["cloudProject"] }, { "required": ["billTo"] }] }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "vertex" } } },
+      "then": {
+        "required": ["region", "cloudProject"],
+        "properties": {
+          "region": { "pattern": "^(global|[a-z]+-[a-z]+[0-9])$" },
+          "credential": { "propertyNames": { "const": "serviceAccountJson" } }
+        },
+        "not": { "anyOf": [{ "required": ["endpoint"] }, { "required": ["apiStyle"] }, { "required": ["auth"] }, { "required": ["headers"] }, { "required": ["billTo"] }] }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "huggingface" } } },
+      "then": { "not": { "anyOf": [{ "required": ["endpoint"] }, { "required": ["apiStyle"] }, { "required": ["auth"] }, { "required": ["headers"] }, { "required": ["region"] }, { "required": ["cloudProject"] }] } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "huggingface-endpoint" } } },
+      "then": {
+        "required": ["endpoint"],
+        "properties": { "endpoint": { "pattern": "^https://" } },
+        "not": { "anyOf": [{ "required": ["apiStyle"] }, { "required": ["auth"] }, { "required": ["headers"] }, { "required": ["region"] }, { "required": ["cloudProject"] }, { "required": ["billTo"] }] }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "custom" } } },
+      "then": {
+        "required": ["endpoint", "apiStyle", "auth"],
+        "properties": { "credential": { "propertyNames": { "const": "apiKey" } } },
+        "not": { "anyOf": [{ "required": ["region"] }, { "required": ["cloudProject"] }, { "required": ["billTo"] }] }
+      }
+    },
+    {
+      "if": { "required": ["auth"], "properties": { "auth": { "properties": { "type": { "const": "none" } } } } },
+      "then": { "not": { "required": ["credential"] } }
+    },
+    {
+      "if": {
+        "required": ["endpoint"],
+        "properties": { "endpoint": { "pattern": "^http://", "not": { "pattern": "^http://(127\\.0\\.0\\.1|localhost|\\[::1\\])(:[0-9]+)?(/|$)" } } }
+      },
+      "then": { "required": ["auth"], "properties": { "auth": { "properties": { "type": { "const": "none" } } } } }
+    }
+  ],
+  "$defs": {
+    "modelId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._:/@-]+$" },
+    "models": {
+      "title": "Models",
+      "description": "standard answers by default; fast and deep are used by personas that ask for those tiers and fall back to standard.",
+      "type": "object", "additionalProperties": false, "required": ["standard"],
+      "properties": {
+        "standard": { "$ref": "#/$defs/modelId" },
+        "fast": { "$ref": "#/$defs/modelId" },
+        "deep": { "$ref": "#/$defs/modelId" }
+      }
+    },
+    "auth": {
+      "title": "How the key is sent",
+      "description": "custom only. bearer: Authorization: Bearer <key>. header: the key in a named header. none: no key.",
+      "type": "object", "additionalProperties": false, "required": ["type"],
+      "properties": {
+        "type": { "enum": ["bearer", "header", "none"] },
+        "headerName": { "type": "string", "pattern": "^[a-z0-9-]{1,64}$", "not": { "enum": ["authorization", "cookie", "proxy-authorization", "host", "content-length", "content-type"] } }
+      },
+      "if": { "properties": { "type": { "const": "header" } } },
+      "then": { "required": ["headerName"] },
+      "else": { "not": { "required": ["headerName"] } }
+    },
+    "header": {
+      "type": "object", "additionalProperties": false, "required": ["name", "value"],
+      "properties": {
+        "name": { "type": "string", "pattern": "^[a-z0-9-]{1,64}$", "not": { "enum": ["authorization", "cookie", "proxy-authorization", "x-api-key", "api-key", "host", "content-length", "content-type", "x-hf-bill-to"] } },
+        "value": { "type": "string", "minLength": 1, "maxLength": 256 }
+      }
+    },
+    "credential": {
+      "title": "Key",
+      "description": "Write-only. Which fields apply depends on kind.",
+      "type": "object", "additionalProperties": false, "minProperties": 1,
+      "properties": {
+        "apiKey": { "type": "string", "minLength": 1, "maxLength": 4096 },
+        "accessKeyId": { "type": "string", "pattern": "^[A-Z0-9]{16,128}$" },
+        "secretAccessKey": { "type": "string", "minLength": 1, "maxLength": 4096 },
+        "sessionToken": { "type": "string", "minLength": 1, "maxLength": 4096 },
+        "serviceAccountJson": { "type": "string", "minLength": 1, "maxLength": 16384 }
+      }
+    }
+  }
+}

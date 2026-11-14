@@ -20,6 +20,7 @@ import (
 	"github.com/vaultix-cloud/api/internal/libs/errutil"
 	"github.com/vaultix-cloud/api/internal/libs/requestid"
 	"github.com/vaultix-cloud/api/internal/services/assistant"
+	"github.com/vaultix-cloud/api/internal/services/assistant/spec"
 	"github.com/vaultix-cloud/api/internal/services/auth"
 )
 
@@ -123,6 +124,7 @@ func (h *Handler) Register(router chi.Router, authenticate func(http.Handler) ht
 	router.Group(func(r chi.Router) {
 		r.Use(authenticate)
 		r.Get(Prefix+"/assistant", h.status)
+		r.Get(Prefix+"/schema", h.signedIn(h.schema))
 		r.Post(Prefix+"/messages", h.message)
 		r.Get(Prefix+"/memories", h.signedIn(h.listMemories))
 		r.Post(Prefix+"/memories", h.signedIn(h.createMemory))
@@ -359,6 +361,20 @@ func (h *Handler) providerModels(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeJSON(w, http.StatusOK, map[string]any{"models": models, "listed": true, "message": ""})
+}
+
+// schema returns the v1 connection and persona schemas the UI builds its forms from (docs/0126).
+func (h *Handler) schema(w http.ResponseWriter, _ *http.Request, _ *auth.Identity) {
+	body := map[string]json.RawMessage{}
+	for key, file := range map[string]string{"connection": "vaultix.ai-connection.v1.schema.json", "persona": "vaultix.ai-persona.v1.schema.json"} {
+		raw, err := spec.Schemas.ReadFile("schema/" + file)
+		if err != nil {
+			writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "The AI schema is missing from this build."})
+			return
+		}
+		body[key] = raw
+	}
+	writeJSON(w, http.StatusOK, map[string]any{"schemas": body})
 }
 
 func (h *Handler) listPersonas(w http.ResponseWriter, r *http.Request) {

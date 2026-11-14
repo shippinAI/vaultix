@@ -49,7 +49,9 @@ platform/engine/ai/personas/
   security/PERSONA.md        guard: reviews every proposed change and handoff for risk
 ```
 
-Each `PERSONA.md` has front matter and a body of instructions:
+Each `PERSONA.md` has front matter and a body of instructions. The format is now the
+`vaultix.ai-persona.v1` document in [0126](0126-ai-configuration-schema.md); the example below is the
+earlier one:
 
 ```yaml
 id: vaultix.persona.secrets        # pattern from 0115: vaultix.persona.<slug>
@@ -80,6 +82,9 @@ goes live, under the same names.
    the guard persona's risk note, shown to the person beside the approval.
 
 ## Managed in the panel
+
+> Being rewritten to one schema with guided setup, Hugging Face and Custom connections:
+> [0126](0126-ai-configuration-schema.md). Where the two differ, 0126 wins.
 
 Admin → AI, one place for the instance:
 

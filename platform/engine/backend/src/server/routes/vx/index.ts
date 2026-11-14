@@ -1,5 +1,6 @@
 import { registerProviderImportRouter } from "../v3/external-migration-router";
 import type { TVaultixReferenceOptions } from "../vaultix-shared";
+import { registerAccessRouter } from "./access-router";
 import { registerAssistantRouter } from "./assistant-router";
 import { registerWarpPointRouter } from "./warp-point-router";
 
@@ -9,5 +10,6 @@ import { registerWarpPointRouter } from "./warp-point-router";
 export const registerVxRoutes = async (server: FastifyZodProvider, options: { vaultix: TVaultixReferenceOptions }) => {
   await server.register(registerProviderImportRouter, { prefix: "/connect/imports" });
   await server.register(registerAssistantRouter, { prefix: "/ai" });
+  await server.register(registerAccessRouter, { prefix: "/access" });
   await server.register(registerWarpPointRouter, options.vaultix);
 };
