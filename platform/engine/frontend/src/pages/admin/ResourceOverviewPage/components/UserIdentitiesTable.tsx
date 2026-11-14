@@ -3,6 +3,7 @@ import {
   faCheckCircle,
   faEllipsisV,
   faFilter,
+  faKey,
   faMagnifyingGlass,
   faShieldHalved,
   faTrash,
@@ -58,6 +59,8 @@ import {
   Tooltip
 } from "@app/pages/admin/components/AdminV3Adapters";
 
+import { PasswordResetLinkDialog } from "./PasswordResetLinkDialog";
+
 const UserPanelTable = ({
   handlePopUpOpen,
   users,
@@ -99,6 +102,7 @@ const UserPanelTable = ({
   handlePerPageChange: (newPerPage: number) => void;
 }) => {
   const { subscription } = useSubscription();
+  const [resetFor, setResetFor] = useState<{ id: string; username: string } | null>(null);
 
   const isEmpty = !isPending && totalCount === 0;
   const isTableFiltered = Boolean(adminsOnly);
@@ -246,6 +250,15 @@ const UserPanelTable = ({
                               >
                                 Remove User
                               </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setResetFor({ id, username: username || email || id });
+                                }}
+                                icon={<FontAwesomeIcon icon={faKey} />}
+                              >
+                                Create Password Reset Link
+                              </DropdownMenuItem>
                               {!superAdmin && (
                                 <DropdownMenuItem
                                   icon={<FontAwesomeIcon icon={faUserShield} />}
@@ -320,6 +333,7 @@ const UserPanelTable = ({
           />
         )}
       </div>
+      <PasswordResetLinkDialog user={resetFor} onClose={() => setResetFor(null)} />
     </>
   );
 };

@@ -61,6 +61,7 @@ const workstreamGroups = {
   pam: "pam",
   scanning: "detect",
   "legacy-panel": "operate",
+  "hosted-service": "operate",
 };
 
 // The Vaultix API names its domain in the path (docs/0119): /api/vx/v1/<domain>/...

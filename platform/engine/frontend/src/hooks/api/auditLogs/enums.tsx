@@ -139,6 +139,7 @@ export enum EventType {
   DELETE_PKI_COLLECTION_ITEM = "delete-pki-collection-item",
   ORG_ADMIN_ACCESS_PROJECT = "org-admin-accessed-project",
   ORG_ADMIN_BYPASS_SSO = "org-admin-bypassed-sso",
+  ISSUE_PASSWORD_RESET_LINK = "issue-password-reset-link",
   DEVICE_SESSION_ISSUED = "device-session-issued",
   DEVICE_SESSION_ROTATED = "device-session-rotated",
   DEVICE_SESSION_REUSE = "device-session-reuse",

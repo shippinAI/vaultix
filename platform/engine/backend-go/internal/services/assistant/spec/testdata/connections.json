@@ -1,0 +1,787 @@
+{
+  "cases": [
+    {
+      "name": "anthropic with a key",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Anthropic",
+        "kind": "anthropic",
+        "models": {
+          "standard": "claude-sonnet-5-5"
+        },
+        "credential": {
+          "apiKey": "placeholder-key"
+        }
+      }
+    },
+    {
+      "name": "openai with tiers, timeout and active",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "OpenAI",
+        "kind": "openai",
+        "models": {
+          "standard": "gpt-5",
+          "fast": "gpt-5-mini",
+          "deep": "gpt-5-pro"
+        },
+        "timeoutSeconds": 30,
+        "active": true
+      }
+    },
+    {
+      "name": "bedrock with access keys",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Bedrock",
+        "kind": "bedrock",
+        "region": "us-east-1",
+        "models": {
+          "standard": "anthropic.claude-sonnet-5-5-v1:0"
+        },
+        "credential": {
+          "accessKeyId": "EXAMPLEACCESSKEY1",
+          "secretAccessKey": "placeholder-secret"
+        }
+      }
+    },
+    {
+      "name": "vertex with a service account",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Vertex",
+        "kind": "vertex",
+        "region": "us-east5",
+        "cloudProject": "my-project-123",
+        "models": {
+          "standard": "claude-sonnet-5-5@20261001"
+        },
+        "credential": {
+          "serviceAccountJson": "{\"type\":\"service_account\",\"client_email\":\"vaultix@my-project-123.iam.gserviceaccount.com\",\"private_key\":\"placeholder\"}"
+        }
+      }
+    },
+    {
+      "name": "hugging face billed to an organization",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Hugging Face",
+        "kind": "huggingface",
+        "billTo": "my-org",
+        "models": {
+          "standard": "openai/gpt-oss-120b:fastest",
+          "fast": "meta-llama/Llama-3.1-8B-Instruct:cheapest"
+        },
+        "credential": {
+          "apiKey": "placeholder-token"
+        }
+      }
+    },
+    {
+      "name": "hugging face billed to the token owner",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "HF",
+        "kind": "huggingface",
+        "models": {
+          "standard": "deepseek-ai/DeepSeek-V3-0324:groq"
+        }
+      }
+    },
+    {
+      "name": "hugging face dedicated endpoint",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "HF endpoint",
+        "kind": "huggingface-endpoint",
+        "endpoint": "https://abc123xyz.us-east-1.aws.endpoints.huggingface.cloud",
+        "models": {
+          "standard": "tgi"
+        },
+        "credential": {
+          "apiKey": "placeholder-token"
+        }
+      }
+    },
+    {
+      "name": "custom openai-style gateway with a header",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Company gateway",
+        "kind": "custom",
+        "endpoint": "https://llm.example.com/v1",
+        "apiStyle": "openai-chat",
+        "auth": {
+          "type": "bearer"
+        },
+        "headers": [
+          {
+            "name": "x-team",
+            "value": "platform"
+          }
+        ],
+        "models": {
+          "standard": "company/model-large"
+        },
+        "credential": {
+          "apiKey": "placeholder-key"
+        }
+      }
+    },
+    {
+      "name": "custom anthropic-style with the key in a named header",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Proxy",
+        "kind": "custom",
+        "endpoint": "https://proxy.example.com",
+        "apiStyle": "anthropic-messages",
+        "auth": {
+          "type": "header",
+          "headerName": "x-api-key"
+        },
+        "models": {
+          "standard": "claude-sonnet-5-5"
+        }
+      }
+    },
+    {
+      "name": "custom on loopback http with a key",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "LM Studio",
+        "kind": "custom",
+        "endpoint": "http://localhost:1234/v1",
+        "apiStyle": "openai-chat",
+        "auth": {
+          "type": "bearer"
+        },
+        "models": {
+          "standard": "qwen2.5-7b-instruct"
+        },
+        "credential": {
+          "apiKey": "lm-studio"
+        }
+      }
+    },
+    {
+      "name": "custom on a private http host with no key",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Ollama",
+        "kind": "custom",
+        "endpoint": "http://ollama:11434/v1",
+        "apiStyle": "openai-chat",
+        "auth": {
+          "type": "none"
+        },
+        "models": {
+          "standard": "llama3.1:8b"
+        }
+      }
+    },
+    {
+      "name": "64-character name in non-ASCII letters",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé",
+        "kind": "openai",
+        "models": {
+          "standard": "gpt-5"
+        }
+      }
+    },
+    {
+      "name": "65-character name in non-ASCII letters",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "ééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé",
+        "kind": "openai",
+        "models": {
+          "standard": "gpt-5"
+        }
+      }
+    },
+    {
+      "name": "name of only spaces",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "   ",
+        "kind": "openai",
+        "models": {
+          "standard": "gpt-5"
+        }
+      }
+    },
+    {
+      "name": "wrong schema version",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v2",
+        "name": "OpenAI",
+        "kind": "openai",
+        "models": {
+          "standard": "gpt-5"
+        }
+      }
+    },
+    {
+      "name": "unknown field",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "OpenAI",
+        "kind": "openai",
+        "models": {
+          "standard": "gpt-5"
+        },
+        "temperature": 1
+      }
+    },
+    {
+      "name": "unknown kind",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Azure",
+        "kind": "azure",
+        "models": {
+          "standard": "gpt-5"
+        }
+      }
+    },
+    {
+      "name": "missing models",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "OpenAI",
+        "kind": "openai"
+      }
+    },
+    {
+      "name": "model id with a space",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "OpenAI",
+        "kind": "openai",
+        "models": {
+          "standard": "gpt 5"
+        }
+      }
+    },
+    {
+      "name": "timeout below five seconds",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "OpenAI",
+        "kind": "openai",
+        "models": {
+          "standard": "gpt-5"
+        },
+        "timeoutSeconds": 3
+      }
+    },
+    {
+      "name": "empty credential",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "OpenAI",
+        "kind": "openai",
+        "models": {
+          "standard": "gpt-5"
+        },
+        "credential": {}
+      }
+    },
+    {
+      "name": "anthropic with an endpoint",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Anthropic",
+        "kind": "anthropic",
+        "endpoint": "https://api.example.com",
+        "models": {
+          "standard": "claude-sonnet-5-5"
+        }
+      }
+    },
+    {
+      "name": "anthropic with empty headers",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Anthropic",
+        "kind": "anthropic",
+        "headers": [],
+        "models": {
+          "standard": "claude-sonnet-5-5"
+        }
+      }
+    },
+    {
+      "name": "openai with an aws key",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "OpenAI",
+        "kind": "openai",
+        "models": {
+          "standard": "gpt-5"
+        },
+        "credential": {
+          "accessKeyId": "EXAMPLEACCESSKEY1"
+        }
+      }
+    },
+    {
+      "name": "bedrock without region",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Bedrock",
+        "kind": "bedrock",
+        "models": {
+          "standard": "anthropic.claude-v1"
+        }
+      }
+    },
+    {
+      "name": "bedrock with a malformed region",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Bedrock",
+        "kind": "bedrock",
+        "region": "useast",
+        "models": {
+          "standard": "anthropic.claude-v1"
+        }
+      }
+    },
+    {
+      "name": "bedrock region longer than 32",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Bedrock",
+        "kind": "bedrock",
+        "region": "us-eastwardsandmoreandmoreandmore-1",
+        "models": {
+          "standard": "anthropic.claude-v1"
+        }
+      }
+    },
+    {
+      "name": "bedrock with an api key",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Bedrock",
+        "kind": "bedrock",
+        "region": "us-east-1",
+        "models": {
+          "standard": "anthropic.claude-v1"
+        },
+        "credential": {
+          "apiKey": "placeholder"
+        }
+      }
+    },
+    {
+      "name": "bedrock access key without secret",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Bedrock",
+        "kind": "bedrock",
+        "region": "us-east-1",
+        "models": {
+          "standard": "anthropic.claude-v1"
+        },
+        "credential": {
+          "accessKeyId": "EXAMPLEACCESSKEY1"
+        }
+      }
+    },
+    {
+      "name": "vertex without project",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Vertex",
+        "kind": "vertex",
+        "region": "us-east5",
+        "models": {
+          "standard": "gemini-2.5-pro"
+        }
+      }
+    },
+    {
+      "name": "hugging face with an endpoint",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "HF",
+        "kind": "huggingface",
+        "endpoint": "https://router.huggingface.co/v1",
+        "models": {
+          "standard": "openai/gpt-oss-120b"
+        }
+      }
+    },
+    {
+      "name": "hugging face bill-to with a space",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "HF",
+        "kind": "huggingface",
+        "billTo": "my org",
+        "models": {
+          "standard": "openai/gpt-oss-120b"
+        }
+      }
+    },
+    {
+      "name": "hugging face endpoint over http",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "HF endpoint",
+        "kind": "huggingface-endpoint",
+        "endpoint": "http://localhost:8080",
+        "models": {
+          "standard": "tgi"
+        }
+      }
+    },
+    {
+      "name": "hugging face endpoint without url",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "HF endpoint",
+        "kind": "huggingface-endpoint",
+        "models": {
+          "standard": "tgi"
+        }
+      }
+    },
+    {
+      "name": "custom without api style",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Custom",
+        "kind": "custom",
+        "endpoint": "https://llm.example.com",
+        "auth": {
+          "type": "bearer"
+        },
+        "models": {
+          "standard": "m"
+        }
+      }
+    },
+    {
+      "name": "custom without auth",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Custom",
+        "kind": "custom",
+        "endpoint": "https://llm.example.com",
+        "apiStyle": "openai-chat",
+        "models": {
+          "standard": "m"
+        }
+      }
+    },
+    {
+      "name": "custom header auth without a header name",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Custom",
+        "kind": "custom",
+        "endpoint": "https://llm.example.com",
+        "apiStyle": "openai-chat",
+        "auth": {
+          "type": "header"
+        },
+        "models": {
+          "standard": "m"
+        }
+      }
+    },
+    {
+      "name": "custom bearer with a header name",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Custom",
+        "kind": "custom",
+        "endpoint": "https://llm.example.com",
+        "apiStyle": "openai-chat",
+        "auth": {
+          "type": "bearer",
+          "headerName": "x-key"
+        },
+        "models": {
+          "standard": "m"
+        }
+      }
+    },
+    {
+      "name": "custom key in the cookie header",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Custom",
+        "kind": "custom",
+        "endpoint": "https://llm.example.com",
+        "apiStyle": "openai-chat",
+        "auth": {
+          "type": "header",
+          "headerName": "cookie"
+        },
+        "models": {
+          "standard": "m"
+        }
+      }
+    },
+    {
+      "name": "custom with no auth but a key",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Custom",
+        "kind": "custom",
+        "endpoint": "https://llm.example.com",
+        "apiStyle": "openai-chat",
+        "auth": {
+          "type": "none"
+        },
+        "models": {
+          "standard": "m"
+        },
+        "credential": {
+          "apiKey": "placeholder"
+        }
+      }
+    },
+    {
+      "name": "custom sending a key over plain http",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Custom",
+        "kind": "custom",
+        "endpoint": "http://llm.example.com/v1",
+        "apiStyle": "openai-chat",
+        "auth": {
+          "type": "bearer"
+        },
+        "models": {
+          "standard": "m"
+        }
+      }
+    },
+    {
+      "name": "custom extra authorization header",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Custom",
+        "kind": "custom",
+        "endpoint": "https://llm.example.com",
+        "apiStyle": "openai-chat",
+        "auth": {
+          "type": "none"
+        },
+        "headers": [
+          {
+            "name": "authorization",
+            "value": "x"
+          }
+        ],
+        "models": {
+          "standard": "m"
+        }
+      }
+    },
+    {
+      "name": "custom uppercase header name",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Custom",
+        "kind": "custom",
+        "endpoint": "https://llm.example.com",
+        "apiStyle": "openai-chat",
+        "auth": {
+          "type": "none"
+        },
+        "headers": [
+          {
+            "name": "X-Team",
+            "value": "a"
+          }
+        ],
+        "models": {
+          "standard": "m"
+        }
+      }
+    },
+    {
+      "name": "custom with nine headers",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Custom",
+        "kind": "custom",
+        "endpoint": "https://llm.example.com",
+        "apiStyle": "openai-chat",
+        "auth": {
+          "type": "none"
+        },
+        "headers": [
+          {
+            "name": "a",
+            "value": "1"
+          },
+          {
+            "name": "b",
+            "value": "1"
+          },
+          {
+            "name": "c",
+            "value": "1"
+          },
+          {
+            "name": "d",
+            "value": "1"
+          },
+          {
+            "name": "e",
+            "value": "1"
+          },
+          {
+            "name": "f",
+            "value": "1"
+          },
+          {
+            "name": "g",
+            "value": "1"
+          },
+          {
+            "name": "h",
+            "value": "1"
+          },
+          {
+            "name": "i",
+            "value": "1"
+          }
+        ],
+        "models": {
+          "standard": "m"
+        }
+      }
+    },
+    {
+      "name": "endpoint with a password",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Custom",
+        "kind": "custom",
+        "endpoint": "https://user:pw@llm.example.com",
+        "apiStyle": "openai-chat",
+        "auth": {
+          "type": "none"
+        },
+        "models": {
+          "standard": "m"
+        }
+      }
+    },
+    {
+      "name": "endpoint with a query",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Custom",
+        "kind": "custom",
+        "endpoint": "https://llm.example.com/v1?key=x",
+        "apiStyle": "openai-chat",
+        "auth": {
+          "type": "none"
+        },
+        "models": {
+          "standard": "m"
+        }
+      }
+    },
+    {
+      "name": "a key pasted into an extra header",
+      "valid": false,
+      "schemaValid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Custom",
+        "kind": "custom",
+        "endpoint": "https://llm.example.com",
+        "apiStyle": "openai-chat",
+        "auth": {
+          "type": "none"
+        },
+        "headers": [
+          {
+            "name": "x-team",
+            "value": "Zx8Qp3Lm9Vt2Rk7Wn4Bc6Hd1Fy5Gj0"
+          }
+        ],
+        "models": {
+          "standard": "m"
+        }
+      }
+    },
+    {
+      "name": "vertex key that is not a service account",
+      "valid": false,
+      "schemaValid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-connection.v1",
+        "name": "Vertex",
+        "kind": "vertex",
+        "region": "global",
+        "cloudProject": "my-project-123",
+        "models": {
+          "standard": "gemini-2.5-pro"
+        },
+        "credential": {
+          "serviceAccountJson": "{\"type\":\"authorized_user\"}"
+        }
+      }
+    }
+  ]
+}

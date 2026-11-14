@@ -230,10 +230,10 @@
     },
     {
       "path": "scripts/check-capability-surface.mjs",
-      "blob": "577cc473169f29ddff86e6ed010e066152c3cfb5",
+      "blob": "4874e16a2c83d57f47d15d6c268f161a3db91079",
       "status": "verified",
       "decision": "replace",
-      "scope": "Complete authored script read. Captures generated UI paths and documented live-image API method/path pairs; check modes reject baseline removals and malformed input while allowing additions. Local-only schema URL, redirect denial and bounded fetch. Unit removal/method-change checks and real image baseline checks passed. Surface preservation does not verify schemas, behavior or authorization.",
+      "scope": "Complete authored script read. Captures generated UI paths and documented live-image API method/path pairs; check modes reject baseline removals and malformed input while allowing additions. Local-only schema URL, redirect denial and bounded fetch. Unit removal/method-change checks and real image baseline checks passed. Surface preservation does not verify schemas, behavior or authorization. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0026-capability-preservation.md",
         ".cache/app-image-proof-ChiHy5/result.json",
@@ -267,10 +267,10 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "9795c86f10567c901a913deb3e7c5f4234b6f733",
+      "blob": "c9ea82937e7956083d23e1c74c14dc54e2314106",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete real-image application consumer. Add five-product guidance acceptance after actual sign-in; existing setup, recovery, project/secret mutations, authorization and navigation assertions retained.",
+      "scope": "Read complete real-image application consumer. Add five-product guidance acceptance after actual sign-in; existing setup, recovery, project/secret mutations, authorization and navigation assertions retained. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0116-domain-mesh-and-ui-workbench.md",
         "scripts/test-domain-workbench.mjs",
@@ -285,10 +285,10 @@
     },
     {
       "path": "scripts/map-migration.mjs",
-      "blob": "0c2ca1073dca0f65e46b78a9d9fc0191bbc4f7d8",
+      "blob": "94c05156cd3751947b16c6e6d482c4011a1d0952",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete authored discovery generator read. Uses exact inventory paths/blobs and explicit domain rules, validates prerequisite DAG, detects duplicate paths and unmapped inputs, preserves unassessed migration state, hashes groups, checks drift and rejects intake in CI. Generated inputs excluded to avoid self-reference. Mapping is not module review, an extracted call graph, workflow parity or completed port. Planning checkpoint 2026-10-28: Read complete module-map implementation. Exclude generated capability artifacts to prevent recursive source/hash inputs; retain all existing source coverage and unassessed migration state.",
+      "scope": "Complete authored discovery generator read. Uses exact inventory paths/blobs and explicit domain rules, validates prerequisite DAG, detects duplicate paths and unmapped inputs, preserves unassessed migration state, hashes groups, checks drift and rejects intake in CI. Generated inputs excluded to avoid self-reference. Mapping is not module review, an extracted call graph, workflow parity or completed port. Planning checkpoint 2026-10-28: Read complete module-map implementation. Exclude generated capability artifacts to prevent recursive source/hash inputs; retain all existing source coverage and unassessed migration state. 2026-11-13: re-read the diff; changes are the platform/engine layout only (path patterns, link depth, ee to shippin pattern, layout note). 2026-11-13: authored the hosted-service workstream for platform/shippin (docs/0125); one rule, one group and one target added.",
       "evidence": [
         "docs/0027-native-stack-and-ai-migration.md",
         "docs/migration/README.md",
@@ -303,10 +303,10 @@
     },
     {
       "path": "scripts/test-migration-map.mjs",
-      "blob": "dc89a485b77e7fd262a5f77d662e5e78fa47b349",
+      "blob": "ed44d44755215f7a301e4ca847f8744a7dc2ca6a",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete authored tests read and executed. Covers source coverage/exclusions, target mapping, cyclic/unknown dependencies, missing rules, duplicate workstreams and files, source hash drift and no automatic migration completion. Planning checkpoint 2026-10-28: Read complete migration-map tests; add regression fixture that generated capability artifacts cannot enter source discovery even if input kind is product-code. Existing dependency, coverage and hash-change checks retained.",
+      "scope": "Complete authored tests read and executed. Covers source coverage/exclusions, target mapping, cyclic/unknown dependencies, missing rules, duplicate workstreams and files, source hash drift and no automatic migration completion. Planning checkpoint 2026-10-28: Read complete migration-map tests; add regression fixture that generated capability artifacts cannot enter source discovery even if input kind is product-code. Existing dependency, coverage and hash-change checks retained. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0027-native-stack-and-ai-migration.md",
         "docs/migration/README.md",
@@ -321,10 +321,10 @@
     },
     {
       "path": "docs/migration/workstreams.json",
-      "blob": "d89a4b8b88d6ec4aab0e35a8fe595da1c090997d",
+      "blob": "7cb000d9f20a57624e4ae0ca0e00d08b09c2e0c2",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete workstream DAG and first-match rules; classify the new interaction ledger under native UI ownership. No migration state or acceptance gate is promoted.",
+      "scope": "Read complete workstream DAG and first-match rules; classify the new interaction ledger under native UI ownership. No migration state or acceptance gate is promoted. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison. 2026-11-13: authored the hosted-service workstream for platform/shippin (docs/0125); one rule, one group and one target added.",
       "evidence": [
         "docs/0114-domain-scripted-ui-standard.md",
         "scripts/ui-action-standard.test.mjs",
@@ -334,10 +334,10 @@
     },
     {
       "path": "scripts/audit-codebase.mjs",
-      "blob": "ca636d78d12d3735f613209704194207e919466d",
+      "blob": "7356be4417366ea88f8b228c5214f6c9141f76e7",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete existing inventory script read; retain hash-matched explicit review validation and stale/missing checks. Classify new generated migration maps as generated artifacts instead of product code. Inventory and map checks passed after regeneration. Discovery never grants authorship status. Planning checkpoint 2026-10-28: Read complete inventory implementation. Classify capability generated artifacts as generated, preserving explicit exact-content review accounting. No automatic review-state advancement.",
+      "scope": "Complete existing inventory script read; retain hash-matched explicit review validation and stale/missing checks. Classify new generated migration maps as generated artifacts instead of product code. Inventory and map checks passed after regeneration. Discovery never grants authorship status. Planning checkpoint 2026-10-28: Read complete inventory implementation. Classify capability generated artifacts as generated, preserving explicit exact-content review accounting. No automatic review-state advancement. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0027-native-stack-and-ai-migration.md",
         "docs/migration/README.md",
@@ -414,10 +414,10 @@
     },
     {
       "path": "scripts/check-ui-loading.mjs",
-      "blob": "25dd6a7baba24cbfc56eebe75f601f5f8eac8deb",
+      "blob": "f0e0381eabddddde7be856fcd1b2387f33b598b7",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete browser measurement script reread. Preserve three isolated cold contexts, explicit public config fixtures, layout/artwork checks and diagnostic timing. Add no-Recharts request assertion and tighten decoded limits to 3.25 MB JS/3.8 MB assets. All three final measurements pass. This is local uncompressed fixture evidence, not identity or hosted latency acceptance. The measured reduction after editor isolation tightens decoded budgets to 3.1 MB JavaScript and 3.65 MB total assets; all three final cold contexts pass.",
+      "scope": "Complete browser measurement script reread. Preserve three isolated cold contexts, explicit public config fixtures, layout/artwork checks and diagnostic timing. Add no-Recharts request assertion and tighten decoded limits to 3.25 MB JS/3.8 MB assets. All three final measurements pass. This is local uncompressed fixture evidence, not identity or hosted latency acceptance. The measured reduction after editor isolation tightens decoded budgets to 3.1 MB JavaScript and 3.65 MB total assets; all three final cold contexts pass. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0028-visual-loading-system.md",
         ".cache/bundle-proof-YDXub6/summary.json",
@@ -490,10 +490,10 @@
     },
     {
       "path": "scripts/build-ui-report.mjs",
-      "blob": "0f3906b5fed289660cfefddf462444fc756d9598",
+      "blob": "ba8cb1642bef17a55d9eadd93cf7f6032345edaf",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete new build reporter read and executed. Uses existing Vite config and Rollup emitted metadata, writes ignored source/chunk graphs and entry closure, rejects feature-only modules in static entry dependencies. Explicitly separates source edges/tree shaking, emitted bytes, gzip estimates and browser loads; never collects application values. Current production graph passes; not a complete dependency-cycle or hosted-performance proof. The startup forbidden-module gate now includes Lexical and @lexical after removing an unused optional-editor barrel export.",
+      "scope": "Complete new build reporter read and executed. Uses existing Vite config and Rollup emitted metadata, writes ignored source/chunk graphs and entry closure, rejects feature-only modules in static entry dependencies. Explicitly separates source edges/tree shaking, emitted bytes, gzip estimates and browser loads; never collects application values. Current production graph passes; not a complete dependency-cycle or hosted-performance proof. The startup forbidden-module gate now includes Lexical and @lexical after removing an unused optional-editor barrel export. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0028-visual-loading-system.md",
         ".cache/bundle-proof-YDXub6/summary.json",
@@ -766,10 +766,10 @@
     },
     {
       "path": "scripts/test-core.mjs",
-      "blob": "8249a0fd225a19a7814ae7e5eb9bc1b700eb38f1",
+      "blob": "e5df286a335139b7a79f3370c23eb4cffc7df2d6",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete runner read. Adds first-owner transaction acceptance to the default disposable backend capability matrix on Dragonfly and Redis. Existing container/env isolation and cleanup behavior retained; operator database/configuration is not used.",
+      "scope": "Complete runner read. Adds first-owner transaction acceptance to the default disposable backend capability matrix on Dragonfly and Redis. Existing container/env isolation and cleanup behavior retained; operator database/configuration is not used. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "Implementation commit 6a7340c52b47b4d810b919f8dccb9b1fd9bbef1f",
         "docs/0051-first-owner-transaction.md",
@@ -1082,10 +1082,10 @@
     },
     {
       "path": ".github/workflows/ghcr.yml",
-      "blob": "2696ebc263ef70ac1198b8cda74868884cadc635",
+      "blob": "2c075f0f1235a30aef353d90cd17770ae6c60c9d",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "scripts/test-vaultix-policy.mjs",
@@ -1739,10 +1739,10 @@
     },
     {
       "path": "scripts/test-notification-ui.mjs",
-      "blob": "631086c4bf0107530efb9f80fcf545b7dc0a4a81",
+      "blob": "90467de2e0ab368cc02e1f461f7e28b4c1902321",
       "status": "verified",
       "decision": "modify",
-      "scope": "Authored browser contract checks for modal layout/focus, error-detail lifetime and queueing, notice identity/expiration, clipboard feedback and scoped axe results. Separates fixture evidence, captures failure diagnostics and asserts destructive-warning-independent controls. No real secrets or operator mutation.",
+      "scope": "Authored browser contract checks for modal layout/focus, error-detail lifetime and queueing, notice identity/expiration, clipboard feedback and scoped axe results. Separates fixture evidence, captures failure diagnostics and asserts destructive-warning-independent controls. No real secrets or operator mutation. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0038-notification-dialog-ownership.md",
         ".cache/notification-proof-gVnaex/result.json",
@@ -1752,10 +1752,10 @@
     },
     {
       "path": "scripts/test-notification-matrix.mjs",
-      "blob": "ba338a7d48f400844f3b203ae22e198d9632c9e1",
+      "blob": "ee16f1a2625f647d819a9396b9bc868fd76ae1ff",
       "status": "verified",
       "decision": "modify",
-      "scope": "Authored private Vite fixture server and sequential 15-case browser matrix with failure exit status and per-case evidence. Shuts down the server after completion/failure. This is component verification, separate from packaged backend operation proof.",
+      "scope": "Authored private Vite fixture server and sequential 15-case browser matrix with failure exit status and per-case evidence. Shuts down the server after completion/failure. This is component verification, separate from packaged backend operation proof. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0038-notification-dialog-ownership.md",
         ".cache/notification-proof-gVnaex/result.json",
@@ -1976,10 +1976,10 @@
     },
     {
       "path": "scripts/publish-github.sh",
-      "blob": "5317d57aa1a2f44f630b056cc3a916607c17f4b9",
+      "blob": "c8fdcda8d71c7d4c18fa2b914ec99080a0344567",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete current script read. Existing clean-main, exact destination, ancestry and checked-SHA ordinary push behavior retained. Output now directs operator to local verified builds and accurately identifies manual-only Actions. All 23 actual local Git history/failure fixtures pass. Source publication remains distinct from tested image and deployment.",
+      "scope": "Complete current script read. Existing clean-main, exact destination, ancestry and checked-SHA ordinary push behavior retained. Output now directs operator to local verified builds and accurately identifies manual-only Actions. All 23 actual local Git history/failure fixtures pass. Source publication remains distinct from tested image and deployment. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0039-native-scoped-revocation.md",
         "docs/0041-publication-history.md",
@@ -2218,10 +2218,10 @@
     },
     {
       "path": "scripts/test-secret-dropzone.mjs",
-      "blob": "9ac4719d155ae860243e462ffde6467c95c4ae7d",
+      "blob": "040bcc74857468602530bc3e68098995e4d44a5e",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete runner authored/read. Isolated Vite/browser fixture checks six permission/viewport states, actual CASL evaluation and production controls, named input, visible focus, keyboard order, activation denial, explanatory tooltip, card-contained action bounds and scoped axe with no exclusions. External/API requests blocked; fixture evidence cannot claim provider or real import acceptance.",
+      "scope": "Complete runner authored/read. Isolated Vite/browser fixture checks six permission/viewport states, actual CASL evaluation and production controls, named input, visible focus, keyboard order, activation denial, explanatory tooltip, card-contained action bounds and scoped axe with no exclusions. External/API requests blocked; fixture evidence cannot claim provider or real import acceptance. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0040-native-identity-lifetime-policy.md",
         ".cache/lifetime-go-unit-epoch.jsonl",
@@ -2238,10 +2238,10 @@
     },
     {
       "path": "scripts/test-publication.mjs",
-      "blob": "61bcaf66f94f6bdae0374e236849f1889b68d1ca",
+      "blob": "1dc36c093d0385b30c2406fdb410ed24e3a45adc",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete test harness authored/read. Twenty-three actual-script cases use disposable real Git worktrees and bare remotes, with only GitHub network calls substituted. Covers source preservation, dirty/detached/branch/destination/build-input/operator-file gates, unavailable/unknown/divergent history, explicit-SHA default/push, readonly preflight, concurrent remote race and failure with no forbidden fallback. Uses isolated test Git configuration; no operator credential reads or network publication. Actual live preflight exposed a nonexistent FIPS build prerequisite; corrected to existing core/panel inputs, and fixtures now copy those real repository files. Failed live check never pushed.",
+      "scope": "Complete test harness authored/read. Twenty-three actual-script cases use disposable real Git worktrees and bare remotes, with only GitHub network calls substituted. Covers source preservation, dirty/detached/branch/destination/build-input/operator-file gates, unavailable/unknown/divergent history, explicit-SHA default/push, readonly preflight, concurrent remote race and failure with no forbidden fallback. Uses isolated test Git configuration; no operator credential reads or network publication. Actual live preflight exposed a nonexistent FIPS build prerequisite; corrected to existing core/panel inputs, and fixtures now copy those real repository files. Failed live check never pushed. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0041-publication-history.md",
         ".cache/publication-proof-Ca5zjL/result.json",
@@ -2252,10 +2252,10 @@
     },
     {
       "path": "README.md",
-      "blob": "a9d02c3d08c8c697153d2f6e516a4598c91744e7",
+      "blob": "65e7fc734b2808f5b93a1a39e6f4cb352d174762",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim.",
+      "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "internal/cli/run_cmds_test.go",
         "scripts/test-cli-headless.mjs",
@@ -2528,10 +2528,10 @@
     },
     {
       "path": "scripts/test-secret-paste.mjs",
-      "blob": "303254db93e9891bc8a2628977e0c0243476ce72",
+      "blob": "1aa38af723e6232cd827e6e795c65b8477efc73f",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete authored dependency-free helper test. Eleven cases preserve first-delimiter, suffix, whitespace and multiline behavior while distinguishing explicit empty assignments and ignoring empty delimiters. Runs with pinned CI Node type stripping.",
+      "scope": "Complete authored dependency-free helper test. Eleven cases preserve first-delimiter, suffix, whitespace and multiline behavior while distinguishing explicit empty assignments and ignoring empty delimiters. Runs with pinned CI Node type stripping. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0044-create-secret-workflow.md",
         ".cache/app-image-proof-Wkcm5I/workflow-result.json",
@@ -2674,10 +2674,10 @@
     },
     {
       "path": "scripts/build-self-hosted.mjs",
-      "blob": "d5061953edf59710be4e2886d2985b2cc37bcbeb",
+      "blob": "74cba51d363a6382d4e25825d28267a1e301b854",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete canonical build/acceptance orchestration; insert offline action-contract and existing-reference compatibility gates before image construction. Existing image gates unchanged; current candidate image acceptance remains pending.",
+      "scope": "Read complete canonical build/acceptance orchestration; insert offline action-contract and existing-reference compatibility gates before image construction. Existing image gates unchanged; current candidate image acceptance remains pending. 2026-11-13: account recovery without email (admin reset link, owner recovery from the host, issue-password-reset-link audit event, password-reset image step) authored and re-read. 2026-11-13: authored the AI v1 schema notes (docs/0126): router row, backend-go guidance, and the ai-contracts build step.",
       "evidence": [
         "docs/0114-domain-scripted-ui-standard.md",
         "scripts/ui-action-standard.test.mjs",
@@ -2691,10 +2691,10 @@
     },
     {
       "path": "scripts/test-self-hosted-build.mjs",
-      "blob": "4fe9110742f7657b3575cb22439857500bddec80",
+      "blob": "5d8def08a7c87ce68835fc52e68ed5265dbf4bf7",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/releases-and-updates.md",
         "scripts/test-updates-clyffy-workflow.mjs"
@@ -2702,10 +2702,10 @@
     },
     {
       "path": "scripts/up.sh",
-      "blob": "f9a7b093ebd47961121f3fb0d84c8b29098afbb6",
+      "blob": "34139cfbf41de38a64dfd319ce3943465849fb85",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete current launcher read. Self-hosted setup guidance and local build defaults authored. An explicitly selected image uses no-build so the tested image is not silently rebuilt from ambient source. Docker/Podman fallback and explicit registry pull remain; existing operator env, keys and volumes retained. Actual server deployment remains pending target input; local render evidence does not certify Podman or server operation.",
+      "scope": "Complete current launcher read. Self-hosted setup guidance and local build defaults authored. An explicitly selected image uses no-build so the tested image is not silently rebuilt from ambient source. Docker/Podman fallback and explicit registry pull remain; existing operator env, keys and volumes retained. Actual server deployment remains pending target input; local render evidence does not certify Podman or server operation. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0048-self-hosted-builds.md",
         ".cache/self-hosted-fixtures-WxeKDm/result.json",
@@ -2715,10 +2715,10 @@
     },
     {
       "path": "compose/vaultix.yml",
-      "blob": "506614ac94daf7ceb56039a7d516846728c6da36",
+      "blob": "e27331e48d15ec3a1972108d06ff0976a422226f",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -2732,10 +2732,10 @@
     },
     {
       "path": "scripts/check-owned.sh",
-      "blob": "f1926bb08819dfe8414dcd5f5d54224a9915f451",
+      "blob": "e9a58a9b3e2dec84c5c666276f546119541debb6",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped customer-brand guard requires Vaultix title/artwork and owned canonical image, rejects retired customer names case-insensitively. Executed actual checkout plus isolated copied-source fixture accepting Vaultix/DevSCIF and rejecting four old-brand variants, then recovery. This is branding enforcement, not whole-product authorship or feature parity.",
+      "scope": "Complete file read. Scoped customer-brand guard requires Vaultix title/artwork and owned canonical image, rejects retired customer names case-insensitively. Executed actual checkout plus isolated copied-source fixture accepting Vaultix/DevSCIF and rejecting four old-brand variants, then recovery. This is branding enforcement, not whole-product authorship or feature parity. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "scripts/test-owned-branding.mjs",
         "docs/delivery/implementation.md",
@@ -2776,10 +2776,10 @@
     },
     {
       "path": "docs/capabilities/README.md",
-      "blob": "94297f8290ba724d7ccac28e11211c8b8930583d",
+      "blob": "918155a9832301120b26f35a49f51c220614a780",
       "status": "reviewed",
       "decision": "retain",
-      "scope": "Authored interpretation of capability/source/provider maps, regeneration order, evidence states and scope limits. Discovery does not count as authorship or end-to-end parity. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "scope": "Authored interpretation of capability/source/provider maps, regeneration order, evidence states and scope limits. Discovery does not count as authorship or end-to-end parity. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0049-capability-product-plan.md",
         "node scripts/test-capability-map.mjs",
@@ -2793,10 +2793,10 @@
     },
     {
       "path": "docs/capabilities/catalog.mjs",
-      "blob": "d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7",
+      "blob": "fc1197d55be7b3b76750d031efb6082dbe370731",
       "status": "authored",
       "decision": "retain",
-      "scope": "Authored 86 requirement outcomes and acceptance gates in 13 product groups with phase dependencies and scoped source references. No complete requirement is accepted; existing family labels require module-level investigation. Public comparison sources identify specification questions only.",
+      "scope": "Authored 86 requirement outcomes and acceptance gates in 13 product groups with phase dependencies and scoped source references. No complete requirement is accepted; existing family labels require module-level investigation. Public comparison sources identify specification questions only. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0049-capability-product-plan.md",
         "node scripts/test-capability-map.mjs",
@@ -2865,10 +2865,10 @@
     },
     {
       "path": "scripts/map-capabilities.mjs",
-      "blob": "39e98828c96d2d7ec250ec260ebdd4852c4c5cc9",
+      "blob": "d7841cba3a120029569ab3b3a13272e37c044d29",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Provider discovery now requires mapped source, so empty untracked historical directories cannot inflate a clean-checkout inventory. Existing UI/API baseline and capability requirements are unchanged; discovery remains separate from provider acceptance.",
+      "scope": "Complete file read. Provider discovery now requires mapped source, so empty untracked historical directories cannot inflate a clean-checkout inventory. Existing UI/API baseline and capability requirements are unchanged; discovery remains separate from provider acceptance. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison. 2026-11-13: authored the hosted-service workstream for platform/shippin (docs/0125); one rule, one group and one target added.",
       "evidence": [
         "Implementation commit 6a7340c52b47b4d810b919f8dccb9b1fd9bbef1f",
         "docs/0051-first-owner-transaction.md",
@@ -2881,10 +2881,10 @@
     },
     {
       "path": "scripts/test-capability-map.mjs",
-      "blob": "4a6ea95546b08d6801b428a67753c1be6dea8cbd",
+      "blob": "e5b6f211df84e9533affcef101d816e755847bd5",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Adds a real temporary empty provider directory and proves the discovery output is unchanged; removes only that newly created empty directory. Retains all coverage, read-only preview and baseline checks.",
+      "scope": "Complete file read. Adds a real temporary empty provider directory and proves the discovery output is unchanged; removes only that newly created empty directory. Retains all coverage, read-only preview and baseline checks. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "Implementation commit 6a7340c52b47b4d810b919f8dccb9b1fd9bbef1f",
         "docs/0051-first-owner-transaction.md",
@@ -2894,10 +2894,10 @@
     },
     {
       "path": "scripts/test-capability-explorer.mjs",
-      "blob": "3327ea1a2699a32d8c9fd4ad488a1107259318e4",
+      "blob": "b27f8b5ead081845d62aba1250a1b49e194ce79e",
       "status": "verified",
       "decision": "retain",
-      "scope": "Authored planning-only browser test using real local artifacts and read-only server; checks filter combinations, empty/reset, keyboard dialog/focus, phase/provider views, 320px reflow, six axe states and absence of external or write requests. Records automated findings and manual-review items separately.",
+      "scope": "Authored planning-only browser test using real local artifacts and read-only server; checks filter combinations, empty/reset, keyboard dialog/focus, phase/provider views, 320px reflow, six axe states and absence of external or write requests. Records automated findings and manual-review items separately. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0049-capability-product-plan.md",
         "node scripts/test-capability-map.mjs",
@@ -3042,10 +3042,10 @@
     },
     {
       "path": "scripts/test-native-ui.mjs",
-      "blob": "d07ffe20e2ca1c0e088ebf54b23181d5e8dc6dfc",
+      "blob": "3790319b733ee547b845cae9034d54298b91fd8a",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
@@ -3122,8 +3122,8 @@
     },
     {
       "path": "docs/0051-first-owner-transaction.md",
-      "scope": "Complete document authored and read. Records the first-owner transaction boundary, preserved contracts, completed scoped evidence and unresolved external/migration/fixture-reliability gates.",
-      "blob": "a891cb926557f65c6474f5d50ad6fc4b550fab11",
+      "scope": "Complete document authored and read. Records the first-owner transaction boundary, preserved contracts, completed scoped evidence and unresolved external/migration/fixture-reliability gates. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
+      "blob": "5ff3f75044df30fbcbc9d55df8a71fdff14bdee6",
       "status": "verified",
       "decision": "modify",
       "evidence": [
@@ -3215,10 +3215,10 @@
     },
     {
       "path": "scripts/test-learning-content.mjs",
-      "blob": "f1bd3786eea1aa2dda6482b645f0f4c6a080b98d",
+      "blob": "dc7029ac338d70ff9a7ae8128b4f416355f0b5ae",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim.",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0052-learning-and-upload-integration.md",
         "scripts/test-learning-content.mjs",
@@ -3247,10 +3247,10 @@
     },
     {
       "path": "scripts/test-guided-interactions.mjs",
-      "blob": "623c7244b9ef6e616eaea467805e8dfe4971fcc0",
+      "blob": "5b707a9e6510abaacb66bece6615a4545220e837",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Scoped acceptance passed on 217aa3db: real create/update after guide use, no lesson mutations, nested keyboard focus, retained inputs, recovery and narrow/reduced-motion scans. Existing packaged native UI suite also passed. Not complete environment-domain migration, manual assistive-technology acceptance or all-UI conformance.",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Scoped acceptance passed on 217aa3db: real create/update after guide use, no lesson mutations, nested keyboard focus, retained inputs, recovery and narrow/reduced-motion scans. Existing packaged native UI suite also passed. Not complete environment-domain migration, manual assistive-technology acceptance or all-UI conformance. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0053-authenticated-environment-teaching.md",
         "scripts/test-guidance-contract.mjs",
@@ -3264,10 +3264,10 @@
     },
     {
       "path": "scripts/test-guidance-contract.mjs",
-      "blob": "aab4dea89720043c0e1ac7d45641ff9b44cadf85",
+      "blob": "7153b39187db20806420139226829d2faed4eb61",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Scoped acceptance passed on 217aa3db: real create/update after guide use, no lesson mutations, nested keyboard focus, retained inputs, recovery and narrow/reduced-motion scans. Existing packaged native UI suite also passed. Not complete environment-domain migration, manual assistive-technology acceptance or all-UI conformance.",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Scoped acceptance passed on 217aa3db: real create/update after guide use, no lesson mutations, nested keyboard focus, retained inputs, recovery and narrow/reduced-motion scans. Existing packaged native UI suite also passed. Not complete environment-domain migration, manual assistive-technology acceptance or all-UI conformance. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0053-authenticated-environment-teaching.md",
         "scripts/test-guidance-contract.mjs",
@@ -3281,10 +3281,10 @@
     },
     {
       "path": "docs/0054-public-cloud-service.md",
-      "blob": "73f8c8faa8a9569763569bdee7cf303f715a5ef6",
+      "blob": "4a6669cb2a13b927f799322ae94dcd4326b66f5d",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored public service boundaries, eight explicitly open release gates, implementation sequence and limits of local build evidence. Requirements only; no cloud readiness or performance acceptance claimed.",
+      "scope": "Authored public service boundaries, eight explicitly open release gates, implementation sequence and limits of local build evidence. Requirements only; no cloud readiness or performance acceptance claimed. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison. 2026-11-13: authored the pointer marking the shared-deployment paragraph superseded by 0125.",
       "evidence": [
         "docs/0054-public-cloud-service.md",
         ".cache/public-cloud-plan/.cache/cloud-plan-proof/result.json"
@@ -3308,10 +3308,10 @@
     },
     {
       "path": "docs/0055-encrypted-recovery.md",
-      "blob": "c1088631dec72a019648a12c1b1b00d622bc4e6e",
+      "blob": "444f6bd6a662e47af3f5aa07e39304f5cba5eb87",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored reproducible recovery acceptance scope, implementation boundaries, key compatibility and explicit public-cloud gaps. Not a production backup runbook or complete CLOUD-03 acceptance.",
+      "scope": "Authored reproducible recovery acceptance scope, implementation boundaries, key compatibility and explicit public-cloud gaps. Not a production backup runbook or complete CLOUD-03 acceptance. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0055-encrypted-recovery.md",
         ".cache/encrypted-recovery/.cache/self-hosted-fixtures-irMiyC/result.json",
@@ -3349,10 +3349,10 @@
     },
     {
       "path": "docs/0056-machine-tenant-isolation.md",
-      "blob": "46314a79f28355c47d212c681ef9f8bd2b7d053f",
+      "blob": "b49d0167d1786c665bbe56cf435701b0256bba28",
       "status": "verified",
       "decision": "modify",
-      "scope": "Authored scoped image acceptance, shared test-harness ownership, traced native authority behavior and remaining public-cloud enrollment/isolation requirements. Does not claim human tenant signup, Nomen wiring, full parity or production load acceptance. Integrated ba809e15 standalone acceptance passes, including real browser, Dragonfly/Redis, recovery and tenant-isolation checks. See 0057 for exact evidence and remaining gaps.",
+      "scope": "Authored scoped image acceptance, shared test-harness ownership, traced native authority behavior and remaining public-cloud enrollment/isolation requirements. Does not claim human tenant signup, Nomen wiring, full parity or production load acceptance. Integrated ba809e15 standalone acceptance passes, including real browser, Dragonfly/Redis, recovery and tenant-isolation checks. See 0057 for exact evidence and remaining gaps. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0056-machine-tenant-isolation.md",
         ".cache/tenant-isolation/.cache/self-hosted-fixtures-6H6P4l/result.json",
@@ -3451,10 +3451,10 @@
     },
     {
       "path": "docs/0057-learning-context-integration.md",
-      "blob": "2b876e156f81428fbdcefaabfe7900347dd6782d",
+      "blob": "d57522d0db45be83d4966b98ec59c0d013e339aa",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim. Integrated ba809e15 standalone acceptance passes, including real browser, Dragonfly/Redis, recovery and tenant-isolation checks. See 0057 for exact evidence and remaining gaps.",
+      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim. Integrated ba809e15 standalone acceptance passes, including real browser, Dragonfly/Redis, recovery and tenant-isolation checks. See 0057 for exact evidence and remaining gaps. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0057-learning-context-integration.md",
         "platform/engine/backend/src/server/routes/vaultix-learning.test.ts",
@@ -3561,10 +3561,10 @@
     },
     {
       "path": "docs/0048-self-hosted-builds.md",
-      "blob": "93d76832003ad3d682ce4286756f36b4dc716c84",
+      "blob": "4a8eaf1d512cecd80e9734f34e17d7eae4cb04d3",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete document read. Existing delivery and historical evidence retained; added mandatory proxy gate and deployment migration cross-reference. No change to prior acceptance scope. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
+      "scope": "Complete document read. Existing delivery and historical evidence retained; added mandatory proxy gate and deployment migration cross-reference. No change to prior acceptance scope. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "platform/engine/backend/src/server/plugins/ip.test.ts",
@@ -3756,10 +3756,10 @@
     },
     {
       "path": "scripts/test-login-failure.mjs",
-      "blob": "09e59d34dad9500333a4ca70c02307a769d2c755",
+      "blob": "a4aa4b2983a43084117c9c44c1982fc28d322411",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060.",
+      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0060-login-recovery.md",
         "scripts/test-login-failure.mjs",
@@ -3832,10 +3832,10 @@
     },
     {
       "path": "docs/0061-native-permission-authority.md",
-      "blob": "eb8a5a63df80c4a800866cf5c866832f785f066b",
+      "blob": "cac3ba615a94d3a153767a5561feee0c7d5f82c6",
       "status": "authored",
       "decision": "retain",
-      "scope": "Authored implementation packet, explicit migration prerequisite, focused evidence and unclosed native cutover/provider/identity boundaries.",
+      "scope": "Authored implementation packet, explicit migration prerequisite, focused evidence and unclosed native cutover/provider/identity boundaries. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0061-native-permission-authority.md",
         ".cache/native-permission-authority/.cache/self-hosted-build-4fon0d/result.json",
@@ -3939,10 +3939,10 @@
     },
     {
       "path": "scripts/test-sso-policy-parity.mjs",
-      "blob": "1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0",
+      "blob": "ec02169f318157562eda19a7827f322ab97bc4b5",
       "status": "verified",
       "decision": "replace",
-      "scope": "Author explicit comparison of the shared native bypass vectors against installed CASL subject-type evaluation, preserving inverted-rule priority. Built-in admin projection limited to SSO bypass; not full role parity. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
+      "scope": "Author explicit comparison of the shared native bypass vectors against installed CASL subject-type evaluation, preserving inverted-rule priority. Built-in admin projection limited to SSO bypass; not full role parity. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0062-native-sso-enforcement.md",
         ".cache/native-sso-policy/.cache/self-hosted-build-JXWygI/result.json",
@@ -4750,10 +4750,10 @@
     },
     {
       "path": "docs/0069-execution-goal.md",
-      "blob": "8b4f4ac7d5cc08d2d79b3f2d0dc696b9dc545f2a",
+      "blob": "843815cea132a6798dea20cb48ad8d648494d68a",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Reviewed added execution-plan cross-reference and compatibility with existing documented scope. This change authors documentation only and does not renew previous runtime test receipts or imply whole-product authorship.",
+      "scope": "Reviewed added execution-plan cross-reference and compatibility with existing documented scope. This change authors documentation only and does not renew previous runtime test receipts or imply whole-product authorship. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0076-recorded-workflows-and-visible-assist.md",
         "docs/0024-interaction-and-teaching-system.md",
@@ -4860,10 +4860,10 @@
     },
     {
       "path": ".ai/contexts.json",
-      "blob": "8540ab57e981442f5083f752e6b661e66e312316",
+      "blob": "1d12d1c1779cff8d9158cca44ca5ce63f0854c7b",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete context router and schema. Add Storybook folder grounding and 0116 mesh architecture to interaction context, preserving runtime admission gates. Context resolution verified; no product runtime or journal schema change.",
+      "scope": "Read complete context router and schema. Add Storybook folder grounding and 0116 mesh architecture to interaction context, preserving runtime admission gates. Context resolution verified; no product runtime or journal schema change. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0116-domain-mesh-and-ui-workbench.md",
         "node scripts/ai-journal.mjs context platform/engine/frontend/.storybook"
@@ -4955,10 +4955,10 @@
     },
     {
       "path": "scripts/ai-journal.test.mjs",
-      "blob": "091d95b9c26ee7de8ceccff9a74fb6d1cab6dcf1",
+      "blob": "c7de74158d058d9820f8c4f53ccb7990e3dcd856",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         ".ai/README.md",
         ".ai/references/skill-evaluation.md",
@@ -4979,10 +4979,10 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "d93551779a76f892f2eff3861510c866642b65bd",
+      "blob": "5dcc86fc085a4ee794fd8c9cb5830d0c954d21ee",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete merged router including invite-only, early-access and lifecycle corrections. Add domain-event routing while preserving all authority and release boundaries.",
+      "scope": "Read complete merged router including invite-only, early-access and lifecycle corrections. Add domain-event routing while preserving all authority and release boundaries. 2026-11-13: re-read the diff; changes are the platform/engine layout only (path patterns, link depth, ee to shippin pattern, layout note). 2026-11-13: authored the hosted-instance note and router row for docs/0125. 2026-11-13: authored the AI v1 schema notes (docs/0126): router row, backend-go guidance, and the ai-contracts build step.",
       "evidence": [
         "docs/0114-domain-scripted-ui-standard.md",
         "scripts/ui-action-standard.test.mjs",
@@ -5011,10 +5011,10 @@
     },
     {
       "path": ".ai/references/verification.md",
-      "blob": "5f9c13665adf98e767834958bb2c553dc48946eb",
+      "blob": "4e57f387d23558d0a05eba733db556d99a58b256",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Authored acceptance summary binds exact AI-tooling source, scoped tests, canonical image identity/layer equality and remaining limits. Not a claim of product behavior changes or independent skill evaluation.",
+      "scope": "Authored acceptance summary binds exact AI-tooling source, scoped tests, canonical image identity/layer equality and remaining limits. Not a claim of product behavior changes or independent skill evaluation. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "scripts/ai-journal.test.mjs",
         ".ai/references/skill-evaluation.md",
@@ -5082,10 +5082,10 @@
     },
     {
       "path": "scripts/check-org-mfa-ui.mjs",
-      "blob": "ec7ca020b9d7a9c423a124b35cde0569a8747dfb",
+      "blob": "7a7681c53d02e06ad2426e9c70437f72aca90353",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file authored: portable full frontend TypeScript and scoped MFA ESLint verification; propagate command failures. Scoped GOV-UI-01 canonical application acceptance passed; see 0072 for fixture/live distinctions and remaining limitations.",
+      "scope": "Complete file authored: portable full frontend TypeScript and scoped MFA ESLint verification; propagate command failures. Scoped GOV-UI-01 canonical application acceptance passed; see 0072 for fixture/live distinctions and remaining limitations. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0071-devscif-governance-experience.md",
         "docs/0072-governance-mfa-verification.md"
@@ -5103,20 +5103,20 @@
     },
     {
       "path": "docs/0072-governance-mfa-verification.md",
-      "blob": "4ecb58bfb47b98af78f635e01a96da3d6285222e",
+      "blob": "3f9f89976cc17c2188094941f3fa1dcd744680b9",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete receipt summary authored and reviewed against exact canonical build and browser outcomes; no complete accessibility, live provider or DevSCIF parity claim.",
+      "scope": "Complete receipt summary authored and reviewed against exact canonical build and browser outcomes; no complete accessibility, live provider or DevSCIF parity claim. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0071-devscif-governance-experience.md"
       ]
     },
     {
       "path": "docs/0073-native-cli-domain-and-capabilities.md",
-      "blob": "ecb601f866deab2bd1240d7b70267e6053eea5ce",
+      "blob": "d551d5ced56bf9e3f3c884e779b36e0b30be1f6f",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0074-built-in-and-federated-identity.md",
         "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
@@ -5255,10 +5255,10 @@
     },
     {
       "path": "docs/auth/nomen-execution-plan.md",
-      "blob": "8517686b74bdd00a5751bba7b675a886381132a1",
+      "blob": "d7b4591388b259ce7aba7741f0e373c15c40a558",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0074-built-in-and-federated-identity.md",
         "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
@@ -5266,10 +5266,10 @@
     },
     {
       "path": "docs/auth/nomen-execution-sources.json",
-      "blob": "a00d975e35cfa84afc270d30ea768f0256da99b6",
+      "blob": "98d1659d4ff700f361ac83eae723e0cdb33c3829",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored researched AUTH-03..06 dependency/gap plan and exact scoped source grounding. No existing domain authorship or parity upgrade.",
+      "scope": "Authored researched AUTH-03..06 dependency/gap plan and exact scoped source grounding. No existing domain authorship or parity upgrade. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/auth/nomen-execution-plan.md",
         "docs/auth/nomen-execution-sources.json"
@@ -5277,10 +5277,10 @@
     },
     {
       "path": "docs/auth/nomen-protocol-evidence.md",
-      "blob": "db6a421f6b22219fc9ee00b41fa304f44111c634",
+      "blob": "fd36cb4dd46ce218c92977c71212ca204c3f63b9",
       "status": "authored",
       "decision": "modify",
-      "scope": "Reviewed scoped protocol evidence and exact limitations; no additional runtime acceptance.",
+      "scope": "Reviewed scoped protocol evidence and exact limitations; no additional runtime acceptance. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/auth/nomen-protocol-evidence.md"
       ]
@@ -5332,10 +5332,10 @@
     },
     {
       "path": "docs/auth/nomen-binding-lifecycle.md",
-      "blob": "f9ce53ec60fe438b70244fb5f3607430130271bf",
+      "blob": "c41f6b572c6e668c5179918e90de6f35f924f26e",
       "status": "verified",
       "decision": "modify",
-      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
@@ -5540,30 +5540,30 @@
     },
     {
       "path": "docs/0016-native-vaultix.md",
-      "blob": "62c964690325dcc3a2a747712ec65b95daa7689c",
+      "blob": "c3d88e207a6a59e7878f47d30e7d02c9b7f6a828",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0074-built-in-and-federated-identity.md"
       ]
     },
     {
       "path": "docs/0027-native-stack-and-ai-migration.md",
-      "blob": "3de39fe6187d38f4386e3e9d8c8841febb5dc2da",
+      "blob": "ec84d323fb48e79d61a63971fdb887c537143e84",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0074-built-in-and-federated-identity.md"
       ]
     },
     {
       "path": "docs/0074-built-in-and-federated-identity.md",
-      "blob": "8287dc69a039450e46be68a9a33ce13152c7d286",
+      "blob": "9718df70653e3c52d08839687dc51d24fdb3085f",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0074-built-in-and-federated-identity.md",
         "docs/0113-vaultix-identity-execution.md",
@@ -6052,10 +6052,10 @@
     },
     {
       "path": "scripts/verify-delivery-destination-store.mjs",
-      "blob": "aa7b03b2779df4ef9b669f3010402463fe2772d9",
+      "blob": "894126881a4a0dec6c64a6fb5e010d783784b67d",
       "status": "authored",
       "decision": "modify",
-      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image passed all 16 gates plus four fresh native audit checks and all 16 destination scenarios. A disposable mutation proved the actual socket-close assertion detects missing destruction.",
+      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image passed all 16 gates plus four fresh native audit checks and all 16 destination scenarios. A disposable mutation proved the actual socket-close assertion detects missing destruction. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/auth/device-event-delivery.md",
         "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
@@ -6088,10 +6088,10 @@
     },
     {
       "path": "scripts/verify-device-source-store.mjs",
-      "blob": "98af830a8769af8a178d26b6e8fbff235e4beee8",
+      "blob": "d2d489e9f026910d72439007e1bdc9effa66344f",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored immutable versioned session-origin source context and transactional canonical/account-cascade deletion capture. Verified 11 real PostgreSQL source scenarios, existing session compatibility/migration/binary rollback, 901 native unit/race outcomes, 25 native session integration/race outcomes, 132 native secret-service outcomes, clean Go/TS lint and full TypeScript check. Exact canonical image passed 16 gates, four native audit checks and destination compatibility. Legacy uncertainty remains explicit; worker delivery, current-request provenance, recipient preparation, public APIs/CLI and full identity parity remain open.",
+      "scope": "Authored immutable versioned session-origin source context and transactional canonical/account-cascade deletion capture. Verified 11 real PostgreSQL source scenarios, existing session compatibility/migration/binary rollback, 901 native unit/race outcomes, 25 native session integration/race outcomes, 132 native secret-service outcomes, clean Go/TS lint and full TypeScript check. Exact canonical image passed 16 gates, four native audit checks and destination compatibility. Legacy uncertainty remains explicit; worker delivery, current-request provenance, recipient preparation, public APIs/CLI and full identity parity remain open. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/auth/device-event-delivery.md",
         "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
@@ -6099,10 +6099,10 @@
     },
     {
       "path": "scripts/verify-device-session-store.mjs",
-      "blob": "f0e117b3b457bf41accadcddddf2ee597bd34fdf",
+      "blob": "b110d5d5892f64f211cf1c85d16e1aa52ce4ea54",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open.",
+      "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/auth/device-event-delivery.md",
         "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
@@ -6167,10 +6167,10 @@
     },
     {
       "path": "scripts/verify-device-delivery-store.mjs",
-      "blob": "388bb59be6349cb87d515d6cd5640b9f865a8e4e",
+      "blob": "4daa6bacc9f8c5cf60a564b0ac54ed6c3b98d868",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open.",
+      "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/auth/device-event-delivery.md",
         "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
@@ -6308,10 +6308,10 @@
     },
     {
       "path": "scripts/verify-device-event-preparation.mjs",
-      "blob": "3192db0dafe3a0216919ea1d24b0676c2eec5463",
+      "blob": "3dce1f9231e971a25a3e4baf49c2ac2d711a7d8f",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
+      "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/auth/device-event-preparation.md",
         "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
@@ -6321,10 +6321,10 @@
     },
     {
       "path": "platform/engine/backend/src/shippin/services/audit-log/audit-log-types.ts",
-      "blob": "16ca3e1bf3c644d3de521c8152f3eacb0811bb9c",
+      "blob": "73092db031cea88f28afbcf7039dfb5a532c879e",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
+      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios. 2026-11-13: account recovery without email (admin reset link, owner recovery from the host, issue-password-reset-link audit event, password-reset image step) authored and re-read.",
       "evidence": [
         "docs/auth/device-event-preparation.md",
         "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
@@ -6332,30 +6332,30 @@
     },
     {
       "path": "platform/engine/frontend/src/hooks/api/auditLogs/enums.tsx",
-      "blob": "12d9d40428379cd13667b7d437d3d0d4f4a99821",
+      "blob": "5114aa511b607fbbb1af1c27000399b251e09c84",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
+      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios. 2026-11-13: account recovery without email (admin reset link, owner recovery from the host, issue-password-reset-link audit event, password-reset image step) authored and re-read.",
       "evidence": [
         "docs/auth/device-event-preparation.md"
       ]
     },
     {
       "path": "platform/engine/frontend/src/hooks/api/auditLogs/constants.tsx",
-      "blob": "6ecbc1fc897d2a58f03f3ec7babce3f22f98a8ff",
+      "blob": "f8063c502d321e0a0901531362f986a36f75f667",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
+      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios. 2026-11-13: account recovery without email (admin reset link, owner recovery from the host, issue-password-reset-link audit event, password-reset image step) authored and re-read.",
       "evidence": [
         "docs/auth/device-event-preparation.md"
       ]
     },
     {
       "path": "platform/engine/frontend/src/hooks/api/auditLogs/types.tsx",
-      "blob": "6fb87a6331adad0bfb7b8e3f8a00ff2dab803989",
+      "blob": "1f465f83304453ade627a8ff2d7250035e3237e4",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
+      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios. 2026-11-13: account recovery without email (admin reset link, owner recovery from the host, issue-password-reset-link audit event, password-reset image step) authored and re-read.",
       "evidence": [
         "docs/auth/device-event-preparation.md"
       ]
@@ -6407,10 +6407,10 @@
     },
     {
       "path": "scripts/verify-device-event-dispatch.mjs",
-      "blob": "94f1194c2ceee934c89f1b7dfc929a82de9e3b6d",
+      "blob": "1a5ca58bcd62d60e6ae7cbfe4000e5cd6ba72127",
       "status": "authored",
       "decision": "modify",
-      "scope": "Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open. Scoped recorded-audit acceptance authorship: cancellation-aware one-connection PostgreSQL transactions, ClickHouse abort propagation and durable filtered fanout pages. All 88 integration cases, 122 audit/SMTP units, two negative controls and backend static checks passed. Canonical image passed all 16 gates, 88 recorded-audit/dispatch/preparation cases, 16 destination compatibility cases and four native audit checks. Worker scheduling, source/preparation cancellation, full shutdown, operator repair and public login remain open. Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open.",
+      "scope": "Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open. Scoped recorded-audit acceptance authorship: cancellation-aware one-connection PostgreSQL transactions, ClickHouse abort propagation and durable filtered fanout pages. All 88 integration cases, 122 audit/SMTP units, two negative controls and backend static checks passed. Canonical image passed all 16 gates, 88 recorded-audit/dispatch/preparation cases, 16 destination compatibility cases and four native audit checks. Worker scheduling, source/preparation cancellation, full shutdown, operator repair and public login remain open. Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/auth/device-event-dispatch.md",
         "docs/auth/recorded-audit-acceptance.md",
@@ -6507,10 +6507,10 @@
     },
     {
       "path": "platform/engine/backend/src/server/routes/index.ts",
-      "blob": "8f9434ef753c5e0e2a40ceef3b9e60e93f9edb52",
+      "blob": "684b5b248f11157a58f5fb7d2f1aa070c9eb67e9",
       "status": "authored",
       "decision": "modify",
-      "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim. Go dispatch waits for the sidecar and skips the TypeScript reference audit.",
+      "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim. Go dispatch waits for the sidecar and skips the TypeScript reference audit. 2026-11-13: account recovery without email (admin reset link, owner recovery from the host, issue-password-reset-link audit event, password-reset image step) authored and re-read. 2026-11-13: authored the recordResetLinkIssued wiring to the audit log; only those lines changed.",
       "evidence": [
         "docs/auth/device-event-worker.md",
         "docs/0110-invite-only-instance.md",
@@ -7205,10 +7205,10 @@
     },
     {
       "path": "scripts/test-mcp-app-image.mjs",
-      "blob": "3a33449fade566a9f1fe29cd3a6e6ab90ce7f091",
+      "blob": "2a87c1a0701456687192e50ac0961681627e7054",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open. Corrected the test HTTP client to omit JSON Content-Type on bodyless DELETE; actual CLI/two-replica/native-view proof passes. Product/CLI source is unchanged.",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open. Corrected the test HTTP client to omit JSON Content-Type on bodyless DELETE; actual CLI/two-replica/native-view proof passes. Product/CLI source is unchanged. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/mcp-embedded-apps.md",
         "scripts/test-mcp-app.mjs",
@@ -7219,10 +7219,10 @@
     },
     {
       "path": "scripts/test-mcp-app.mjs",
-      "blob": "f0a036ee1f8d24085618585ee7314746f91db451",
+      "blob": "fc50f57da98c2239873ba5b3b54cbee08bb37963",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/mcp-embedded-apps.md",
         "scripts/test-mcp-app.mjs",
@@ -7233,10 +7233,10 @@
     },
     {
       "path": "docs/0075-usable-secrets-and-update-delivery.md",
-      "blob": "12e2229ee68c08c769ecbc71d1fa907bf9f806a0",
+      "blob": "c16007173ec1b09d7c70fbb0d84c3f6d63d547b4",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored delivery implementation specification and independent acceptance matrix:24 dependency-ordered tasks/46 cases, including P00 repair for observed concurrent85361217 source regression. Documentation only; new auth/routes/installer/manual evidence designs are planned, not implemented. Existing product/runtime acceptance remains open.",
+      "scope": "Authored delivery implementation specification and independent acceptance matrix:24 dependency-ordered tasks/46 cases, including P00 repair for observed concurrent85361217 source regression. Documentation only; new auth/routes/installer/manual evidence designs are planned, not implemented. Existing product/runtime acceptance remains open. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0075-usable-secrets-and-update-delivery.md",
         "docs/delivery/implementation.md",
@@ -7246,10 +7246,10 @@
     },
     {
       "path": "docs/delivery/implementation.md",
-      "blob": "ca7304c778617e8b18c43a9a31aa9c9bf525e225",
+      "blob": "efb93e13b9cbc59978f2b27d5bed72c229b71c41",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment. Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment. Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0111-native-cli-installation.md",
         "internal/release/install_linux_test.go",
@@ -7276,10 +7276,10 @@
     },
     {
       "path": "scripts/test-owned-branding.mjs",
-      "blob": "db0fd0ac943943212fe2245745433958dd6e0572",
+      "blob": "129f04537775b44c618f4818c6be21d660e76d21",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped customer-brand guard requires Vaultix title/artwork and owned canonical image, rejects retired customer names case-insensitively. Executed actual checkout plus isolated copied-source fixture accepting Vaultix/DevSCIF and rejecting four old-brand variants, then recovery. This is branding enforcement, not whole-product authorship or feature parity.",
+      "scope": "Complete file read. Scoped customer-brand guard requires Vaultix title/artwork and owned canonical image, rejects retired customer names case-insensitively. Executed actual checkout plus isolated copied-source fixture accepting Vaultix/DevSCIF and rejecting four old-brand variants, then recovery. This is branding enforcement, not whole-product authorship or feature parity. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "scripts/test-owned-branding.mjs",
         "docs/delivery/implementation.md",
@@ -7289,10 +7289,10 @@
     },
     {
       "path": ".gitignore",
-      "blob": "9be9bbac89c574038e2e08337ea977ab9171008b",
+      "blob": "1225c250c5b16ada35e1a2c720eae9a21d207556",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0077-owned-runtime-dependencies.md",
         "scripts/test-owned-dependencies.mjs",
@@ -7317,10 +7317,10 @@
     },
     {
       "path": "docs/0024-interaction-and-teaching-system.md",
-      "blob": "7e0eced5c8bf69db04663793fbcc85cb105d7111",
+      "blob": "db3c67d814beec41e097ffa3cc1741484a5ce3a4",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read existing interaction implementation and boundaries; link the partial domain standard without upgrading local guidance to remote execution.",
+      "scope": "Read existing interaction implementation and boundaries; link the partial domain standard without upgrading local guidance to remote execution. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0114-domain-scripted-ui-standard.md",
         "scripts/ui-action-standard.test.mjs",
@@ -7329,10 +7329,10 @@
     },
     {
       "path": "platform/engine/media/README.md",
-      "blob": "1517c302ee9936a91ca9e765f8ba35198770b27f",
+      "blob": "75688a72b81d3e67a9b4e47b1756ff18c9545074",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Reviewed added execution-plan cross-reference and compatibility with existing documented scope. This change authors documentation only and does not renew previous runtime test receipts or imply whole-product authorship.",
+      "scope": "Reviewed added execution-plan cross-reference and compatibility with existing documented scope. This change authors documentation only and does not renew previous runtime test receipts or imply whole-product authorship. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0076-recorded-workflows-and-visible-assist.md",
         "docs/0024-interaction-and-teaching-system.md",
@@ -7389,10 +7389,10 @@
     },
     {
       "path": "platform/engine/media/render.mjs",
-      "blob": "009e1134382fdc49f395b362f18a2d239b696b16",
+      "blob": "ea612fd1fadefa17de6af34c2a3a3fdcb01eae30",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code.",
+      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "scripts/test-vaultix-media.mjs",
         "platform/engine/media/README.md",
@@ -7401,10 +7401,10 @@
     },
     {
       "path": "scripts/test-vaultix-media.mjs",
-      "blob": "db70bd77cfa3acbd61c1614e38162763de0f8e05",
+      "blob": "ed11da8da1dd907d4fabf7558774d7324a1cf1b9",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code.",
+      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "scripts/test-vaultix-media.mjs",
         "platform/engine/media/README.md",
@@ -7413,10 +7413,10 @@
     },
     {
       "path": "docs/0076-recorded-workflows-and-visible-assist.md",
-      "blob": "ad1a5307c47577738744fed134fceb2ea4ba9c81",
+      "blob": "1ff25130a38cffe80f7f8bcfc39df17de447fbf4",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Reviewed combined planning document: retain the 0114 continuation and explicit data-vaultix-action metadata wording. DOM attributes do not establish mounted handlers, remote dispatch authority or completed AI control. All remaining plan gates stay explicit.",
+      "scope": "Reviewed combined planning document: retain the 0114 continuation and explicit data-vaultix-action metadata wording. DOM attributes do not establish mounted handlers, remote dispatch authority or completed AI control. All remaining plan gates stay explicit. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0114-domain-scripted-ui-standard.md",
         "scripts/ui-action-standard.test.mjs",
@@ -7429,10 +7429,10 @@
     },
     {
       "path": "docs/0029-ui-workflow-execution.md",
-      "blob": "c1712c3d5ba753177218e7727210c76d21c5dd96",
+      "blob": "e2d1f7474f462375f56f9ed2f573e8fb59867b26",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Reviewed added execution-plan cross-reference and compatibility with existing documented scope. This change authors documentation only and does not renew previous runtime test receipts or imply whole-product authorship.",
+      "scope": "Reviewed added execution-plan cross-reference and compatibility with existing documented scope. This change authors documentation only and does not renew previous runtime test receipts or imply whole-product authorship. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0076-recorded-workflows-and-visible-assist.md",
         "docs/0024-interaction-and-teaching-system.md",
@@ -7948,10 +7948,10 @@
     },
     {
       "path": "scripts/run-core.sh",
-      "blob": "3f5a2185b9bb9569006ad152f44eba03034fcfcf",
+      "blob": "2d24094d03aebb6ee0bf926cee152916ecb01058",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0077-owned-runtime-dependencies.md",
         "scripts/test-owned-dependencies.mjs",
@@ -8087,10 +8087,10 @@
     },
     {
       "path": "docs/0077-owned-runtime-dependencies.md",
-      "blob": "881ec6f3e7dc3b17b0b5a613aa41826296aa736a",
+      "blob": "85b0768a38874b817eb92014cbeb25f22031aceb",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "scripts/test-vaultix-policy.mjs",
@@ -8126,10 +8126,10 @@
     },
     {
       "path": "scripts/lib/ldap-consumer-fixture.mjs",
-      "blob": "6ab9f38f261779dcbb747a68c3d255243663cfaa",
+      "blob": "a351cff3d2f5ed47e82cd1ac50b7a791452721b9",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0077-owned-runtime-dependencies.md",
         "scripts/test-owned-dependencies.mjs",
@@ -8142,10 +8142,10 @@
     },
     {
       "path": "scripts/lib/test-certificates.mjs",
-      "blob": "0b5127cc31337707e71f6ea669e45bcfb0c66046",
+      "blob": "dfcdc9c3a254228cebe262fdf7a96963620148a0",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0077-owned-runtime-dependencies.md",
         "scripts/test-owned-dependencies.mjs",
@@ -8156,10 +8156,10 @@
     },
     {
       "path": "scripts/test-owned-analytics.mjs",
-      "blob": "d9110781358f70eadaf0280e86298c60eba63c3b",
+      "blob": "01cabfe25868e1aa110072389b93763162eb7791",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0077-owned-runtime-dependencies.md",
         "scripts/test-owned-dependencies.mjs",
@@ -8171,10 +8171,10 @@
     },
     {
       "path": "scripts/test-owned-dependencies.mjs",
-      "blob": "48c7b3da82aae0aad519636d5684faf10a823a5a",
+      "blob": "a79d8658b0af8024d1f28257bc23115cee91dac0",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0077-owned-runtime-dependencies.md",
         "scripts/test-owned-dependencies.mjs",
@@ -8187,10 +8187,10 @@
     },
     {
       "path": "scripts/test-owned-ldap.mjs",
-      "blob": "9016af97aca4ef0b9a9f0071938a434e67727dad",
+      "blob": "4ffcea280e03a61df6bbf49eaa76ef193b99514d",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0077-owned-runtime-dependencies.md",
         "scripts/test-owned-dependencies.mjs",
@@ -8201,10 +8201,10 @@
     },
     {
       "path": "scripts/test-owned-quic.mjs",
-      "blob": "26f1bd399afc3a469d0f67ba132def0f6a31d8c0",
+      "blob": "c494e92818de5fffd35b332554dc419a54aabcb2",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0077-owned-runtime-dependencies.md",
         "scripts/test-owned-dependencies.mjs",
@@ -8287,10 +8287,10 @@
     },
     {
       "path": "scripts/test-owned-build-paths.mjs",
-      "blob": "cba3e47d4cd890bc30835068716ef3d3fa8580d7",
+      "blob": "9b408f1b2289af55eb7135426b53470018e0c987",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
+      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0077-owned-runtime-dependencies.md",
         "scripts/test-owned-build-paths.mjs",
@@ -8299,10 +8299,10 @@
     },
     {
       "path": "scripts/fixtures/quic-peer/Dockerfile",
-      "blob": "f57667fab29816e5fc5ab899838c6d4af18f83c4",
+      "blob": "995fa30fef379755defe32e37c04b933d00f4e3f",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
+      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0077-owned-runtime-dependencies.md",
         "scripts/test-owned-build-paths.mjs",
@@ -8311,10 +8311,10 @@
     },
     {
       "path": "scripts/test-owned-quic-linux.mjs",
-      "blob": "9c75122e4d022bb2a8fe7ee3634910a7eb34e90b",
+      "blob": "1604f83aaccf8fdc9bcfbfdcac938155d10eba4e",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
+      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0077-owned-runtime-dependencies.md",
         "scripts/test-owned-build-paths.mjs",
@@ -8866,10 +8866,10 @@
     },
     {
       "path": "platform/engine/backend-go/CLAUDE.md",
-      "blob": "67706cc5b469604ceeeb9f7614ba2e3f3ebc7ce0",
+      "blob": "40d27ed74af74e515cd6dfc4b4f5ff3d485e3134",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship. 2026-11-11: the assistant paragraph adds tier models, memories, LooksLikeSecret and the write-free propose_memory tool, matching docs/0124.",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship. 2026-11-11: the assistant paragraph adds tier models, memories, LooksLikeSecret and the write-free propose_memory tool, matching docs/0124. 2026-11-13: authored the AI v1 schema notes (docs/0126): router row, backend-go guidance, and the ai-contracts build step.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "scripts/test-vaultix-policy.mjs",
@@ -8881,10 +8881,10 @@
     },
     {
       "path": "docs/0078-vaultix-policy-ownership.md",
-      "blob": "cab7438e7d8a46e5f6298ae6f6dcc07be848b256",
+      "blob": "ed2f929ecaac7eeeabe812ac73e3ea2fbf0e5025",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship. Reject the complete project authority when any custom role tuple fails decoding, preserving explicit denials across multiple roles. Fixture constrains both supported read actions, checks user and machine identity membership against primary state and repairs policy to prove recovery. Real native image acceptance remains required. Complete expansion-bound correction reviewed: share the 100000-node budget across the entire construction, including fields, before copying. Compact 256-action / 1000-item JSON fixture rejected after failing against the prior implementation; valid scoped recovery and retained consumer race cases remain required.",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship. Reject the complete project authority when any custom role tuple fails decoding, preserving explicit denials across multiple roles. Fixture constrains both supported read actions, checks user and machine identity membership against primary state and repairs policy to prove recovery. Real native image acceptance remains required. Complete expansion-bound correction reviewed: share the 100000-node budget across the entire construction, including fields, before copying. Compact 256-action / 1000-item JSON fixture rejected after failing against the prior implementation; valid scoped recovery and retained consumer race cases remain required. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "platform/engine/backend-go/tests/platform/permission/policy_integrity_test.go",
@@ -8894,10 +8894,10 @@
     },
     {
       "path": "scripts/test-vaultix-policy.mjs",
-      "blob": "d2d4168edc7952eb1f3210d7e922d13362e76fcc",
+      "blob": "1c94d57c0cf8a0cf374a408a5cdf1bdf9a74119a",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "scripts/test-vaultix-policy.mjs",
@@ -8910,10 +8910,10 @@
     },
     {
       "path": "scripts/test-vaultix-policy-image.mjs",
-      "blob": "8bf7ae013719a0cc81627ca0da3bb8c3d556ae3e",
+      "blob": "d757179abf62107e3b73aa7fab6ff83c7a4fbcb8",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "scripts/test-vaultix-policy.mjs",
@@ -8939,10 +8939,10 @@
     },
     {
       "path": "platform/engine/DESIGN.md",
-      "blob": "4449f1abb499082344d09afa37e27f8974f24685",
+      "blob": "53684ac6368801c0c46d6ee1c3e7a209c4bd6c36",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. 2026-11-13: re-read the diff; changes are the platform/engine layout only (path patterns, link depth, ee to shippin pattern, layout note).",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
@@ -9031,10 +9031,10 @@
     },
     {
       "path": "docs/0025-application-entry-and-artwork.md",
-      "blob": "7a239586019ca805ea6e4279b1612983c5e2da4f",
+      "blob": "ce6a04bc5368f9a389d00abd83957066a3f78591",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
@@ -9044,10 +9044,10 @@
     },
     {
       "path": "docs/0107-public-experience-and-recorded-workflow.md",
-      "blob": "e1d29d167f9e0ec2a0b3cc5e79e756d2dd36f8d0",
+      "blob": "1ed775171b2dd68b9ae33945959d2d8a3e2fb9f1",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
@@ -9057,10 +9057,10 @@
     },
     {
       "path": "scripts/check-recorded-media.mjs",
-      "blob": "6e68e801b2e609c1ea5b9a10da5cdc87ac2288a0",
+      "blob": "33b6c025a260dfd8d6531b797792cbe3e5df0ba7",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
@@ -9070,10 +9070,10 @@
     },
     {
       "path": "scripts/record-vaultix-workflow.mjs",
-      "blob": "f07080572beb85294e742d348445f67f08bca34f",
+      "blob": "6f1a35cc692f7b252670069231fbf90d036a2e0f",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
@@ -9083,10 +9083,10 @@
     },
     {
       "path": "scripts/test-public-experience.mjs",
-      "blob": "bfe4bf4aa5b5e52e7b9d19bb02fff609bc0ea60e",
+      "blob": "434f5f775d09ea86012c863f4415f2a27b44255d",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
@@ -9096,10 +9096,10 @@
     },
     {
       "path": "scripts/test-reference-commands.mjs",
-      "blob": "509963bd7f6c226928eca313b044d3ceb8f8bdcc",
+      "blob": "93d8ca99ee0c516f0df77bb6708138d9586cc05e",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
@@ -9122,10 +9122,10 @@
     },
     {
       "path": "platform/engine/media/publish-recorded.mjs",
-      "blob": "b256aba6377dc3d09fb24a557710ff0fd832ce41",
+      "blob": "1e27f09e01f222d51f4255b83b9d2d2ec7771c03",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
@@ -9135,10 +9135,10 @@
     },
     {
       "path": "platform/engine/media/recorded-story.mjs",
-      "blob": "ccaea684ffda32944c712b103ff3f76078792c69",
+      "blob": "ec8350097a785380605aa5a13c624848cabe9a9d",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. 2026-11-13: re-read the diff; changes are the platform/engine layout only (path patterns, link depth, ee to shippin pattern, layout note).",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
@@ -9148,10 +9148,10 @@
     },
     {
       "path": "platform/engine/media/render-recorded.mjs",
-      "blob": "e7a56f01c6c33851b5e10dfb21991da486e08233",
+      "blob": "1500e8cb90813030090a84df3bd7b6b810ac87de",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
@@ -9161,10 +9161,10 @@
     },
     {
       "path": "platform/engine/media/source-provenance.mjs",
-      "blob": "b4c04f5d896d94ae7988f2bc8cd5319df7ccde17",
+      "blob": "70dba4fa485a6536ed1935b3e925416612fddd10",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
@@ -9258,10 +9258,10 @@
     },
     {
       "path": "platform/engine/frontend/public/media/vaultix-tour.json",
-      "blob": "bacfc46f19fecebdbba59b2c54aa1a167f761442",
+      "blob": "17bebfa2b75272fcc8bfbbcce3ad7f7d2d03da58",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
@@ -9369,10 +9369,10 @@
     },
     {
       "path": "docs/0108-platform-services-and-upgrades.md",
-      "blob": "06f30dba4c5486e77cdb9863ad2cb378279cf941",
+      "blob": "4415d1cf9d3845889debae92fae3cb61637e76ef",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal.",
+      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0110-verified-release-download.md",
         "internal/release/download_test.go",
@@ -9505,10 +9505,10 @@
     },
     {
       "path": "cmd/vaultix/server.go",
-      "blob": "64937e0dc1cd54b6aa5a30245d17f0f4554979fd",
+      "blob": "73db0df7fa0d08f6256781e0d0e32d8f54fd4275",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained. 2026-11-13: account recovery without email (admin reset link, owner recovery from the host, issue-password-reset-link audit event, password-reset image step) authored and re-read. 2026-11-13: authored server backup (restore-verified, --keep) and owner-reset-link with their contract fields and lifecycle proof; the upgrade checkpoint now shares sealStore. Proof: test-server-lifecycle.mjs passed 16/16 (development run).",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -9535,10 +9535,10 @@
     },
     {
       "path": "contracts/vaultix.instance-operation.v1.json",
-      "blob": "935fa7c6fc5551e37d5d7d1f8f91254faddfb0d9",
+      "blob": "6195e177caee9f7ecf181cd7d606ab6d9edc45e8",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained. 2026-11-13: authored server backup (restore-verified, --keep) and owner-reset-link with their contract fields and lifecycle proof; the upgrade checkpoint now shares sealStore. Proof: test-server-lifecycle.mjs passed 16/16 (development run).",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -9552,10 +9552,10 @@
     },
     {
       "path": "docs/0109-native-install-and-upgrade.md",
-      "blob": "680b1c56b27a0f943a557d78bef0c79b6a9a59ab",
+      "blob": "23360781fcf30448a30e4e89110f1c737823db66",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal. OPS-04-CHANGED-MIGRATIONS: updated only for the changed-migration path in docs/0109-native-install-and-upgrade.md. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained. Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
+      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal. OPS-04-CHANGED-MIGRATIONS: updated only for the changed-migration path in docs/0109-native-install-and-upgrade.md. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained. Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance. 2026-11-13: account recovery without email (admin reset link, owner recovery from the host, issue-password-reset-link audit event, password-reset image step) authored and re-read. 2026-11-13: authored server backup (restore-verified, --keep) and owner-reset-link with their contract fields and lifecycle proof; the upgrade checkpoint now shares sealStore. Proof: test-server-lifecycle.mjs passed 16/16 (development run).",
       "evidence": [
         "docs/0110-verified-release-download.md",
         "internal/release/download_test.go",
@@ -9634,10 +9634,10 @@
     },
     {
       "path": "internal/platform/lifecycle.go",
-      "blob": "d2fa3e16259a23345da82cc5e7a70e69cb8bc699",
+      "blob": "2421c8421a5cbc52c1c3d55be967fd67f08267a3",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained. 2026-11-13: account recovery without email (admin reset link, owner recovery from the host, issue-password-reset-link audit event, password-reset image step) authored and re-read. 2026-11-13: authored server backup (restore-verified, --keep) and owner-reset-link with their contract fields and lifecycle proof; the upgrade checkpoint now shares sealStore. Proof: test-server-lifecycle.mjs passed 16/16 (development run).",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -9711,10 +9711,10 @@
     },
     {
       "path": "scripts/test-server-lifecycle.mjs",
-      "blob": "8f5b79e1221a28ee1651db0db3b5c85911ee157a",
+      "blob": "77edcca726cab6d299ace6d5ca79283623812e3d",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained. Correct the disposable probe-only readiness fault guard so live rollback restore is tested; retain all negative controls and bound the external HTTP probe. Real container run passed 13 checks with retained failure receipts.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained. Correct the disposable probe-only readiness fault guard so live rollback restore is tested; retain all negative controls and bound the external HTTP probe. Real container run passed 13 checks with retained failure receipts. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison. 2026-11-13: authored server backup (restore-verified, --keep) and owner-reset-link with their contract fields and lifecycle proof; the upgrade checkpoint now shares sealStore. Proof: test-server-lifecycle.mjs passed 16/16 (development run).",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -10789,10 +10789,10 @@
     },
     {
       "path": "docs/0113-vaultix-identity-execution.md",
-      "blob": "be65f8a4a31be5279d885ea65cb4a578e62fc26e",
+      "blob": "3d418fa45c90841f51dacbda7cb8ca71331ad94c",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0113-vaultix-identity-execution.md",
         "platform/engine/backend-go/tests/platform/auth/device_http_test.go",
@@ -10827,10 +10827,10 @@
     },
     {
       "path": "scripts/test-device-http.mjs",
-      "blob": "fdb3a1099dd3571328e27eca2d32141f45f6e21b",
+      "blob": "d83da590a6f95f87935e610b95f945486660ef7d",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate. 2026-11-13: only change since review is the core/ to platform/engine/ path rename, verified by normalized comparison.",
       "evidence": [
         "docs/0113-vaultix-identity-execution.md",
         "platform/engine/backend-go/tests/platform/auth/device_http_test.go",

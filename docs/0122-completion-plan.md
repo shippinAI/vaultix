@@ -92,6 +92,16 @@ How it should work:
 - **AI sessions.** The Go service has the device flow (off by default, 60-minute access). Still
   needed: the browser page where a person approves an AI, `vaultix login` support for it, MCP
   admission for delegated sessions, CLI renewal, then turning it on.
+- **Account recovery works without email.** The forgot-password email needs a mail server
+  (`SMTP_HOST` and the other `SMTP_*` settings on the host). Without one, an instance administrator
+  uses Admin → Resource overview → Users → Create Password Reset Link
+  (`POST /api/vx/v1/access/users/{userId}/password-reset-links`). The link carries the same one-use,
+  24-hour token the email would, opens the same reset page, and replaces any earlier link. Issuing
+  one is recorded in the person's organization audit log (`issue-password-reset-link`, origin
+  `administrator` or `host`). When nobody can sign in, the host operator runs
+  `vaultix server owner-reset-link` (docs/0109, Owner recovery). Built 2026-11-13 with unit and Go
+  tests; `scripts/test-password-reset-image.mjs` proves both paths and the audit entries on the
+  packaged image as a canonical build step.
 
 Needed outside this repository: Google configured as an upstream provider in Nomen, and
 vaultix.cloud registered there as a client. Nomen is a sibling tree and is not edited from here.
@@ -199,6 +209,13 @@ Per domain, in dependency order (foundation, identity, authorization, secrets, t
 Go or Rust handler, the `/api/vx/v1` route, and every caller moved onto it in the same change, with
 the old route deleted (rule 4). The behavior is proven on the new route, not kept on the old one. This is by far the largest
 stage and gets a per-domain ledger of its own.
+
+## The hosted service
+
+Hosted customers each get their own instance, run from the private `vaultix-control` console in
+`platform/shippin/`. Its domains and their build order are in
+[0125](0125-hosted-control-panel.md); the fleet record and the console exist, backups, quotas,
+sign-up and billing do not.
 
 ## Decisions only the owner can make
 

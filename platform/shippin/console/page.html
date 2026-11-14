@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vaultix Control</title>
+<style>
+  :root { --bg:#0f1115; --panel:#171a21; --line:#2a2f3a; --text:#e6e8ec; --muted:#9aa3b2; --accent:#7aa2ff; --ok:#4fbf8a; --warn:#e5b454; --bad:#ef6b6b; }
+  @media (prefers-color-scheme: light) { :root { --bg:#f6f7f9; --panel:#fff; --line:#dde1e7; --text:#14171c; --muted:#5b6474; --accent:#2f5bd8; --ok:#18794e; --warn:#8a5a00; --bad:#b42318; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width:1100px; margin:0 auto; padding:24px 16px 48px; }
+  header { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:24px; }
+  h1 { font-size:20px; margin:0; } h2 { font-size:16px; margin:0 0 12px; }
+  .muted { color:var(--muted); font-size:13px; }
+  section { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:16px; margin-bottom:16px; overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th, td { text-align:left; padding:8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--muted); font-weight:500; }
+  code { font-size:12px; word-break:break-all; }
+  .ok { color:var(--ok); } .warn { color:var(--warn); } .bad { color:var(--bad); }
+  form.grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; align-items:end; }
+  label { display:flex; flex-direction:column; gap:4px; font-size:13px; color:var(--muted); }
+  input, select, button { font:inherit; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--text); }
+  button { background:var(--accent); border-color:var(--accent); color:#fff; cursor:pointer; }
+  button.quiet { background:transparent; color:var(--text); border-color:var(--line); }
+  .error { border-color:var(--bad); color:var(--bad); }
+  :focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>Vaultix Control</h1>
+      <div class="muted">Private operator console for hosted instances. Loopback only.</div>
+    </div>
+    {{if .SignedIn}}<form method="post" action="/logout"><button class="quiet" type="submit">Sign out</button></form>{{end}}
+  </header>
+  {{if .Error}}<section class="error" role="alert">{{.Error}}</section>{{end}}
+  {{if not .SignedIn}}
+  <section>
+    <h2>Sign in</h2>
+    <p class="muted">Use the key in <code>operator.key</code> inside the control directory on this server.</p>
+    <form method="post" action="/login" class="grid">
+      <label>Operator key <input name="key" type="password" autocomplete="off" required></label>
+      <button type="submit">Sign in</button>
+    </form>
+  </section>
+  {{else}}
+  <section>
+    <h2>Customer instances</h2>
+    <p class="muted">Read from each instance's own lifecycle state at {{.Checked}}.</p>
+    {{if .Fleet}}
+    <table>
+      <thead><tr><th scope="col">Label</th><th scope="col">Customer</th><th scope="col">Profile</th><th scope="col">Site</th><th scope="col">State</th><th scope="col">Last backup</th><th scope="col">Image</th><th scope="col"><span class="muted">Actions</span></th></tr></thead>
+      <tbody>
+      {{range .Fleet}}
+      <tr>
+        <td>{{.Label}}</td>
+        <td>{{.Customer}}</td>
+        <td>{{.Profile}}</td>
+        <td>{{if .SiteURL}}<a href="{{.SiteURL}}" rel="noreferrer">{{.SiteURL}}</a>{{else}}<span class="muted">unknown</span>{{end}}</td>
+        <td>{{if .Error}}<span class="bad">Unreachable: {{.Error}}</span>{{else if .RecoveryRequired}}<span class="warn">Needs recovery ({{.Phase}})</span>{{else if .Ready}}<span class="ok">Ready</span>{{else}}<span class="warn">Not ready ({{.Phase}})</span>{{end}}</td>
+        <td>{{if .LastBackup}}<span class="{{if .BackupOverdue}}warn{{else}}ok{{end}}">{{.LastBackup}}</span> <span class="muted">({{.Backups}} kept)</span>{{else}}<span class="warn">None yet</span>{{end}}</td>
+        <td><code>{{.Image}}</code></td>
+        <td><form method="post" action="/fleet/instances/{{.Label}}/backups"><button class="quiet" type="submit">Back up now</button></form></td>
+      </tr>
+      {{end}}
+      </tbody>
+    </table>
+    {{else}}<p class="muted">No instances enrolled yet. Install one with <code>vaultix server install</code>, then enroll its directory below.</p>{{end}}
+  </section>
+  <section>
+    <h2>Enroll an instance</h2>
+    <p class="muted">Records an instance that <code>vaultix server install</code> or <code>adopt</code> already manages. Nothing is installed or changed.</p>
+    <form method="post" action="/fleet/instances" class="grid">
+      <label>Label <input name="label" pattern="[a-z][a-z0-9-]{0,30}[a-z0-9]" placeholder="acme" required></label>
+      <label>Customer <input name="customer" maxlength="200" required></label>
+      <label>Profile <select name="profile">{{range .Profiles}}<option>{{.}}</option>{{end}}</select></label>
+      <label>Instance directory <input name="directory" placeholder="/srv/vaultix/acme" required></label>
+      <button type="submit">Enroll</button>
+    </form>
+  </section>
+  {{end}}
+</main>
+</body>
+</html>

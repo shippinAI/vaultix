@@ -1325,7 +1325,13 @@ export const registerRoutes = async (
     tokenService,
     smtpService,
     userDAL,
-    membershipUserDAL
+    membershipUserDAL,
+    recordResetLinkIssued: ({ orgId, auditLogInfo, metadata }) =>
+      auditLogService.createAuditLog({
+        ...auditLogInfo,
+        orgId,
+        event: { type: EventType.ISSUE_PASSWORD_RESET_LINK, metadata }
+      })
   });
 
   const projectBotService = projectBotServiceFactory({ permissionService, projectBotDAL, projectDAL });

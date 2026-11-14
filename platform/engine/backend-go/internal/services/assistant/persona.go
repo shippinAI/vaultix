@@ -20,6 +20,7 @@ import (
 
 	"github.com/vaultix-cloud/api/internal/database/pg"
 	"github.com/vaultix-cloud/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/services/assistant/spec"
 )
 
 // Role is what a persona does in a conversation (docs/0124).
@@ -80,17 +81,9 @@ type PersonaInput struct {
 	Enabled       *bool      `json:"enabled"`
 }
 
-type personaFile struct {
-	ID          string   `yaml:"id"`
-	Name        string   `yaml:"name"`
-	Role        Role     `yaml:"role"`
-	Domains     []string `yaml:"domains"`
-	Tier        string   `yaml:"tier"`
-	Description string   `yaml:"description"`
-}
-
-// LoadDefaultPersonas reads <dir>/personas/<slug>/PERSONA.md. The folder name is
-// the slug and must match the file's id, vaultix.persona.<slug>.
+// LoadDefaultPersonas reads <dir>/personas/<slug>/PERSONA.md: front matter that is a
+// vaultix.ai-persona.v1 document without instructions, and the instructions as the body
+// (docs/0126). The folder name is the slug and must match the file's slug.
 func LoadDefaultPersonas(dir string) ([]Persona, error) {
 	entries, err := os.ReadDir(filepath.Join(dir, "personas"))
 	if err != nil {
@@ -141,15 +134,24 @@ func parsePersona(slug string, raw []byte) (*Persona, error) {
 	if !found {
 		return nil, errors.New("front matter is not closed")
 	}
-	var file personaFile
-	if err := yaml.Unmarshal(front, &file); err != nil {
+	var file spec.Persona
+	decoder := yaml.NewDecoder(bytes.NewReader(front))
+	decoder.KnownFields(true)
+	if err := decoder.Decode(&file); err != nil {
 		return nil, fmt.Errorf("front matter: %w", err)
 	}
-	if file.ID != "vaultix.persona."+slug {
-		return nil, fmt.Errorf("id %q must be vaultix.persona.%s", file.ID, slug)
+	if file.Slug != slug {
+		return nil, fmt.Errorf("slug %q must match its folder %q", file.Slug, slug)
 	}
-	p := &Persona{Slug: slug, ID: file.ID, Name: file.Name, Role: file.Role, Domains: file.Domains, Tier: file.Tier,
-		Description: file.Description, Instructions: strings.TrimSpace(string(body)), Enabled: true, BuiltIn: true}
+	file.Instructions = strings.TrimSpace(string(body))
+	if err := CheckPersona(&file); err != nil {
+		return nil, err
+	}
+	p := &Persona{Slug: slug, ID: "vaultix.persona." + slug, Name: file.Name, Role: Role(file.Role), Domains: file.Domains,
+		Tier: file.Model.Tier, Description: file.Description, Instructions: file.Instructions, Enabled: true, BuiltIn: true}
+	if file.Model.ID != nil {
+		p.Model = *file.Model.ID
+	}
 	if err := checkPersona(p); err != nil {
 		return nil, err
 	}

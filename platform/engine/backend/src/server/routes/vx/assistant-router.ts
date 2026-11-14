@@ -58,6 +58,7 @@ export const registerAssistantRouter = async (server: FastifyZodProvider) => {
   const routes: { method: "GET" | "POST" | "PATCH" | "DELETE"; url: string; timeoutMs: number; bodyLimit?: number }[] =
     [
       { method: "GET", url: "/assistant", timeoutMs: 15_000 },
+      { method: "GET", url: "/schema", timeoutMs: 15_000 },
       { method: "POST", url: "/messages", timeoutMs: 120_000, bodyLimit: 256 * 1024 },
       { method: "GET", url: "/providers", timeoutMs: 15_000 },
       { method: "POST", url: "/providers", timeoutMs: 15_000, bodyLimit: 32 * 1024 },

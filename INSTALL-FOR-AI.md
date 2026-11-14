@@ -25,6 +25,7 @@ to pass through a chat:
 | Owner password | **No** | The owner types it in the browser. Signing in does not reset it. |
 | `ENCRYPTION_KEY`, `VAULTIX_ENC_KEY`, `recovery.key` | **Never** | They protect every stored value. Signing in never rotates them, and losing them makes the data unreadable. |
 | `AUTH_SECRET`, `POSTGRES_PASSWORD`, anything else in `config/vaultix.env` | **Never** | Signing in never rotates them. |
+| Password reset link (`passwordResetLink` from `vaultix server owner-reset-link`, or Admin › Users › Create Password Reset Link) | **No** | It sets a new password for that account. The owner opens it on the server or receives it from the administrator directly. If you ran the command, tell the owner where the output is; do not repeat the link. |
 | Bootstrap machine token (`POST /api/v1/admin/bootstrap`) | **No** | A real credential that lives until it expires or is revoked. |
 | MFA codes and recovery codes | **No** | They are the owner's second factor. |
 | Doppler tokens, Infisical machine identity secrets, other provider keys | **No** | The owner enters them in Organization › App Connections. Vaultix cannot rotate them. |
@@ -116,12 +117,21 @@ vaultix server upgrade --directory /srv/vaultix-instance --from-build NEW_RECEIP
 vaultix server upgrade --directory /srv/vaultix-instance --apply OPERATION_ID
 vaultix server recover  --directory /srv/vaultix-instance
 vaultix server rollback --directory /srv/vaultix-instance
+vaultix server backup   --directory /srv/vaultix-instance --keep 7
 ```
 
 Upgrades keep the data volumes. A changed migration set is rehearsed on a restored copy
 of the database, with no network, before the live database is touched. Rollback may
 need `--discard-writes`; ask the owner before using it, because it discards writes
 made since the checkpoint. Details: [docs/0109](docs/0109-native-install-and-upgrade.md).
+
+`backup` seals the running store under `config/recovery.key` and keeps it only after it
+restores into an isolated copy; it needs no downtime. Remind the owner that backups are
+useless without an off-host copy of that key.
+
+If the owner cannot sign in and the instance has no mail server, the owner runs
+`vaultix server owner-reset-link --directory /srv/vaultix-instance` on the server and
+opens the link it prints. Do not run it for them and relay the link: it is a credential.
 
 ## 6. Hand-off checklist
 

@@ -12,7 +12,7 @@ import (
 	"shippin.cloud/vaultix/internal/platform"
 )
 
-const serverUsage = `usage: vaultix server <install|adopt|upgrade|status|recover|rollback> --directory DIR
+const serverUsage = `usage: vaultix server <install|adopt|upgrade|status|recover|rollback|backup|owner-reset-link> --directory DIR
   install --from-build RECEIPT --site-url https://vaultix.example.com
           [--project vaultix] [--port 8200] [--proxy-bind IP:PORT]
           [--env-file PRIVATE_FILE] [--plan]
@@ -26,6 +26,14 @@ const serverUsage = `usage: vaultix server <install|adopt|upgrade|status|recover
                            return to the previous application; a changed schema
                            is restored from the upgrade's checkpoint
   status                   inspect saved state and actual application health
+  backup [--keep N]        encrypted backup of the running instance under its
+                           recovery key, kept only after it restores cleanly into
+                           an isolated copy; --keep prunes older backups
+  owner-reset-link [--email ADDRESS]
+                           print a one-use password reset link for an instance
+                           administrator, for when nobody can sign in; --email
+                           chooses one when there are several. The link is a
+                           credential: hand it only to that person.
   --json                   JSON result without progress output
 
 Install also accepts --bundle DIRECTORY --trust FILE. The Docker engine must be
@@ -59,6 +67,8 @@ func serverCommand(ctx context.Context, args []string, out, progress io.Writer) 
 	fs.StringVar(&o.Bundle, "bundle", "", "verified release bundle directory")
 	fs.StringVar(&o.Trust, "trust", "", "preprovisioned trust file")
 	fs.StringVar(&o.Environment, "env-file", "", "existing private environment file")
+	fs.StringVar(&o.Email, "email", "", "instance administrator to recover")
+	fs.IntVar(&o.Keep, "keep", 0, "backups to keep, newest first (0 keeps all)")
 	fs.StringVar(&o.Apply, "apply", "", "saved operation ID")
 	fs.BoolVar(&o.Plan, "plan", false, "save a reviewable operation without cutover")
 	fs.BoolVar(&o.DiscardWrites, "discard-writes", false, "accept losing writes made since the upgrade's checkpoint")
