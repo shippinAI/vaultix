@@ -28,9 +28,12 @@ The offer is operated resources and care, not features:
 
 | Profile | Meant for | Sizing (to measure, then publish) |
 | --- | --- | --- |
-| `starter` | one team trying Vaultix | small shared host, daily encrypted backup |
-| `team` | a company's secrets in daily use | reserved CPU and memory, hourly backup, rehearsed upgrades |
-| `dedicated` | regulated or high-volume use | its own host, customer-chosen backup storage, upgrade windows |
+| `starter` | one team trying Vaultix | small shared host, daily encrypted backup, 7 kept |
+| `team` | a company's secrets in daily use | reserved CPU and memory, hourly backup, 48 kept, rehearsed upgrades |
+| `dedicated` | regulated or high-volume use | its own host, hourly backup, 168 kept, customer-chosen backup storage, upgrade windows |
+
+Backup intervals and retention are set in `fleet.ProfilePolicies`; the rest of the sizing is not
+yet applied.
 
 Profiles size CPU, memory, storage, backup frequency and support response. The numbers are not
 published until measured on the production host (0054, Scale and reliability).
@@ -58,8 +61,8 @@ All under `platform/shippin/`, one folder per domain.
 | Domain | State | Next |
 | --- | --- | --- |
 | `fleet/` | **Built 2026-11-13**: enroll managed instances, read health. Unit tested. | Upgrade plan and apply across the fleet, one instance at a time, using the canonical build receipt. |
-| `console/` + `cmd/vaultix-control/` | **Built 2026-11-13**: loopback-only console, operator key, fleet page and JSON API. Unit tested. | Show upgrade plans and backup age. |
-| `backups/` | Not started | Scheduled encrypted export per instance to customer-chosen storage; restore rehearsal per 0109. |
+| `console/` + `cmd/vaultix-control/` | **Built 2026-11-13**: loopback-only console, operator key, fleet page with last backup and "Back up now", JSON API. Unit tested. | Show upgrade plans. |
+| `backups/` | **Built 2026-11-13**: `vaultix-control` backs up every instance whose newest verified backup is older than its profile allows, one at a time, keeping the profile's count, through `vaultix server backup` (0109, Backups). Unit tested; the lifecycle action is proven by `scripts/test-server-lifecycle.mjs`. | Copy sealed backups off the host to customer-chosen storage. |
 | `quotas/` | Not started | Per-profile resource limits applied at install (Compose resource settings). |
 | `tenants/` | Not started | Customer sign-up and the customer-to-instance record; needs the sign-up door (0122 Stage 3). |
 | `billing/` | Not started | Needs the owner's payment provider decision. |

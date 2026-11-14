@@ -50,6 +50,33 @@
       "description": "Where the first owner signs up. Present only together with setupCode.",
       "type": "string",
       "minLength": 1
+    },
+    "passwordResetLink": {
+      "description": "Present only on owner-reset-link: a one-use, 24-hour reset link for an instance administrator. A credential; never pasted into chat (INSTALL-FOR-AI.md).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "username", "expiresAt"],
+      "properties": {
+        "url": { "type": "string", "minLength": 1 },
+        "username": { "type": "string", "minLength": 1 },
+        "expiresAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "backup": {
+      "description": "Present only on backup: the backup just written, kept because it restored cleanly into an isolated copy (docs/0109, Backups).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "createdAt", "databaseHash", "environmentHash", "migrations", "secrets", "verified"],
+      "properties": {
+        "name": { "type": "string", "pattern": "^backup-[0-9]{8}T[0-9]{6}Z-[a-f0-9]{8}$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "image": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "databaseHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "environmentHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "migrations": { "type": "integer", "minimum": 1 },
+        "secrets": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "verified": { "const": true }
+      }
     }
   },
   "$defs": {

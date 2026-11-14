@@ -25,9 +25,37 @@ const Schema = "vaultix.fleet.v1"
 // Same shape as a hosted label in docs/0014: it becomes {label}.vaultix.cloud.
 var labelPattern = regexp.MustCompile(`^[a-z][a-z0-9-]{0,30}[a-z0-9]$`)
 
-// Profiles are the hosting sizes on offer. They size operated resources; every Vaultix
-// feature is included in every profile (docs/0054, Scale and reliability requirements).
-var Profiles = []string{"starter", "team", "dedicated"}
+// Profiles are the hosting sizes on offer. They size operated resources and care; every Vaultix
+// feature is included in every profile (docs/0054, Scale and reliability requirements). Backup
+// intervals and retention are the operated promise; prices are not set here.
+type Profile struct {
+	Name        string        `json:"name"`
+	BackupEvery time.Duration `json:"backupEvery"`
+	BackupsKept int           `json:"backupsKept"`
+}
+
+var ProfilePolicies = []Profile{
+	{Name: "starter", BackupEvery: 24 * time.Hour, BackupsKept: 7},
+	{Name: "team", BackupEvery: time.Hour, BackupsKept: 48},
+	{Name: "dedicated", BackupEvery: time.Hour, BackupsKept: 168},
+}
+
+var Profiles = func() []string {
+	names := make([]string, len(ProfilePolicies))
+	for i, p := range ProfilePolicies {
+		names[i] = p.Name
+	}
+	return names
+}()
+
+func PolicyFor(name string) (Profile, bool) {
+	for _, p := range ProfilePolicies {
+		if p.Name == name {
+			return p, true
+		}
+	}
+	return Profile{}, false
+}
 
 type Instance struct {
 	Label     string    `json:"label"`
@@ -61,6 +89,9 @@ func Open(controlDirectory string, execute Executor) (*Fleet, error) {
 	}
 	return &Fleet{path: filepath.Join(controlDirectory, "fleet.json"), execute: execute}, nil
 }
+
+// Executor returns the lifecycle entry point this fleet reads instances through.
+func (f *Fleet) Executor() Executor { return f.execute }
 
 func (f *Fleet) load() (record, error) {
 	r := record{SchemaVersion: Schema}
@@ -137,12 +168,8 @@ func (f *Fleet) Enroll(ctx context.Context, in Instance) (Instance, error) {
 }
 
 func validProfile(p string) bool {
-	for _, known := range Profiles {
-		if p == known {
-			return true
-		}
-	}
-	return false
+	_, ok := PolicyFor(p)
+	return ok
 }
 
 // Health is what the operator sees for one instance: never keys, setup codes or links.
@@ -154,6 +181,27 @@ type Health struct {
 	Ready            bool   `json:"ready"`
 	RecoveryRequired bool   `json:"recoveryRequired"`
 	Error            string `json:"error,omitempty"`
+	LastBackup       string `json:"lastBackup,omitempty"`
+	Backups          int    `json:"backups"`
+	BackupOverdue    bool   `json:"backupOverdue"`
+}
+
+// BackupState reads an instance's verified backups from its directory, without Docker, and says
+// whether the newest is older than its profile allows.
+func BackupState(in Instance, now time.Time) (last string, count int, overdue bool, err error) {
+	records, err := platform.Backups(in.Directory)
+	if err != nil {
+		return "", 0, false, err
+	}
+	policy, _ := PolicyFor(in.Profile)
+	if len(records) == 0 {
+		return "", 0, true, nil
+	}
+	created, err := time.Parse(time.RFC3339, records[0].CreatedAt)
+	if err != nil {
+		return "", len(records), true, nil
+	}
+	return records[0].CreatedAt, len(records), now.Sub(created) >= policy.BackupEvery, nil
 }
 
 func (f *Fleet) Health(ctx context.Context) ([]Health, error) {
@@ -168,9 +216,14 @@ func (f *Fleet) Health(ctx context.Context) ([]Health, error) {
 		go func() {
 			defer wg.Done()
 			h := Health{Instance: in}
+			var backupErr error
+			h.LastBackup, h.Backups, h.BackupOverdue, backupErr = BackupState(in, time.Now().UTC())
 			checkCtx, cancel := context.WithTimeout(ctx, 30*time.Second)
 			defer cancel()
 			result, err := f.execute(checkCtx, "status", platform.Options{Directory: in.Directory}, io.Discard)
+			if err == nil && backupErr != nil {
+				err = backupErr
+			}
 			if err != nil {
 				h.Error = err.Error()
 			} else {

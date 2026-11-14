@@ -19,9 +19,12 @@ import (
 func setup(t *testing.T) (http.Handler, string, string) {
 	t.Helper()
 	control, directory := t.TempDir(), t.TempDir()
-	f, err := fleet.Open(control, func(_ context.Context, _ string, o platform.Options, _ io.Writer) (platform.Result, error) {
+	f, err := fleet.Open(control, func(_ context.Context, action string, o platform.Options, _ io.Writer) (platform.Result, error) {
 		if o.Directory != directory {
 			return platform.Result{}, errors.New("instance not enrolled")
+		}
+		if action == "backup" {
+			return platform.Result{Backup: &platform.BackupRecord{Name: "backup-20261113T120000Z-aaaaaaaa", Verified: true}}, nil
 		}
 		return platform.Result{Ready: true, SetupCode: "vxs-secret", Instance: platform.Instance{SiteURL: "https://acme.vaultix.cloud"}}, nil
 	})
@@ -89,6 +92,16 @@ func TestOperatorEnrollsAndSeesHealthWithoutCodes(t *testing.T) {
 	}
 	if w.Header().Get("Cache-Control") != "no-store" || !strings.Contains(w.Header().Get("Content-Security-Policy"), "frame-ancestors 'none'") {
 		t.Fatal("console pages must not be cached or framed")
+	}
+
+	for label, status := range map[string]int{"acme": http.StatusCreated, "missing": http.StatusNotFound} {
+		r = httptest.NewRequest("POST", "/api/fleet/instances/"+label+"/backups", nil)
+		r.Header.Set("Authorization", "Bearer "+key)
+		w = httptest.NewRecorder()
+		h.ServeHTTP(w, r)
+		if w.Code != status {
+			t.Fatalf("backup %s: %d %s", label, w.Code, w.Body)
+		}
 	}
 
 	r = httptest.NewRequest("POST", "/fleet/instances", strings.NewReader("label=evil&customer=x&profile=team&directory=x"))

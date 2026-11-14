@@ -21,6 +21,7 @@ import (
 	"strings"
 	"time"
 
+	"shippin.cloud/vaultix/platform/shippin/backups"
 	"shippin.cloud/vaultix/platform/shippin/fleet"
 )
 
@@ -111,6 +112,8 @@ func (c *Console) Handler() http.Handler {
 	mux.HandleFunc("POST /login", c.login)
 	mux.HandleFunc("POST /logout", c.logout)
 	mux.HandleFunc("POST /fleet/instances", c.enrollForm)
+	mux.HandleFunc("POST /fleet/instances/{label}/backups", c.backupForm)
+	mux.HandleFunc("POST /api/fleet/instances/{label}/backups", c.apiBackup)
 	mux.HandleFunc("GET /api/fleet", c.apiFleet)
 	mux.HandleFunc("POST /api/fleet/instances", c.apiEnroll)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -180,6 +183,38 @@ func (c *Console) enrollForm(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func (c *Console) backupForm(w http.ResponseWriter, r *http.Request) {
+	if !c.authorized(r) || !sameOrigin(r) {
+		c.render(w, r, http.StatusUnauthorized, "Sign in with the operator key first.")
+		return
+	}
+	outcome, found := backups.Now(r.Context(), c.fleet, nil, r.PathValue("label"))
+	switch {
+	case !found:
+		c.render(w, r, http.StatusNotFound, "No instance is enrolled as '"+r.PathValue("label")+"'.")
+	case outcome.Error != "":
+		c.render(w, r, http.StatusBadGateway, "Backup of '"+outcome.Label+"' failed: "+outcome.Error)
+	default:
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+}
+
+func (c *Console) apiBackup(w http.ResponseWriter, r *http.Request) {
+	if !c.authorized(r) {
+		fail(w, http.StatusUnauthorized, "The operator key is required.")
+		return
+	}
+	outcome, found := backups.Now(r.Context(), c.fleet, nil, r.PathValue("label"))
+	switch {
+	case !found:
+		fail(w, http.StatusNotFound, "No instance is enrolled as '"+r.PathValue("label")+"'.")
+	case outcome.Error != "":
+		fail(w, http.StatusBadGateway, "Backup of '"+outcome.Label+"' failed: "+outcome.Error)
+	default:
+		writeJSON(w, http.StatusCreated, map[string]any{"backup": outcome})
+	}
 }
 
 func (c *Console) apiFleet(w http.ResponseWriter, r *http.Request) {

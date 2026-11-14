@@ -117,12 +117,17 @@ vaultix server upgrade --directory /srv/vaultix-instance --from-build NEW_RECEIP
 vaultix server upgrade --directory /srv/vaultix-instance --apply OPERATION_ID
 vaultix server recover  --directory /srv/vaultix-instance
 vaultix server rollback --directory /srv/vaultix-instance
+vaultix server backup   --directory /srv/vaultix-instance --keep 7
 ```
 
 Upgrades keep the data volumes. A changed migration set is rehearsed on a restored copy
 of the database, with no network, before the live database is touched. Rollback may
 need `--discard-writes`; ask the owner before using it, because it discards writes
 made since the checkpoint. Details: [docs/0109](docs/0109-native-install-and-upgrade.md).
+
+`backup` seals the running store under `config/recovery.key` and keeps it only after it
+restores into an isolated copy; it needs no downtime. Remind the owner that backups are
+useless without an off-host copy of that key.
 
 If the owner cannot sign in and the instance has no mail server, the owner runs
 `vaultix server owner-reset-link --directory /srv/vaultix-instance` on the server and

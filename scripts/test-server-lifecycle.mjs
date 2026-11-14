@@ -32,7 +32,7 @@ mkdirSync(resolve(root, '.cache'), { recursive: true });
 const evidence = mkdtempSync(resolve(root, '.cache/lifecycle-acceptance-'));
 const report = { passed: false, cliSha256: createHash('sha256').update(readFileSync(inputs.cli)).digest('hex'),
   baseline: baseline.imageId, candidate: candidate.imageId, revision: candidate.revision,
-  development: inputs.development === true, checks: [], exclusions: ['failure paths of changed migration sets (scripts/test-server-migration.mjs)', 'fleet orchestration', 'external identity provider acceptance', 'operator production deployment'] };
+  development: inputs.development === true, checks: [], exclusions: ['failure paths of changed migration sets (scripts/test-server-migration.mjs)', 'fleet orchestration (platform/shippin unit tests)', 'external identity provider acceptance', 'operator production deployment'] };
 const check = name => { report.checks.push(name); console.log(`Vaultix lifecycle: ${name}`); };
 let runner, stateVolume, operation;
 const sensitive = [];
@@ -238,6 +238,24 @@ try {
   assert.ok(cli(['upgrade', '--from-build', '/proof/candidate.json']).ready);
   assert.equal(inspect(app()).Id, current);
   check('same-image upgrade is a no-outage operation');
+  phase = 'backup';
+  const firstBackup = cli(['backup', '--keep', '1']).backup;
+  assert.ok(firstBackup.verified && firstBackup.migrations > 0 && firstBackup.image === candidate.imageId);
+  const secondBackup = cli(['backup', '--keep', '1']).backup;
+  assert.notEqual(secondBackup.name, firstBackup.name);
+  assert.deepEqual(client(['ls', '/state/instance/backups']).split(/\s+/).filter(Boolean).sort(),
+    ['.database.age', '.database.age.environment', '.json'].map(suffix => secondBackup.name + suffix).sort());
+  assert.equal(inspect(app()).Id, current);
+  check('backup seals the running store under the recovery key, keeps it only after an isolated restore, and --keep prunes older backups without an outage');
+  phase = 'owner recovery';
+  const reset = cli(['owner-reset-link']).passwordResetLink;
+  const resetUrl = new URL(reset.url);
+  assert.equal(resetUrl.pathname, '/account-recovery-reset');
+  assert.equal(resetUrl.searchParams.get('to'), email);
+  assert.match(resetUrl.searchParams.get('token'), /^[0-9a-f]{64}$/);
+  sensitive.push(resetUrl.searchParams.get('token'));
+  cli(['owner-reset-link', '--email', 'nobody@vaultix.invalid'], { success: false });
+  check('owner-reset-link issues a one-use reset link for the instance administrator from the host and refuses an unknown administrator');
   phase = 'existing instance adoption';
   // Release only the synthetic ownership marker to model an existing unmanaged deployment.
   const claim = inspect(`vaultix-owner-${project}`);
