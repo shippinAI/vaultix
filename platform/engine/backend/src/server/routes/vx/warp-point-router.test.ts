@@ -79,6 +79,25 @@ describe("Vaultix warp points", () => {
     expect(await names("operate", signedIn)).toEqual(["vaultix.operate.updates.status"]);
   });
 
+  test("a warp point is stateless and serves no views, even to a client that asks for them", async () => {
+    const init = await rpc(
+      "secrets",
+      "initialize",
+      {
+        protocolVersion: "2025-11-25",
+        clientInfo: { name: "codex", version: "1" },
+        capabilities: {
+          extensions: { "io.modelcontextprotocol/ui": { mimeTypes: ["text/html;profile=mcp-app"] } }
+        }
+      },
+      signedIn
+    );
+    expect(init.headers["mcp-session-id"]).toBeUndefined();
+    expect(init.body).not.toContain("resources");
+    expect((await rpc("secrets", "tools/list", {}, signedIn)).body).not.toContain("resourceUri");
+    expect((await rpc("secrets", "resources/list", {}, signedIn)).json()).toMatchObject({ error: { code: -32601 } });
+  });
+
   test("signed-in tools are hidden and refused until the client signs in", async () => {
     expect(await names("secrets")).toEqual([]);
     const response = await rpc("secrets", "tools/call", {

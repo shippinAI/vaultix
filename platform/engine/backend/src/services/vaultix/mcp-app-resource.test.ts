@@ -16,7 +16,7 @@ describe("owned MCP resource loading", () => {
   beforeEach(() => vi.resetAllMocks());
   test("accepts only the exact digest-addressed deployment artifact", async () => {
     vi.mocked(readFile).mockResolvedValueOnce(JSON.stringify(manifest)).mockResolvedValueOnce(text);
-    await expect(loadMcpAppResource()).resolves.toEqual({ uri: manifest.uri, text });
+    await expect(loadMcpAppResource()).resolves.toEqual({ view: "references", uri: manifest.uri, text });
     expect(vi.mocked(readFile).mock.calls.map((call) => String(call[0]))).toEqual([
       expect.stringMatching(/frontend-build[/\\]mcp-apps[/\\]manifest\.json$/),
       expect.stringMatching(/frontend-build[/\\]mcp-apps[/\\]references\.html$/)

@@ -232,7 +232,7 @@ export const registerVaultixRouter = async (
                 call: (name, args) => runAction(request, name, args, "mcp")
               }
             : undefined,
-          resource
+          resource ? [resource] : []
         )
       ).catch((error: unknown) => {
         // HTTP 404 is reserved for expired/mismatched MCP sessions. A denied

@@ -265,7 +265,7 @@ platform/engine/backend/src/server/plugins	pki	Go-domain-migration	1	dc6a2ac2458
 platform/engine/backend/src/server/plugins	secrets	Go-domain-migration	2	61480bf59a329a0ee0a97b86fb6ce30f4af9bf04fe5b1c34c53b3ddd49a11c9e	0	unassessed
 platform/engine/backend/src/server/plugins/auth	authorization	Go-domain-migration	2	5386527d4f50b56514a02978b72f3ab4d7c2f7449f9249a4bab79f8ea5567f84	1	unassessed
 platform/engine/backend/src/server/plugins/auth	identity	Go-domain-migration	5	8ea539c406a7f1f728ef1564c8b65f95b1fa556c63338872e1c798228e205698	0	unassessed
-platform/engine/backend/src/server/routes	foundation	Go-domain-migration	11	40d62bb1b5ae6e520f9746b62a6c7c123a87ec1589e026a496c39b923fd5278d	8	unassessed
+platform/engine/backend/src/server/routes	foundation	Go-domain-migration	11	64fba36919da706c9b6a710488a5f23ea16f25935401d04ed14881966fcb26c6	6	unassessed
 platform/engine/backend/src/server/routes	identity	Go-domain-migration	1	3b8690fd25938911f0950ebbd8aedc9c1528901f09a0d984f2744fa76d7c2345	0	unassessed
 platform/engine/backend/src/server/routes/bdd	foundation	Go-domain-migration	2	2e3eae804d379e8d3c254b699aa7e515ab2f8174cd51d99147d9456354f00956	0	unassessed
 platform/engine/backend/src/server/routes/sanitizedSchema	authorization	Go-domain-migration	3	b4e9cf9567ce57a7660ad483eae2741e2f3e2303258be451efd99d3b61b92d98	0	unassessed
@@ -301,7 +301,7 @@ platform/engine/backend/src/server/routes/v3	identity	Go-domain-migration	2	391e
 platform/engine/backend/src/server/routes/v3	pki	Go-domain-migration	1	73ddd98aba53691336382fb0f949e2224954f18dc1cc92fb22946fc4bf87e48b	0	unassessed
 platform/engine/backend/src/server/routes/v4	foundation	Go-domain-migration	1	522daae29b7de7361853b5caa4d14e8a823ce359556c9e3074945108d520d664	0	unassessed
 platform/engine/backend/src/server/routes/v4	secrets	Go-domain-migration	1	c6960c04b1c487224ba174ee3202a7fbc596f3975856983b15eb5d26dd832b47	0	unassessed
-platform/engine/backend/src/server/routes/vx	foundation	Go-domain-migration	5	98e975ababc1ed6b797fc8096646bbffd7e237571a19ca5f0b46de653d58a4da	0	unassessed
+platform/engine/backend/src/server/routes/vx	foundation	Go-domain-migration	5	8c24bdbaaa486982c0d135cf4366ab24b092fb4ee93d193c2f2dc714ad861eea	0	unassessed
 platform/engine/backend/src/services/access-token-queue	foundation	Go-domain-migration	1	78fe83c16f31bbd6ea5016cfd82c07a603a7703dbff975d7c4904d9cd19e69ad	0	unassessed
 platform/engine/backend/src/services/account-recovery	identity	Go-domain-migration	4	87065e628d7cdd821f4be1ed0474974ab407c04e8a6cd90ae7ede05d02a25ac3	0	unassessed
 platform/engine/backend/src/services/additional-privilege	authorization	Go-domain-migration	5	5774c016aaa7e580d0ed9776cd026a07a65d7f47e3d8f64602e8a7c9041dc12d	0	unassessed
@@ -439,7 +439,7 @@ platform/engine/backend/src/services/user	identity	Go-domain-migration	4	039f229
 platform/engine/backend/src/services/user-activation	identity	Go-domain-migration	3	c5bfbf58d4395791e16ba650fe239404cf20477b59d7dca5291af39dee599d8f	0	unassessed
 platform/engine/backend/src/services/user-alias	identity	Go-domain-migration	3	b535f6bdbc747c0ef77b7f79ee300a5b6a4dff1580b8f2343f81d288261dfad8	0	unassessed
 platform/engine/backend/src/services/user-engagement	identity	Go-domain-migration	1	ea56472fb6d0ea5619cbf4753307de58fafefd83573817e6ecd956708f795893	0	unassessed
-platform/engine/backend/src/services/vaultix	ai	Go-domain-migration	23	8294ef802f26a4c45365c3392ab519ec6d2b81ffd8ce6e8467dd04d3a04fdbb5	10	unassessed
+platform/engine/backend/src/services/vaultix	ai	Go-domain-migration	23	01e56a14e734307e21d6d54f8df1f5306d4350e13c3bbeaa0c2a1068fddb9589	6	unassessed
 platform/engine/backend/src/services/webauthn	identity	Go-domain-migration	3	c790e144b92b8b1a704c0f831c6ab7de088aa29c9a98b84890c9b54ec6afba5a	0	unassessed
 platform/engine/backend/src/services/webhook	integrations	Go-domain-migration	4	744c30b94ebd606235e8dcc31018cec89b5f8a2ff799e32fb34788cb57241c87	0	unassessed
 platform/engine/backend/src/services/workflow-integration	automation	Go-domain-migration	3	40dd03eb93d6e243cc898360a79f701e653a4a3715caf73a505ccc57b0d46ce2	0	unassessed
@@ -1095,7 +1095,7 @@ platform/shippin/cmd/vaultix-control	hosted-service	Go-hosted-service	1	2f43f1d5
 platform/shippin/console	hosted-service	Go-hosted-service	3	43190eb6519717e7717f83fcf04a180117b919bc86af938ae7187f1526adc88c	0	unassessed
 platform/shippin/fleet	hosted-service	Go-hosted-service	2	d1b1550ad8014a22c430dbe01228fbcb20e06c1c5edfa828004aa72e92fad073	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	145	c13c148bb28bcddb142ed18c5a3bda6812a3595df6716109f40a8f8739b5f664	111	unassessed
+scripts	delivery	supporting-tooling-or-contract	145	0afea09faddf8927f4f5d1680b41aaa2f3403e502f633ee9c33b57dc5ea8fdb8	111	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	3	1d2aff89334f56081fcbebbab47c6ff9f8f2ef514fd4bc927067e3d6fe619259	3	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	d2d724187d04f25b91851d774d02663e060f51a9fe26b9203b393beb175ed3d5	2	unassessed
 scripts/fixtures/windows-install	delivery	supporting-tooling-or-contract	2	ec46359d82e85605c79c1f82b5dc1754d959eafcb99ee59868c36d43d5253d61	0	unassessed

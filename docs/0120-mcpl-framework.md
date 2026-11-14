@@ -75,6 +75,33 @@ Live today:
 
 Planned: `access`, `automation`, `pki`, `kms`, `pam`, `detect`, `governance`.
 
+## Views: a tool that shows a screen in the chat
+
+A view is a packaged screen that a chat client can show for a tool, using MCP Apps
+([embedded interactions](mcp-embedded-apps.md)). The model calls the tool with the context the
+person gave it; a client that renders views opens the screen with that input, and the person works
+in it. Every other client gets the same tool with its text result.
+
+- **One declaration.** A tool names its view in the registry, `warp-points.ts`, beside its access:
+  `{ name, access, view }`. The MCP handler attaches a view only from that declaration, and only
+  when that view's packaged resource is loaded. `vaultix.warp.list` reports each tool's `view`
+  (or `null`), so an AI client can tell which actions show a screen before it calls them.
+- **A view is a screen, never authority.** The tool call behind it passes the same sign-in and
+  permission checks. A view holds no credentials and calls only the tools the host proxies for it.
+- **Views are served by the main MCP.** Warp points stay stateless and serve none, so a tool with
+  a view must also be listed on the main MCP. `scripts/warp-points.test.mjs` fails otherwise.
+- **Values never cross**, as for every tool: a view shows names, IDs, counts and states.
+
+Views today:
+
+| View | Tools | Status |
+| --- | --- | --- |
+| `references` | `vaultix.projects.list`, `vaultix.secrets.references` | Packaged and unit-tested. Not yet accepted in a real chat client, and not on vaultix.cloud. |
+
+Adding a view: add its ID to `MCPL_VIEWS`, package its HTML with the frontend build under
+`dist/mcp-apps/`, load it in `mcp-app-resource.ts`, and name it on the tools that use it. The
+frontend build and the loader still package exactly one view; a second view extends both.
+
 ## Signing in an AI client
 
 `vaultix.auth.options.get` gives the AI the three ways to act in Vaultix and states which are
@@ -105,6 +132,7 @@ The only credential that may pass through chat is the one-time first-owner setup
 4. Return metadata only, with a plain `error` string on expected failures.
 5. Register it on the domain's warp point in `warp-points.ts` and implement its call in
    `vx/warp-point-router.ts`. A warp point with its first tool becomes live.
+   If the tool should show a screen in the chat, name its `view` there too (see Views).
 6. Test it: the route test (`warp-point-router.test.ts`) for listing, refusal before sign-in,
    denial as a tool error and argument validation; and the build's parity test.
 

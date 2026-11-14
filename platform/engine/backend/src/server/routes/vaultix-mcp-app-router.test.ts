@@ -45,7 +45,7 @@ describe("negotiated Vaultix MCP Apps routes", () => {
     });
     await app.register(registerVaultixRouter, {
       prefix: "/vaultix",
-      appResource: async () => ({ uri, text: "<!doctype html><title>Vaultix</title>" }),
+      appResource: async () => ({ view: "references" as const, uri, text: "<!doctype html><title>Vaultix</title>" }),
       references: { listProjects, listReferences } as VaultixReferenceService
     });
   });
