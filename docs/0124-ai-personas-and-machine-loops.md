@@ -81,6 +81,9 @@ goes live, under the same names.
 
 ## Managed in the panel
 
+> Being rewritten to one schema with guided setup, Hugging Face and Custom connections:
+> [0126](0126-ai-configuration-schema.md). Where the two differ, 0126 wins.
+
 Admin → AI, one place for the instance:
 
 - **Providers**: add, test (a real call, with the result kept as the receipt), activate, remove.

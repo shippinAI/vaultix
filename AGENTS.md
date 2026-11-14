@@ -193,6 +193,7 @@ the plan. Passing a schema or selected test is not whole-implementation proof.
 | Domain UI events / scripted MCP workflows | `docs/0114-domain-scripted-ui-standard.md` + `docs/interaction/` + `.agents/skills/domain-ui-actions/SKILL.md` |
 | Enterprise capability convergence | `docs/0023-capability-convergence.md` |
 | Signal fabric, outcome receipts, rehearsal demo, hosted agent | `docs/0123-signal-fabric.md` + `platform/engine/frontend/src/components/vaultix/` |
+| AI connections and personas: schema, guided setup, Hugging Face, Custom | `docs/0126-ai-configuration-schema.md` + `contracts/vaultix.ai-*.v1.schema.json` |
 | AI providers, personas and specialists, value requests, inject/redeem, local endpoint | `docs/0124-ai-personas-and-machine-loops.md` + `platform/engine/ai/personas/` + `platform/engine/backend-go/internal/services/assistant/` |
 | Hosted instances, the private control panel (`platform/shippin/`) | `docs/0125-hosted-control-panel.md` + `platform/shippin/README.md` |
 | Provider import (Doppler, Infisical/Vaultix instances) | `docs/0121-provider-import.md` + `services/external-migration/provider-import.ts` |
