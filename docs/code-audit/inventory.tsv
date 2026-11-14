@@ -20,7 +20,7 @@ path	git_blob	kind	review_status
 .github/workflows/ghcr.yml	2c075f0f1235a30aef353d90cd17770ae6c60c9d	build-and-operations	authored
 .github/workflows/owned.yml	a518913e14d87cd054146c26fd4b24b8479f4f1b	build-and-operations	authored
 .gitignore	1225c250c5b16ada35e1a2c720eae9a21d207556	product-code	reviewed
-AGENTS.md	5dcc86fc085a4ee794fd8c9cb5830d0c954d21ee	documentation	reviewed
+AGENTS.md	1e74e7bc90403b84a00a95020090c3fc5d2732fb	documentation	stale
 INSTALL-FOR-AI.md	573f3783bcb203219254b550a187aa768e0aabd5	documentation	unread
 JOURNAL.md	745bd9a4b5c9d9a042d2fb98e0843335135f9964	documentation	reviewed
 NOTICE	f961337300aa4688eb9b718fa46f8be13fcd52a7	documentation	unread
@@ -976,8 +976,8 @@ docs/capabilities/catalog.mjs	fc1197d55be7b3b76750d031efb6082dbe370731	product-c
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
-docs/capabilities/generated/catalog.json	06b35a8c5426d4879be7ad5cedf3a6c204ee1b99	generated	unread
-docs/capabilities/generated/source-map.tsv	fc701a136718f6065253d05d6903da01ab1db791	generated	unread
+docs/capabilities/generated/catalog.json	f67ab263198c0eef32ab454b7968a7b110505df1	generated	unread
+docs/capabilities/generated/source-map.tsv	7e25e2384bf28a0e40902e6f328cda8cc3f4ec13	generated	unread
 docs/capabilities/generated/surface-map.tsv	3ca4a354f751bfb02b36e623bdb5c3bc8d0abdca	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -987,12 +987,13 @@ docs/interaction/mesh-knowledge-personas.example.v1.json	20ac59407baa50d2756406a
 docs/interaction/mesh-knowledge-trigger.example.v1.json	ef015e95f3db9d21c8fb2fc4ed9d0fc27469a767	product-code	unread
 docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab1fb2357d20ca22	product-code	unread
 docs/interaction/workflows.json	47c4034ef2acbdca39f05a84de9b6aa21104e874	product-code	unread
+docs/lexicon.json	01f22b6499c45a6cdd7d3077fd6141337b186c38	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	bc1cb1afc8ed4df3b067492f8fd3883d3349b895	generated	unread
-docs/migration/generated/modules.tsv	aa19d922001e3711e1894f553deae94470fdc61f	generated	unread
-docs/migration/generated/summary.json	4e5092e688926dee2b2ca4c25b44f4b908b53172	generated	unread
-docs/migration/workstreams.json	7cb000d9f20a57624e4ae0ca0e00d08b09c2e0c2	product-code	reviewed
+docs/migration/generated/files.tsv	ebf04c8776a87c071dc588c50efc01e0f77047cc	generated	unread
+docs/migration/generated/modules.tsv	05fba5257b55836154049e690ceb6b385d41cac6	generated	unread
+docs/migration/generated/summary.json	9118f2ebd7883cf19b78d56f1944f94e6f6e604c	generated	unread
+docs/migration/workstreams.json	997042537154fcfbba65d0108bbcdb6df46f15e3	product-code	stale
 docs/plan/action-plan.md	2700611de78557356d50ea829a9bfdc2525f481a	documentation	unread
 docs/plan/naming.md	5864fda0319b9656eda20aae09e2a44e9ac4fbfd	documentation	unread
 docs/plan/traceability.md	9d100c740c750e64140e6e47542b1fbacb600978	documentation	unread
@@ -12216,6 +12217,7 @@ scripts/fixtures/windows-install/bundle.go	ad28bb00655695a346d0796b937fd947bf294
 scripts/fixtures/windows-install/guest.ps1	f77f37cd6e05a1eefefa10e6b6b058724b8aed61	build-and-operations	unread
 scripts/fixtures/windows-package/guest.ps1	d55f6c29b01ebd5951c8d164669147bbb71f317e	build-and-operations	authored
 scripts/go-test-evidence.mjs	d7a3809998aa57ddc40200e7630217d82d9d541f	build-and-operations	verified
+scripts/lexicon.test.mjs	ad7c73664b3bd4cfe9f20e29d18d1311f7631074	test	unread
 scripts/lib/ai-journal.mjs	d22d234a23e1aa2a6f21666a814510aba3f55ccb	build-and-operations	reviewed
 scripts/lib/disposable-image.mjs	f8aa39ca705df1c28038e3a41373afa981c444d7	build-and-operations	reviewed
 scripts/lib/ldap-consumer-fixture.mjs	a351cff3d2f5ed47e82cd1ac50b7a791452721b9	build-and-operations	reviewed

@@ -1,0 +1,424 @@
+{
+  "schemaVersion": 1,
+  "purpose": "One vocabulary for Vaultix. Use the term; when the owner says one of owner_says, name the term once and continue. Do not add a new word for something listed here. status says what exists, read from the repo on the seeded date. The owner corrects this file; an AI proposes changes and never rewrites an owner-corrected entry.",
+  "seeded": "2026-11-12",
+  "terms": [
+    {
+      "term": "engine",
+      "meaning": "The Vaultix product everyone gets: secrets, UI, API. Never gated.",
+      "owner_says": [
+        "core",
+        "the main app"
+      ],
+      "vaultix_name": "platform/engine",
+      "where": [
+        "platform/README.md",
+        "AGENTS.md"
+      ],
+      "status": "built"
+    },
+    {
+      "term": "commercial cloud boundary",
+      "meaning": "The only place code for the hosted paid service lives. It may depend on the engine; the engine never depends on it.",
+      "owner_says": [
+        "shippin",
+        "the cloud folder",
+        "commercial code"
+      ],
+      "vaultix_name": "platform/shippin",
+      "where": [
+        "platform/README.md",
+        "scripts/test-platform-boundary.mjs"
+      ],
+      "status": "folder and boundary check built; `backups`, `cmd`, `console` and `fleet` folders landed on main 2026-11-13"
+    },
+    {
+      "term": "vertical slice",
+      "meaning": "One self-contained folder per feature holding its API, service, store, UI, tools and tests.",
+      "owner_says": [
+        "self-describing folders",
+        "modular co-located",
+        "everything it needs right there"
+      ],
+      "vaultix_name": "domain folder",
+      "where": [
+        "platform/README.md"
+      ],
+      "status": "decided; applied per domain during the Go port"
+    },
+    {
+      "term": "modular monolith",
+      "meaning": "One product to the customer, separate modules underneath, each owning its own data.",
+      "owner_says": [
+        "becoming one",
+        "connected as one"
+      ],
+      "vaultix_name": "Nomen + Vaultix + Wardenclyffe joined by contracts",
+      "where": [
+        "docs/0122-completion-plan.md"
+      ],
+      "status": "direction"
+    },
+    {
+      "term": "control plane",
+      "meaning": "The service that creates, upgrades, backs up and bills customer instances. It holds no secret values.",
+      "owner_says": [
+        "cloud management service",
+        "the manager"
+      ],
+      "vaultix_name": "platform/shippin (tenants, fleet, billing, quotas, backups)",
+      "where": [
+        "docs/0054-public-cloud-service.md",
+        "platform/shippin/README.md"
+      ],
+      "status": "started: a private control panel for hosted instances and scheduled backups landed on main 2026-11-13; billing, quotas and sign-up not built"
+    },
+    {
+      "term": "single-tenant instance",
+      "meaning": "Each hosted customer gets their own running copy of the engine and its database.",
+      "owner_says": [
+        "own instance per customer",
+        "their private vaultix"
+      ],
+      "vaultix_name": "instance",
+      "where": [
+        "AGENTS.md"
+      ],
+      "status": "owner decision 2026-11-12; ADR not written"
+    },
+    {
+      "term": "secret reference",
+      "meaning": "The AI sees a name or handle for a secret, never the value. Also called an opaque handle or indirection.",
+      "owner_says": [
+        "references never values",
+        "the AI only gets the name"
+      ],
+      "vaultix_name": "reference (vaultix.secrets.references)",
+      "where": [
+        "platform/engine/backend/src/services/vaultix/",
+        "docs/0117-assistant-reference-boundary.md"
+      ],
+      "status": "built"
+    },
+    {
+      "term": "credential brokering",
+      "meaning": "A trusted service puts the value into the target process at the moment of use. Also called just-in-time (JIT) injection.",
+      "owner_says": [
+        "hands the key to the app",
+        "inject it"
+      ],
+      "vaultix_name": "inject and redeem; `vaultix run`",
+      "where": [
+        "cmd/vaultix",
+        "docs/0124-ai-personas-and-machine-loops.md"
+      ],
+      "status": "CLI run built; redeem flows partly built"
+    },
+    {
+      "term": "out-of-band",
+      "meaning": "The value travels on a path the AI is not on.",
+      "owner_says": [
+        "goes around the AI",
+        "in the browser only"
+      ],
+      "vaultix_name": "value request",
+      "where": [
+        "docs/0124-ai-personas-and-machine-loops.md"
+      ],
+      "status": "specified"
+    },
+    {
+      "term": "trust boundary",
+      "meaning": "The line a value may not cross.",
+      "owner_says": [
+        "never crossing",
+        "stays in that org's space"
+      ],
+      "vaultix_name": "org boundary; instance boundary",
+      "where": [
+        "docs/0054-public-cloud-service.md",
+        "docs/0056-machine-tenant-isolation.md"
+      ],
+      "status": "partly proven; CLOUD-02 open"
+    },
+    {
+      "term": "least privilege",
+      "meaning": "Each identity can do only what its job needs. A scoped token is the usual tool.",
+      "owner_says": [
+        "can only write to that org",
+        "limited to"
+      ],
+      "vaultix_name": "machine identity scope; org-scoped credential",
+      "where": [
+        "docs/0056-machine-tenant-isolation.md"
+      ],
+      "status": "built for machine identities"
+    },
+    {
+      "term": "non-human identity",
+      "meaning": "An identity for a machine, app or AI agent, as opposed to a person. Also called workload identity.",
+      "owner_says": [
+        "the AI's login",
+        "the bot account"
+      ],
+      "vaultix_name": "machine identity (Universal Auth)",
+      "where": [
+        "docs/0120-mcpl-framework.md"
+      ],
+      "status": "built"
+    },
+    {
+      "term": "device authorization flow",
+      "meaning": "The AI shows a link; the person signs in and approves; the AI gets a time-limited session.",
+      "owner_says": [
+        "ride my OAuth",
+        "paste a link like Tailscale"
+      ],
+      "vaultix_name": "the user's session for AI clients",
+      "where": [
+        "docs/0120-mcpl-framework.md",
+        "docs/0122-completion-plan.md"
+      ],
+      "status": "Go service issues codes (off by default); approval page, CLI support, MCP admission and renewal missing"
+    },
+    {
+      "term": "egress control",
+      "meaning": "Blocking outbound paths so data cannot be sent out.",
+      "owner_says": [
+        "one way",
+        "can't send anything out"
+      ],
+      "vaultix_name": "one-way endpoint",
+      "where": [],
+      "status": "planned with the classifier endpoint"
+    },
+    {
+      "term": "data loss prevention (DLP)",
+      "meaning": "Detecting sensitive data and removing or masking it before it leaves. Removal is redaction.",
+      "owner_says": [
+        "make sure it never leaks"
+      ],
+      "vaultix_name": "secret scanning; canary check; classifier",
+      "where": [
+        "docs/0123-signal-fabric.md"
+      ],
+      "status": "scanning and canary built; classifier planned"
+    },
+    {
+      "term": "classifier endpoint",
+      "meaning": "The owner's own model, run in the cloud service, that labels and organizes sensitive values. Each endpoint serves one org, is one-way, and writes only to that org's space. Designed for many accounts; more copies start at peak hours.",
+      "owner_says": [
+        "the local classifier",
+        "the local one",
+        "machine bot"
+      ],
+      "vaultix_name": "classifier endpoint (under platform/shippin)",
+      "where": [],
+      "status": "planned; not built. Whether copies are bound to one org or shared is undecided"
+    },
+    {
+      "term": "dual-LLM pattern",
+      "meaning": "One model plans and never sees sensitive data; another handles the data and cannot act outside. Also called privileged and quarantined models, or planner and executor.",
+      "owner_says": [
+        "the reasoning AI gives directions and the machine bot writes",
+        "frontier works with the local one"
+      ],
+      "vaultix_name": "frontier planner + classifier endpoint",
+      "where": [],
+      "status": "planned"
+    },
+    {
+      "term": "lethal trifecta",
+      "meaning": "An agent with private data, untrusted input and a way to send data out is exploitable. Remove one and the attack fails.",
+      "owner_says": [],
+      "vaultix_name": "",
+      "where": [],
+      "status": "concept"
+    },
+    {
+      "term": "prompt injection",
+      "meaning": "Content the AI reads tricks it into misusing its own access. The misuse is the confused-deputy problem; the leak is exfiltration.",
+      "owner_says": [
+        "the AI gets tricked"
+      ],
+      "vaultix_name": "",
+      "where": [],
+      "status": "concept"
+    },
+    {
+      "term": "human-in-the-loop",
+      "meaning": "A person must approve before an action runs. The check is an approval gate.",
+      "owner_says": [
+        "change request",
+        "approve it on my phone"
+      ],
+      "vaultix_name": "approval request",
+      "where": [
+        "platform/engine/backend/src/services/approval-policy/"
+      ],
+      "status": "general service built for certificates, code signing and PAM; one flow for every action is draft ADR 0125, not saved"
+    },
+    {
+      "term": "approval policy",
+      "meaning": "The rule for an action: who the approvers are, how many approvals are required, and the enforcement level (hard or soft).",
+      "owner_says": [
+        "who has to approve",
+        "workflow"
+      ],
+      "vaultix_name": "approval policy",
+      "where": [
+        "platform/engine/backend/src/services/approval-policy/",
+        "platform/engine/backend/src/lib/types/index.ts"
+      ],
+      "status": "built"
+    },
+    {
+      "term": "sequence",
+      "meaning": "Ordered approval steps, each with its own approvers. Later steps are the fallback.",
+      "owner_says": [
+        "workflow with fallbacks"
+      ],
+      "vaultix_name": "sequence / stepNumber",
+      "where": [
+        "platform/engine/backend/src/shippin/services/access-approval-policy/"
+      ],
+      "status": "built for access approvals"
+    },
+    {
+      "term": "self-approval",
+      "meaning": "The submitter may approve their own request. On a one-person account this is the only option and is an accepted single point of failure.",
+      "owner_says": [
+        "one person just approves it"
+      ],
+      "vaultix_name": "allowedSelfApprovals",
+      "where": [
+        "platform/engine/backend/src/shippin/services/secret-approval-policy/"
+      ],
+      "status": "built"
+    },
+    {
+      "term": "request status",
+      "meaning": "Where a request stands.",
+      "owner_says": [],
+      "vaultix_name": "pending, approved, rejected, revoked",
+      "where": [
+        "platform/engine/backend/src/shippin/services/access-approval-request/access-approval-request-types.ts"
+      ],
+      "status": "built; no expired state"
+    },
+    {
+      "term": "passkey",
+      "meaning": "The phone's face or fingerprint check signs an approval and the server verifies the signature. The standard is WebAuthn.",
+      "owner_says": [
+        "they already unlocked their phone"
+      ],
+      "vaultix_name": "passkey",
+      "where": [],
+      "status": "WebAuthn code exists; not wired to approvals"
+    },
+    {
+      "term": "installable web app (PWA)",
+      "meaning": "The site added to the phone's home screen, able to receive push notifications.",
+      "owner_says": [
+        "install on their phone"
+      ],
+      "vaultix_name": "",
+      "where": [],
+      "status": "not built: no manifest, service worker or push"
+    },
+    {
+      "term": "MCPL",
+      "meaning": "One action framework so a person, the API and an AI all run the same handler, permission check and audit.",
+      "owner_says": [
+        "my learning node"
+      ],
+      "vaultix_name": "MCPL",
+      "where": [
+        "docs/0120-mcpl-framework.md"
+      ],
+      "status": "in progress"
+    },
+    {
+      "term": "warp point",
+      "meaning": "One MCP endpoint per domain, listing only that domain's tools.",
+      "owner_says": [],
+      "vaultix_name": "/api/vx/v1/<domain>/mcp",
+      "where": [
+        "platform/engine/backend/src/services/vaultix/warp-points.ts"
+      ],
+      "status": "8 of 15 live in the repo; none on the live instance as of 2026-11-12"
+    },
+    {
+      "term": "domain",
+      "meaning": "One of the 15 product areas that name folders, routes, warp points and UI actions.",
+      "owner_says": [],
+      "vaultix_name": "public, auth, workspace, secrets, access, automation, connect, pki, kms, pam, detect, ai, governance, operate, experience",
+      "where": [
+        "docs/interaction/workflows.json"
+      ],
+      "status": "built; enforced by scripts/warp-points.test.mjs"
+    },
+    {
+      "term": "UI action",
+      "meaning": "A named, scripted step in the real UI that an AI or a walkthrough can trigger while the person watches.",
+      "owner_says": [
+        "scripted events",
+        "impersonate the operator in front of them"
+      ],
+      "vaultix_name": "vaultix.ui.<domain>.<workflow>.<action>",
+      "where": [
+        "docs/0114-domain-scripted-ui-standard.md"
+      ],
+      "status": "16 named, 5 working locally; no backend command"
+    },
+    {
+      "term": "receipt",
+      "meaning": "The server's record that an action really happened.",
+      "owner_says": [],
+      "vaultix_name": "outcome receipt",
+      "where": [
+        "docs/0123-signal-fabric.md"
+      ],
+      "status": "partly built"
+    },
+    {
+      "term": "ubiquitous language",
+      "meaning": "One agreed vocabulary used by the people, the code and the docs.",
+      "owner_says": [
+        "lexicon",
+        "glossary",
+        "the true terms"
+      ],
+      "vaultix_name": "this file",
+      "where": [
+        "docs/lexicon.json"
+      ],
+      "status": "seeded 2026-11-12"
+    },
+    {
+      "term": "term normalization",
+      "meaning": "Mapping whatever words someone uses to the one canonical term. Also called entity linking.",
+      "owner_says": [
+        "a signal so the AI sees it bright"
+      ],
+      "vaultix_name": "owner_says in this file",
+      "where": [
+        "docs/lexicon.json"
+      ],
+      "status": "lookup only; no model"
+    },
+    {
+      "term": "context engineering",
+      "meaning": "Giving the AI the smallest set of facts that makes it right the first time.",
+      "owner_says": [
+        "not waste tokens",
+        "truly guide you"
+      ],
+      "vaultix_name": ".ai/contexts.json",
+      "where": [
+        ".ai/contexts.json"
+      ],
+      "status": "built"
+    }
+  ]
+}
