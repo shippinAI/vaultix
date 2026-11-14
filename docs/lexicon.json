@@ -30,7 +30,7 @@
         "platform/README.md",
         "scripts/test-platform-boundary.mjs"
       ],
-      "status": "folder and check built; no code yet"
+      "status": "folder and boundary check built; `backups`, `cmd`, `console` and `fleet` folders landed on main 2026-11-13"
     },
     {
       "term": "vertical slice",
@@ -71,7 +71,7 @@
         "docs/0054-public-cloud-service.md",
         "platform/shippin/README.md"
       ],
-      "status": "planned after the main instance and classifier endpoint exist"
+      "status": "started: a private control panel for hosted instances and scheduled backups landed on main 2026-11-13; billing, quotas and sign-up not built"
     },
     {
       "term": "single-tenant instance",
