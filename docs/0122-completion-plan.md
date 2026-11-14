@@ -97,9 +97,11 @@ How it should work:
   uses Admin → Resource overview → Users → Create Password Reset Link
   (`POST /api/vx/v1/access/users/{userId}/password-reset-links`). The link carries the same one-use,
   24-hour token the email would, opens the same reset page, and replaces any earlier link. Issuing
-  one is logged with who issued it for whom. Built 2026-11-13; unit tests pass, and the image test
-  (`scripts/test-password-reset-image.mjs`) waits on a build. Still to build: owner recovery from
-  the host for when no administrator can sign in, and an audit-log event for issued links.
+  one is recorded in the person's organization audit log (`issue-password-reset-link`, origin
+  `administrator` or `host`). When nobody can sign in, the host operator runs
+  `vaultix server owner-reset-link` (docs/0109, Owner recovery). Built 2026-11-13 with unit and Go
+  tests; `scripts/test-password-reset-image.mjs` proves both paths and the audit entries on the
+  packaged image as a canonical build step.
 
 Needed outside this repository: Google configured as an upstream provider in Nomen, and
 vaultix.cloud registered there as a client. Nomen is a sibling tree and is not edited from here.

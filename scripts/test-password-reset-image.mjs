@@ -1,10 +1,12 @@
 // Account recovery without email on one packaged image (docs/0122 Stage 3): with no mail server
 // configured, an instance administrator issues a one-use reset link, the person sets a new password
 // through the same verify and reset routes the email would lead to, the old password stops working,
-// the link cannot be used twice, and nobody else can issue one. Values stay in process memory.
+// the link cannot be used twice, and nobody else can issue one. The host operator then recovers the
+// owner with the exact script `vaultix server owner-reset-link` runs, and both issues reach the
+// organization's audit log. Values stay in process memory.
 import assert from "node:assert/strict";
 import { randomBytes } from "node:crypto";
-import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createDisposableImageHarness } from "./lib/disposable-image.mjs";
@@ -20,10 +22,14 @@ const run = `vaultix-reset-${randomBytes(8).toString("hex")}`;
 const siteUrl = "http://127.0.0.1:8200";
 const report = { passed: false, artifact, checks: [],
   scope: "One packaged instance with no mail server; an instance administrator recovers an account",
-  exclusions: ["browser UI", "email delivery", "owner recovery from the host"] };
+  exclusions: ["browser UI", "email delivery", "the host command's instance directory and Compose lookup"] };
 const check = name => { report.checks.push(name); console.log(`Vaultix password reset: ${name}`); };
 const password = () => `Vx9!${[...randomBytes(24)].map(byte => byte.toString(16).padStart(2, "0")).join("-")}`;
-const original = password(), replacement = password();
+const original = password(), replacement = password(), recovered = password();
+// The host command's script, read from its Go source so this proof runs exactly what the command runs.
+const hostScript = readFileSync(resolve(root, "internal/platform/owner_recovery.go"), "utf8")
+  .match(/const ownerRecoveryScript = `([^`]+)`/)?.[1];
+assert.ok(hostScript?.includes("%s"), "the owner recovery script was not found in internal/platform/owner_recovery.go");
 const email = `${run}@vaultix.invalid`;
 
 function raw(app, path, { method = "GET", body, token } = {}) {
@@ -95,11 +101,48 @@ try {
   assert.ok(raw(app, "/api/v1/account-recovery/verify-email", { method: "POST", body: { email, code } }).status >= 400, "the link worked twice");
   check("the link cannot be used a second time");
 
+  phase = "host refusal";
+  const guessed = await api("/api/vx/v1/access/owner-password-reset-links", { method: "POST", body: { hostCode: "f".repeat(64) }, status: 403 });
+  assert.match(guessed.message, /vaultix server owner-reset-link/);
+  check("owner recovery is refused to anyone who has not just written the code inside the container");
+
+  phase = "host recovery";
+  const hostCode = randomBytes(32).toString("hex");
+  const hostRun = docker(["exec", "-i", app, "node", "-"], { input: hostScript.replace("%s", JSON.stringify({ code: hostCode, email: "" })), allowFailure: true, timeout: 30_000 });
+  assert.equal(hostRun.status, 0, "the host script did not run in the container");
+  const hostAnswer = JSON.parse(hostRun.stdout.toString());
+  assert.equal(hostAnswer.status, 201, `the host script was refused: ${hostAnswer.body?.message}`);
+  const hostLink = new URL(hostAnswer.body.passwordResetLink.url);
+  assert.equal(hostLink.searchParams.get("to"), email);
+  const hostToken = hostLink.searchParams.get("token");
+  const hostVerified = await api("/api/v1/account-recovery/verify-email", { method: "POST", body: { email, code: hostToken } });
+  await api("/api/v2/password/password-reset", { method: "POST", token: hostVerified.token, body: { newPassword: recovered } });
+  const ownerAgain = await api("/api/v3/auth/login", { method: "POST", body: { email, password: recovered } });
+  assert.ok(ownerAgain.accessToken || ownerAgain.token, "the owner could not sign in after host recovery");
+  const unknown = docker(["exec", "-i", app, "node", "-"], { input: hostScript.replace("%s", JSON.stringify({ code: randomBytes(32).toString("hex"), email: "nobody@vaultix.invalid" })), allowFailure: true, timeout: 30_000 });
+  assert.equal(JSON.parse(unknown.stdout.toString()).status, 404, "an unknown administrator email was not refused");
+  check("the host command's script recovers the owner with no sign-in, and names an unknown administrator");
+
+  phase = "audit";
+  const session = ownerAgain.accessToken || ownerAgain.token;
+  let entries = [];
+  await waitFor(() => {
+    const listed = http(app, "/api/v1/organization/audit-logs?eventType=issue-password-reset-link&limit=10",
+      { headers: { Authorization: `Bearer ${session}` } });
+    entries = listed?.status === 200 ? JSON.parse(listed.body).auditLogs : [];
+    return entries.length >= 2;
+  }, "audit log entries for issued reset links");
+  const origins = entries.map(entry => entry.event?.metadata?.origin).sort();
+  assert.deepEqual(origins, ["administrator", "host"]);
+  assert.ok(!JSON.stringify(entries).includes(code) && !JSON.stringify(entries).includes(hostToken), "a reset code reached the audit log");
+  check("the organization's audit log records each issued link, by an administrator and by the host, without the code");
+
   phase = "logs";
   const logs = docker(["logs", app], { allowFailure: true });
   const text = `${logs.stdout}${logs.stderr}`;
-  assert.ok(!text.includes(code) && !text.includes(replacement) && !text.includes(original), "a code or password reached the log");
-  assert.ok(text.includes(`[userId=${userId}] [issuedByUserId=${userId}]`), "issuing the link was not recorded");
+  for (const value of [code, hostToken, hostCode, replacement, original, recovered]) assert.ok(!text.includes(value), "a code or password reached the log");
+  assert.ok(text.includes(`[origin=administrator] [userId=${userId}] [issuedByUserId=${userId}]`), "issuing the link was not recorded");
+  assert.ok(text.includes(`[origin=host] [userId=${userId}] [issuedByUserId=host]`), "host recovery was not recorded");
   check("issuing is recorded with who issued it and for whom; no code or password reaches the log");
 
   report.passed = true;

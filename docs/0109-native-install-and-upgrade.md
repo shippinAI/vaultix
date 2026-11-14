@@ -265,6 +265,28 @@ failed upgrade, so back up the store first. Rollback does not check free space: 
 disk during a restore stops with the application down until space is freed, then
 `recover` continues.
 
+## Owner recovery
+
+When no instance administrator can sign in and the instance has no mail server, the host
+operator issues a one-use password reset link:
+
+```sh
+vaultix server owner-reset-link --directory /srv/vaultix-instance [--email owner@example.com]
+```
+
+The command needs a ready, healthy instance. In one `docker exec` it writes a fresh code
+to a file in the backend container's temporary directory and presents it over the
+container's loopback to `POST /api/vx/v1/access/owner-password-reset-links`. The code is
+never a process argument or a host file; the application removes the file on first read,
+refuses codes older than five minutes, and refuses every caller that did not just write
+it. Being able to write that file already means controlling the instance, so the route
+adds no network credential. Only instance administrators are reachable; with several,
+`--email` chooses one. The link is the same 24-hour, one-use token the recovery email
+carries, and each issue is recorded in the person's organization audit log as
+`issue-password-reset-link` with origin `host`. The link is a credential: it is printed
+for the operator and never belongs in chat. Proof: `scripts/test-password-reset-image.mjs`
+runs the command's own script against the packaged image.
+
 ## Trust and distribution
 
 `--from-build` trusts the local operator's accepted build receipt; it is not a

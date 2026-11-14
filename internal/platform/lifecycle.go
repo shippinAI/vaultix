@@ -21,7 +21,7 @@ import (
 )
 
 type Options struct {
-	Directory, Project, SiteURL, BuildReceipt, Bundle, Trust, Apply, Environment string
+	Directory, Project, SiteURL, BuildReceipt, Bundle, Trust, Apply, Environment, Email string
 	Port                                                                         int
 	Plan, DiscardWrites                                                          bool
 	ProxyBindings                                                                []string
@@ -54,6 +54,8 @@ type Result struct {
 	// Present only while the running application still requires the first-owner code.
 	SetupCode string `json:"setupCode,omitempty"`
 	SetupURL  string `json:"setupUrl,omitempty"`
+	// Present only on owner-reset-link: a one-use link for an instance administrator.
+	PasswordResetLink *PasswordResetLink `json:"passwordResetLink,omitempty"`
 }
 
 func Execute(ctx context.Context, action string, o Options, progress io.Writer) (Result, error) {
@@ -74,10 +76,10 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 	if len(bindings) != 0 && action != "install" && action != "adopt" {
 		return result, errors.New("--proxy-bind is only for install or adopt; upgrades use the saved listeners")
 	}
-	if action != "install" && action != "upgrade" && action != "status" && action != "recover" && action != "adopt" && action != "rollback" {
-		return result, errors.New("use server install, upgrade, adopt, status, recover or rollback")
+	if action != "install" && action != "upgrade" && action != "status" && action != "recover" && action != "adopt" && action != "rollback" && action != "owner-reset-link" {
+		return result, errors.New("use server install, upgrade, adopt, status, recover, rollback or owner-reset-link")
 	}
-	if o.Apply != "" && action != "upgrade" || o.DiscardWrites && action != "rollback" || o.Environment != "" && action != "install" && action != "adopt" || (action == "adopt" || action == "status" || action == "rollback") && (o.BuildReceipt != "" || o.Bundle != "" || o.Trust != "" || o.Plan) {
+	if o.Apply != "" && action != "upgrade" || o.DiscardWrites && action != "rollback" || o.Environment != "" && action != "install" && action != "adopt" || o.Email != "" && action != "owner-reset-link" || (action == "adopt" || action == "status" || action == "rollback" || action == "owner-reset-link") && (o.BuildReceipt != "" || o.Bundle != "" || o.Trust != "" || o.Plan) {
 		return result, errors.New("arguments do not belong to the selected server operation")
 	}
 	root, err := privateDirectory(o.Directory, action == "install" || action == "adopt")
@@ -138,6 +140,16 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 			withSetupCode(ctx, d, root, &result)
 		}
 		return result, nil
+	}
+	if action == "owner-reset-link" {
+		if s == nil || s.Phase != "ready" {
+			return result, errors.New("the instance has a pending operation; inspect status and recover it first")
+		}
+		if err = d.healthy(ctx, s.Candidate.Image); err != nil {
+			return result, err
+		}
+		result = Result{Instance: instance, Operation: s, Ready: true}
+		return result, withOwnerResetLink(ctx, d, o.Email, &result)
 	}
 	ctx, cancel := context.WithTimeout(ctx, 30*time.Minute)
 	defer cancel()

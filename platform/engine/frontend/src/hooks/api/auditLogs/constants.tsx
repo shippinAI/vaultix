@@ -124,6 +124,7 @@ export const eventToNameMap: { [K in EventType]: string } = {
   [EventType.DELETE_PKI_COLLECTION_ITEM]: "Delete PKI collection item",
   [EventType.ORG_ADMIN_ACCESS_PROJECT]: "Org admin accessed project",
   [EventType.ORG_ADMIN_BYPASS_SSO]: "Org admin bypassed SSO enforcement",
+  [EventType.ISSUE_PASSWORD_RESET_LINK]: "Issue password reset link",
   [EventType.DEVICE_SESSION_ISSUED]: "Authorize Vaultix CLI session",
   [EventType.DEVICE_SESSION_ROTATED]: "Renew Vaultix CLI session",
   [EventType.DEVICE_SESSION_REUSE]: "Detect reused Vaultix CLI credential",

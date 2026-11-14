@@ -4,21 +4,26 @@ import { crypto } from "@app/lib/crypto/cryptography";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { logger } from "@app/lib/logger";
 import { sanitizeEmail } from "@app/lib/validator";
-import { AuthMethod, AuthTokenType } from "@app/services/auth/auth-type";
+import { ActorType, AuthMethod, AuthTokenType } from "@app/services/auth/auth-type";
 import { TAuthTokenServiceFactory } from "@app/services/auth-token/auth-token-service";
 import { TokenType } from "@app/services/auth-token/auth-token-types";
 import { TMembershipUserDALFactory } from "@app/services/membership-user/membership-user-dal";
 import { SmtpTemplates, TSmtpService } from "@app/services/smtp/smtp-service";
 import { TUserDALFactory } from "@app/services/user/user-dal";
+import { AuditLogInfo, EventType, TAuditLogServiceFactory } from "@app/shippin/services/audit-log/audit-log-types";
 
 import { validatePasswordResetAuthorization } from "../auth/auth-fns";
+import { consumeHostRecoveryCode } from "./host-recovery-code";
 
 type TAccountRecoveryServiceFactoryDep = {
   userDAL: TUserDALFactory;
   membershipUserDAL: Pick<TMembershipUserDALFactory, "find">;
   tokenService: TAuthTokenServiceFactory;
   smtpService: TSmtpService;
+  auditLogService: Pick<TAuditLogServiceFactory, "createAuditLog">;
 };
+
+export type TPasswordResetLinkOrigin = "administrator" | "host";
 
 export type TAccountRecoveryServiceFactory = ReturnType<typeof accountRecoveryServiceFactory>;
 const DUMMY_USER_ID = "00000000-0000-0000-0000-000000000000";
@@ -29,7 +34,8 @@ export const accountRecoveryServiceFactory = ({
   userDAL,
   membershipUserDAL,
   tokenService,
-  smtpService
+  smtpService,
+  auditLogService
 }: TAccountRecoveryServiceFactoryDep) => {
   /*
    * Account recovery flow via email. Step 1: send recovery email
@@ -142,30 +148,42 @@ export const accountRecoveryServiceFactory = ({
   };
 
   /*
-   * Account recovery without email. An instance administrator issues the same one-use token the
-   * recovery email would carry and hands the link to the person; it opens the same reset page.
-   * Issuing a new link replaces any earlier link or email for that person.
+   * Account recovery without email. The same one-use token the recovery email would carry, handed
+   * over as a link to the same reset page. Issuing a new link replaces any earlier link or email.
    */
-  const createResetLinkForUser = async ({ userId, issuedByUserId }: { userId: string; issuedByUserId: string }) => {
+  const issueResetLink = async ({
+    user,
+    origin,
+    auditLogInfo
+  }: {
+    user: { id: string; username: string };
+    origin: TPasswordResetLinkOrigin;
+    auditLogInfo: AuditLogInfo;
+  }) => {
     const cfg = getConfig();
     if (!cfg.SITE_URL) {
       throw new BadRequestError({
         message: "This instance has no SITE_URL, so a reset link would have no address. Set SITE_URL and restart."
       });
     }
-    const user = await userDAL.findById(userId);
-    if (!user || user.isGhost) throw new NotFoundError({ message: `User '${userId}' was not found.` });
-    if (!user.isAccepted) {
-      throw new BadRequestError({
-        message: `'${user.username}' has not finished signing up, so there is no password to reset. Send them a new invitation instead.`
-      });
-    }
     const token = await tokenService.createTokenForUser({
       type: TokenType.TOKEN_EMAIL_PASSWORD_RESET,
       userId: user.id
     });
-    logger.info(
-      `Instance administrator issued a password reset link [userId=${user.id}] [issuedByUserId=${issuedByUserId}]`
+    const issuedBy = auditLogInfo.actor.type === ActorType.USER ? auditLogInfo.actor.metadata.userId : origin;
+    logger.info(`Password reset link issued [origin=${origin}] [userId=${user.id}] [issuedByUserId=${issuedBy}]`);
+    const orgs = await membershipUserDAL.find({ actorUserId: user.id, scope: AccessScope.Organization });
+    await Promise.all(
+      [...new Set(orgs.map((membership) => membership.scopeOrgId))].map((orgId) =>
+        auditLogService.createAuditLog({
+          ...auditLogInfo,
+          orgId,
+          event: {
+            type: EventType.ISSUE_PASSWORD_RESET_LINK,
+            metadata: { userId: user.id, username: user.username, origin }
+          }
+        })
+      )
     );
     const url = new URL("/account-recovery-reset", cfg.SITE_URL);
     url.searchParams.set("token", token);
@@ -177,10 +195,61 @@ export const accountRecoveryServiceFactory = ({
     };
   };
 
+  const resettableUser = <T extends { username: string; isAccepted?: boolean | null }>(user: T) => {
+    if (!user.isAccepted) {
+      throw new BadRequestError({
+        message: `'${user.username}' has not finished signing up, so there is no password to reset. Send them a new invitation instead.`
+      });
+    }
+    return user;
+  };
+
+  // An instance administrator issues a link for anyone on the instance.
+  const createResetLinkForUser = async ({ userId, auditLogInfo }: { userId: string; auditLogInfo: AuditLogInfo }) => {
+    const user = await userDAL.findById(userId);
+    if (!user || user.isGhost) throw new NotFoundError({ message: `User '${userId}' was not found.` });
+    return issueResetLink({ user: resettableUser(user), origin: "administrator", auditLogInfo });
+  };
+
+  // The host operator recovers an instance administrator when nobody can sign in to do it. Only
+  // instance administrators are reachable this way; everyone else is recovered by one of them.
+  const createOwnerResetLinkFromHost = async ({
+    hostCode,
+    email,
+    auditLogInfo
+  }: {
+    hostCode: string;
+    email?: string;
+    auditLogInfo: Omit<AuditLogInfo, "actor">;
+  }) => {
+    await consumeHostRecoveryCode(hostCode);
+    const owners = (await userDAL.find({ superAdmin: true, isGhost: false }, { sort: [["createdAt", "asc"]] })).filter(
+      (owner) => !email || owner.username === sanitizeEmail(email) || owner.email === sanitizeEmail(email)
+    );
+    if (owners.length === 0) {
+      throw new NotFoundError({
+        message: email
+          ? `No instance administrator signs in as '${email}'.`
+          : "This instance has no instance administrator yet. Create the first owner with the setup code instead."
+      });
+    }
+    if (owners.length > 1) {
+      throw new BadRequestError({
+        message: `This instance has ${owners.length} instance administrators. Run the command again with --email to choose one.`
+      });
+    }
+    return issueResetLink({
+      user: resettableUser(owners[0]),
+      origin: "host",
+      auditLogInfo: { ...auditLogInfo, actor: { type: ActorType.PLATFORM, metadata: {} } }
+    });
+  };
+
   return {
     sendRecoveryEmail,
     verifyRecoveryEmail,
     enableEmailAuthForUser,
-    createResetLinkForUser
+    createResetLinkForUser,
+    createOwnerResetLinkFromHost
   };
 };
