@@ -18,7 +18,7 @@ cmd/vaultix/download_release_test.go	secrets	cli	cmd/vaultix	4d4efcba942e746c9e7
 cmd/vaultix/install_release.go	secrets	cli	cmd/vaultix	10e7d572943ea3d7db336541e513bcf2c12352e9	authored
 cmd/vaultix/install_release_test.go	secrets	cli	cmd/vaultix	add10da8eef563aa5d060b9eab72734d2c313771	authored
 cmd/vaultix/main.go	secrets	cli	cmd/vaultix	2c115931a205591e3a1eea26bbacbd3cefcdcce2	reviewed
-cmd/vaultix/server.go	secrets	cli	cmd/vaultix	f88c2be9b20ebf44fe999cf91c16022ed4469e94	reviewed
+cmd/vaultix/server.go	secrets	cli	cmd/vaultix	73db0df7fa0d08f6256781e0d0e32d8f54fd4275	reviewed
 cmd/vaultix/startup_other.go	secrets	cli	cmd/vaultix	7e6cd821058e4f4067bdd0b96511ae131dbc154e	authored
 cmd/vaultix/startup_windows.go	secrets	cli	cmd/vaultix	a50bc4607c7337ab915b22fa86367700882e06da	authored
 cmd/vaultix/startup_windows_test.go	secrets	cli	cmd/vaultix	90221edd74ef721b9e5e95c2f56d674fe2726852	authored
@@ -40,7 +40,7 @@ contracts/vaultix.cli-install.v1.json	operate	foundation	contracts	c1ae6aa282d06
 contracts/vaultix.cli-windows-owner.v1.json	operate	foundation	contracts	2c0ba4fffaae3e9b6f55bdceb1cf1e8160df2d2c	unread
 contracts/vaultix.cli-windows-state.v1.json	operate	foundation	contracts	d948b1d0616618b95a9a91179e96c46fb7ca26de	unread
 contracts/vaultix.core.v1.json	operate	foundation	contracts	72268240c51b177051bf1596b4f099e07a098b66	unread
-contracts/vaultix.instance-operation.v1.json	operate	foundation	contracts	935fa7c6fc5551e37d5d7d1f8f91254faddfb0d9	reviewed
+contracts/vaultix.instance-operation.v1.json	operate	foundation	contracts	6195e177caee9f7ecf181cd7d606ab6d9edc45e8	reviewed
 contracts/vaultix.instance.v2.json	operate	foundation	contracts	dd298b9d189e5f387e40e7bba151355aa4e94490	reviewed
 contracts/vaultix.mesh-knowledge-personas.v1.schema.json	operate	foundation	contracts	1cc7d55978e9e0ebaad919a4ff38eef32977eaf7	unread
 contracts/vaultix.mesh-knowledge-trigger.v1.schema.json	operate	foundation	contracts	79ae3945ef6562734b757c8302c0b9899dbd8207	unread
@@ -888,7 +888,9 @@ internal/platform/docker.go	secrets	cli	internal/platform	befb69d8a20d7e3edaf19e
 internal/platform/files.go	secrets	cli	internal/platform	8b9c2d65b9d462e9bffc0046b44eb2e14dcfe17a	authored
 internal/platform/ingress.go	secrets	cli	internal/platform	147ba233c9b32a7072ae4ab46cf1a6ad0ceb8699	reviewed
 internal/platform/ingress_test.go	secrets	cli	internal/platform	a85a57ae706b943bbb8d9fd0648fe9156a2428ec	reviewed
-internal/platform/lifecycle.go	secrets	cli	internal/platform	f5a72e3cb22983ddb5339d37984a3560c713c374	reviewed
+internal/platform/instance_backup.go	secrets	cli	internal/platform	34d12a293a4b64a8aa91b84d0fac730d800f70e4	unread
+internal/platform/instance_backup_test.go	secrets	cli	internal/platform	70eec3c4f39db1708eceb02872dd4574acf51500	unread
+internal/platform/lifecycle.go	secrets	cli	internal/platform	2421c8421a5cbc52c1c3d55be967fd67f08267a3	reviewed
 internal/platform/lock_unix.go	secrets	cli	internal/platform	6ab9c14c86790ceb639bfde8e33676393b6b0230	authored
 internal/platform/lock_windows.go	secrets	cli	internal/platform	242c118bcc4ab480c989a2c33af3012c0e601116	authored
 internal/platform/owner_recovery.go	secrets	cli	internal/platform	23e0a20fd5023e789c436d76c7a355da7a558418	unread
@@ -9652,11 +9654,13 @@ platform/engine/wasm/ironrdp-decoder/.gitignore	pam	pam	platform/engine/wasm/iro
 platform/engine/wasm/ironrdp-decoder/Cargo.toml	pam	pam	platform/engine/wasm/ironrdp-decoder	bb48bc6e08dccfa96e46d177142bbf337ee878d7	unread
 platform/engine/wasm/ironrdp-decoder/Makefile	pam	pam	platform/engine/wasm/ironrdp-decoder	161976e2b2a7a2a384265ba05b4470bd1755f123	unread
 platform/engine/wasm/ironrdp-decoder/src/lib.rs	pam	pam	platform/engine/wasm/ironrdp-decoder/src	4644851ccc130cfc130f9012a326e13a41910464	unread
-platform/shippin/cmd/vaultix-control/main.go	operate	hosted-service	platform/shippin/cmd/vaultix-control	a24224174de387331a131602cc84dfa92f14fbcc	unread
-platform/shippin/console/console.go	operate	hosted-service	platform/shippin/console	75cfb5e902b2dc7f5103d86e402934561fb49992	unread
-platform/shippin/console/console_test.go	operate	hosted-service	platform/shippin/console	6127ec8995c2b1d7513bc2dcffe0895e22e7077e	unread
-platform/shippin/console/page.html	operate	hosted-service	platform/shippin/console	ae5bc13246cbca929535c11dfc1ce619cde213b2	unread
-platform/shippin/fleet/fleet.go	operate	hosted-service	platform/shippin/fleet	e452553ce8a3451720182021e569c69b8082d796	unread
+platform/shippin/backups/backups.go	operate	hosted-service	platform/shippin/backups	dae1780b9552ce0ad0bc1a469913e0452839f6bd	unread
+platform/shippin/backups/backups_test.go	operate	hosted-service	platform/shippin/backups	9793c2da8e273c17509c8ba8ec5fdb46ebddcb15	unread
+platform/shippin/cmd/vaultix-control/main.go	operate	hosted-service	platform/shippin/cmd/vaultix-control	43da2fef66e01b455c2999143efe78cfb79e83a0	unread
+platform/shippin/console/console.go	operate	hosted-service	platform/shippin/console	102086159a6ad02627bf0b28481ed98daae8a228	unread
+platform/shippin/console/console_test.go	operate	hosted-service	platform/shippin/console	10413f2da8ca627b3f4a8bedcff7e2916b7f1a19	unread
+platform/shippin/console/page.html	operate	hosted-service	platform/shippin/console	bdef68440fe824b278c26ad7864c0cb462d410d2	unread
+platform/shippin/fleet/fleet.go	operate	hosted-service	platform/shippin/fleet	c207eab0a94bb47feb682fc2baf02a2da9ddf0e9	unread
 platform/shippin/fleet/fleet_test.go	operate	hosted-service	platform/shippin/fleet	c6e7d1480e8ec92a74a23c4b53b2a112969e8eda	unread
 schemas/shippin.vaultix.api.v1.json	operate	foundation	schemas	09efa4d202f917c8fafbe02758906309b233a0dd	unread
 scripts/ai-journal.mjs	operate	delivery	scripts	11062148c5626ab31973d252c0379e30c2d4824b	reviewed
@@ -9795,7 +9799,7 @@ scripts/test-release-download.mjs	operate	delivery	scripts	9ab1b0494732b52dbdddb
 scripts/test-secret-dropzone.mjs	operate	delivery	scripts	040bcc74857468602530bc3e68098995e4d44a5e	verified
 scripts/test-secret-paste.mjs	operate	delivery	scripts	1aa38af723e6232cd827e6e795c65b8477efc73f	verified
 scripts/test-self-hosted-build.mjs	operate	delivery	scripts	5d8def08a7c87ce68835fc52e68ed5265dbf4bf7	authored
-scripts/test-server-lifecycle.mjs	operate	delivery	scripts	baf3708d2f7eda8814888c25fb188bf5a3a075dc	reviewed
+scripts/test-server-lifecycle.mjs	operate	delivery	scripts	77edcca726cab6d299ace6d5ca79283623812e3d	reviewed
 scripts/test-server-migration.mjs	operate	delivery	scripts	f46ac5279528cf816fabe833f76e2d9b84c6ced6	reviewed
 scripts/test-setup-code.mjs	operate	delivery	scripts	a93ba408e2103d86568280fe0ded77f2a222dc67	unread
 scripts/test-sso-policy-parity.mjs	operate	delivery	scripts	ec02169f318157562eda19a7827f322ab97bc4b5	verified

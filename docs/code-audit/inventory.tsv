@@ -21,7 +21,7 @@ path	git_blob	kind	review_status
 .github/workflows/owned.yml	a518913e14d87cd054146c26fd4b24b8479f4f1b	build-and-operations	authored
 .gitignore	1225c250c5b16ada35e1a2c720eae9a21d207556	product-code	reviewed
 AGENTS.md	f6384667a58e93749ab5b255be076b0329c6862b	documentation	reviewed
-INSTALL-FOR-AI.md	661719c4acfc99ad55845322aa5dc755b9a9456a	documentation	unread
+INSTALL-FOR-AI.md	573f3783bcb203219254b550a187aa768e0aabd5	documentation	unread
 JOURNAL.md	745bd9a4b5c9d9a042d2fb98e0843335135f9964	documentation	reviewed
 NOTICE	f961337300aa4688eb9b718fa46f8be13fcd52a7	documentation	unread
 README.md	65e7fc734b2808f5b93a1a39e6f4cb352d174762	documentation	reviewed
@@ -37,7 +37,7 @@ cmd/vaultix/download_release_test.go	4d4efcba942e746c9e7c802b72a3e833bd69801f	te
 cmd/vaultix/install_release.go	10e7d572943ea3d7db336541e513bcf2c12352e9	product-code	authored
 cmd/vaultix/install_release_test.go	add10da8eef563aa5d060b9eab72734d2c313771	test	authored
 cmd/vaultix/main.go	2c115931a205591e3a1eea26bbacbd3cefcdcce2	product-code	reviewed
-cmd/vaultix/server.go	f88c2be9b20ebf44fe999cf91c16022ed4469e94	product-code	reviewed
+cmd/vaultix/server.go	73db0df7fa0d08f6256781e0d0e32d8f54fd4275	product-code	reviewed
 cmd/vaultix/startup_other.go	7e6cd821058e4f4067bdd0b96511ae131dbc154e	product-code	authored
 cmd/vaultix/startup_windows.go	a50bc4607c7337ab915b22fa86367700882e06da	product-code	authored
 cmd/vaultix/startup_windows_test.go	90221edd74ef721b9e5e95c2f56d674fe2726852	test	authored
@@ -59,7 +59,7 @@ contracts/vaultix.cli-install.v1.json	c1ae6aa282d068ad632077970155450dc18ba238	p
 contracts/vaultix.cli-windows-owner.v1.json	2c0ba4fffaae3e9b6f55bdceb1cf1e8160df2d2c	product-code	unread
 contracts/vaultix.cli-windows-state.v1.json	d948b1d0616618b95a9a91179e96c46fb7ca26de	product-code	unread
 contracts/vaultix.core.v1.json	72268240c51b177051bf1596b4f099e07a098b66	product-code	unread
-contracts/vaultix.instance-operation.v1.json	935fa7c6fc5551e37d5d7d1f8f91254faddfb0d9	product-code	reviewed
+contracts/vaultix.instance-operation.v1.json	6195e177caee9f7ecf181cd7d606ab6d9edc45e8	product-code	reviewed
 contracts/vaultix.instance.v2.json	dd298b9d189e5f387e40e7bba151355aa4e94490	product-code	reviewed
 contracts/vaultix.mesh-knowledge-personas.v1.schema.json	1cc7d55978e9e0ebaad919a4ff38eef32977eaf7	product-code	unread
 contracts/vaultix.mesh-knowledge-trigger.v1.schema.json	79ae3945ef6562734b757c8302c0b9899dbd8207	product-code	unread
@@ -933,7 +933,7 @@ docs/0077-owned-runtime-dependencies.md	85b0768a38874b817eb92014cbeb25f22031aceb
 docs/0078-vaultix-policy-ownership.md	ed2f929ecaac7eeeabe812ac73e3ea2fbf0e5025	documentation	authored
 docs/0107-public-experience-and-recorded-workflow.md	1ed775171b2dd68b9ae33945959d2d8a3e2fb9f1	documentation	reviewed
 docs/0108-platform-services-and-upgrades.md	4415d1cf9d3845889debae92fae3cb61637e76ef	documentation	reviewed
-docs/0109-native-install-and-upgrade.md	a814e7e5fcf44648d66cfeee25a7182fb6e1958a	documentation	reviewed
+docs/0109-native-install-and-upgrade.md	23360781fcf30448a30e4e89110f1c737823db66	documentation	reviewed
 docs/0110-invite-only-instance.md	3caa91326e44113e75a4249f8942554a2e942f5f	documentation	unread
 docs/0110-verified-release-download.md	e4544efcc6e0613d008d89bb8b9d3fc371ccab7d	documentation	authored
 docs/0111-native-cli-installation.md	124b72effcae28e6748250bd2c33b8da01b9f8f5	documentation	authored
@@ -951,7 +951,7 @@ docs/0121-provider-import.md	49ad898ce21e6910e94ace0439c26aa3e09b2ea1	documentat
 docs/0122-completion-plan.md	86e7994555e4ad909b9da68e99d3c19b52861bbb	documentation	unread
 docs/0123-signal-fabric.md	14ce108b30e7615e033744ea43a348a0a814105c	documentation	unread
 docs/0124-ai-personas-and-machine-loops.md	7951fb31bb675f10183c591830b7841664a9598c	documentation	unread
-docs/0125-hosted-control-panel.md	aa3500fa6d02bd6eff2ae0614d0a5bbc20e3945d	documentation	unread
+docs/0125-hosted-control-panel.md	38525e5b3e8d9a5017f67390fdca85d4f3f70198	documentation	unread
 docs/auth/authority-review.json	905b7ffef0609f47eb7f236948ff5df05979c418	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread
@@ -975,8 +975,8 @@ docs/capabilities/catalog.mjs	fc1197d55be7b3b76750d031efb6082dbe370731	product-c
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
-docs/capabilities/generated/catalog.json	5aa67545c5dd74dbce11d29c273726342ce9ef62	generated	unread
-docs/capabilities/generated/source-map.tsv	c58ca1db4829325d879ee67527b73b1186eb7806	generated	unread
+docs/capabilities/generated/catalog.json	bee3f094551082f39c32660e5a9992194bf0fa50	generated	unread
+docs/capabilities/generated/source-map.tsv	0e81a9525f3cd80874d50c14e90e701fab8e50c4	generated	unread
 docs/capabilities/generated/surface-map.tsv	3ca4a354f751bfb02b36e623bdb5c3bc8d0abdca	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -988,9 +988,9 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	47c4034ef2acbdca39f05a84de9b6aa21104e874	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	30839497a67e6fb1e160a16ac97c3c57fb64adab	generated	unread
-docs/migration/generated/modules.tsv	d8ea7d8c1e4861e708661b662423302f68930ab0	generated	unread
-docs/migration/generated/summary.json	2cd18d5c042e503e2f9deec9fdd0f0b8e87d8c18	generated	unread
+docs/migration/generated/files.tsv	89dcd791f02f7d1af08def4cf1814555299c1f3d	generated	unread
+docs/migration/generated/modules.tsv	8d2db960438f7b025a7e26cc930b71801d9a2e44	generated	unread
+docs/migration/generated/summary.json	b2029d20800fcc6304110e64398a29d9f4d2b5cb	generated	unread
 docs/migration/workstreams.json	7cb000d9f20a57624e4ae0ca0e00d08b09c2e0c2	product-code	reviewed
 docs/plan/action-plan.md	2700611de78557356d50ea829a9bfdc2525f481a	documentation	unread
 docs/plan/naming.md	5864fda0319b9656eda20aae09e2a44e9ac4fbfd	documentation	unread
@@ -1033,7 +1033,9 @@ internal/platform/docker.go	befb69d8a20d7e3edaf19ec4a39eb22759d637d1	product-cod
 internal/platform/files.go	8b9c2d65b9d462e9bffc0046b44eb2e14dcfe17a	product-code	authored
 internal/platform/ingress.go	147ba233c9b32a7072ae4ab46cf1a6ad0ceb8699	product-code	reviewed
 internal/platform/ingress_test.go	a85a57ae706b943bbb8d9fd0648fe9156a2428ec	test	reviewed
-internal/platform/lifecycle.go	f5a72e3cb22983ddb5339d37984a3560c713c374	product-code	reviewed
+internal/platform/instance_backup.go	34d12a293a4b64a8aa91b84d0fac730d800f70e4	product-code	unread
+internal/platform/instance_backup_test.go	70eec3c4f39db1708eceb02872dd4574acf51500	test	unread
+internal/platform/lifecycle.go	2421c8421a5cbc52c1c3d55be967fd67f08267a3	product-code	reviewed
 internal/platform/lock_unix.go	6ab9c14c86790ceb639bfde8e33676393b6b0230	product-code	authored
 internal/platform/lock_windows.go	242c118bcc4ab480c989a2c33af3012c0e601116	product-code	authored
 internal/platform/owner_recovery.go	23e0a20fd5023e789c436d76c7a355da7a558418	product-code	unread
@@ -12166,11 +12168,13 @@ platform/engine/wasm/ironrdp-decoder/Makefile	161976e2b2a7a2a384265ba05b4470bd17
 platform/engine/wasm/ironrdp-decoder/README.md	ac7ddbc56b28ba5078d4f7edf41e70f17ba9aebf	documentation	unread
 platform/engine/wasm/ironrdp-decoder/src/lib.rs	4644851ccc130cfc130f9012a326e13a41910464	product-code	unread
 platform/shippin/README.md	d45524a51de78d7ec1419da0bfc8a3bd238ece11	documentation	unread
-platform/shippin/cmd/vaultix-control/main.go	a24224174de387331a131602cc84dfa92f14fbcc	product-code	unread
-platform/shippin/console/console.go	75cfb5e902b2dc7f5103d86e402934561fb49992	product-code	unread
-platform/shippin/console/console_test.go	6127ec8995c2b1d7513bc2dcffe0895e22e7077e	test	unread
-platform/shippin/console/page.html	ae5bc13246cbca929535c11dfc1ce619cde213b2	product-code	unread
-platform/shippin/fleet/fleet.go	e452553ce8a3451720182021e569c69b8082d796	product-code	unread
+platform/shippin/backups/backups.go	dae1780b9552ce0ad0bc1a469913e0452839f6bd	product-code	unread
+platform/shippin/backups/backups_test.go	9793c2da8e273c17509c8ba8ec5fdb46ebddcb15	test	unread
+platform/shippin/cmd/vaultix-control/main.go	43da2fef66e01b455c2999143efe78cfb79e83a0	product-code	unread
+platform/shippin/console/console.go	102086159a6ad02627bf0b28481ed98daae8a228	product-code	unread
+platform/shippin/console/console_test.go	10413f2da8ca627b3f4a8bedcff7e2916b7f1a19	test	unread
+platform/shippin/console/page.html	bdef68440fe824b278c26ad7864c0cb462d410d2	product-code	unread
+platform/shippin/fleet/fleet.go	c207eab0a94bb47feb682fc2baf02a2da9ddf0e9	product-code	unread
 platform/shippin/fleet/fleet_test.go	c6e7d1480e8ec92a74a23c4b53b2a112969e8eda	test	unread
 schemas/shippin.vaultix.api.v1.json	09efa4d202f917c8fafbe02758906309b233a0dd	product-code	unread
 scripts/ai-journal.mjs	11062148c5626ab31973d252c0379e30c2d4824b	build-and-operations	reviewed
@@ -12310,7 +12314,7 @@ scripts/test-release-download.mjs	9ab1b0494732b52dbdddb5cc07c00f69925683aa	build
 scripts/test-secret-dropzone.mjs	040bcc74857468602530bc3e68098995e4d44a5e	build-and-operations	verified
 scripts/test-secret-paste.mjs	1aa38af723e6232cd827e6e795c65b8477efc73f	build-and-operations	verified
 scripts/test-self-hosted-build.mjs	5d8def08a7c87ce68835fc52e68ed5265dbf4bf7	build-and-operations	authored
-scripts/test-server-lifecycle.mjs	baf3708d2f7eda8814888c25fb188bf5a3a075dc	build-and-operations	reviewed
+scripts/test-server-lifecycle.mjs	77edcca726cab6d299ace6d5ca79283623812e3d	build-and-operations	reviewed
 scripts/test-server-migration.mjs	f46ac5279528cf816fabe833f76e2d9b84c6ced6	build-and-operations	reviewed
 scripts/test-setup-code.mjs	a93ba408e2103d86568280fe0ded77f2a222dc67	build-and-operations	unread
 scripts/test-sso-policy-parity.mjs	ec02169f318157562eda19a7827f322ab97bc4b5	build-and-operations	verified
