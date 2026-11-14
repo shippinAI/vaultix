@@ -1,0 +1,608 @@
+{
+  "cases": [
+    {
+      "name": "minimal specialist",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "Secrets specialist",
+        "description": "Projects, environments and secret names.",
+        "role": "specialist",
+        "domains": [
+          "secrets",
+          "connect"
+        ],
+        "instructions": "Work from references only.",
+        "model": {
+          "tier": "standard"
+        }
+      }
+    },
+    {
+      "name": "router with every setting",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "clyffy",
+        "name": "Clyffy",
+        "description": "Greets people and hands each question to the right specialist.",
+        "role": "router",
+        "domains": [
+          "public",
+          "experience"
+        ],
+        "instructions": "Route briefly.",
+        "model": {
+          "connectionId": "0b6f3c1e-9a2d-4c1b-8e7f-1a2b3c4d5e6f",
+          "tier": "fast",
+          "id": "claude-haiku-5-5"
+        },
+        "modelSettings": {
+          "temperature": 0.2,
+          "topP": 1,
+          "maxOutputTokens": 800,
+          "stopSequences": [
+            "\n\nHuman:"
+          ],
+          "toolChoice": "auto"
+        },
+        "tools": [
+          "vaultix.catalog.get",
+          "vaultix.guidance.get"
+        ],
+        "handoffs": [
+          "secrets",
+          "access",
+          "operate"
+        ],
+        "memory": {
+          "use": "instance"
+        },
+        "enabled": true
+      }
+    },
+    {
+      "name": "guard with tools null and no memories",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "security",
+        "name": "Security guard",
+        "description": "Reviews proposed changes.",
+        "role": "guard",
+        "domains": [
+          "detect",
+          "governance"
+        ],
+        "instructions": "Review.",
+        "model": {
+          "tier": "standard"
+        },
+        "tools": null,
+        "memory": {
+          "use": "none"
+        },
+        "enabled": false
+      }
+    },
+    {
+      "name": "specialist with an empty tool list",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "quiet",
+        "name": "Quiet",
+        "description": "Answers without tools.",
+        "role": "specialist",
+        "domains": [
+          "experience"
+        ],
+        "instructions": "Explain only.",
+        "model": {
+          "tier": "fast"
+        },
+        "tools": [],
+        "modelSettings": {
+          "toolChoice": "none",
+          "temperature": 0
+        }
+      }
+    },
+    {
+      "name": "300-character description in non-ASCII letters",
+      "valid": true,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "long",
+        "name": "Long",
+        "description": "éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "deep"
+        }
+      }
+    },
+    {
+      "name": "uppercase slug",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "Secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        }
+      }
+    },
+    {
+      "name": "one-letter slug",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "s",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        }
+      }
+    },
+    {
+      "name": "missing description",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        }
+      }
+    },
+    {
+      "name": "instructions of only spaces",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "   ",
+        "model": {
+          "tier": "standard"
+        }
+      }
+    },
+    {
+      "name": "unknown role",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "admin",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        }
+      }
+    },
+    {
+      "name": "no domains",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        }
+      }
+    },
+    {
+      "name": "nine domains",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "public",
+          "auth",
+          "workspace",
+          "secrets",
+          "access",
+          "automation",
+          "connect",
+          "pki",
+          "kms"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        }
+      }
+    },
+    {
+      "name": "repeated domain",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets",
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        }
+      }
+    },
+    {
+      "name": "domain outside the catalog",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "mesh"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        }
+      }
+    },
+    {
+      "name": "missing model",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x"
+      }
+    },
+    {
+      "name": "unknown tier",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "huge"
+        }
+      }
+    },
+    {
+      "name": "connection id that is not a uuid",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard",
+          "connectionId": "abc"
+        }
+      }
+    },
+    {
+      "name": "temperature above two",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        },
+        "modelSettings": {
+          "temperature": 2.5
+        }
+      }
+    },
+    {
+      "name": "top-p of zero",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        },
+        "modelSettings": {
+          "topP": 0
+        }
+      }
+    },
+    {
+      "name": "zero output tokens",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        },
+        "modelSettings": {
+          "maxOutputTokens": 0
+        }
+      }
+    },
+    {
+      "name": "five stop sequences",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        },
+        "modelSettings": {
+          "stopSequences": [
+            "a",
+            "b",
+            "c",
+            "d",
+            "e"
+          ]
+        }
+      }
+    },
+    {
+      "name": "empty stop sequence",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        },
+        "modelSettings": {
+          "stopSequences": [
+            ""
+          ]
+        }
+      }
+    },
+    {
+      "name": "tool choice required",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        },
+        "modelSettings": {
+          "toolChoice": "required"
+        }
+      }
+    },
+    {
+      "name": "tool without the vaultix prefix",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        },
+        "tools": [
+          "secrets.list"
+        ]
+      }
+    },
+    {
+      "name": "repeated tool",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        },
+        "tools": [
+          "vaultix.secrets.references",
+          "vaultix.secrets.references"
+        ]
+      }
+    },
+    {
+      "name": "specialist with handoffs",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        },
+        "handoffs": [
+          "access"
+        ]
+      }
+    },
+    {
+      "name": "router turned off",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "clyffy",
+        "name": "C",
+        "description": "d",
+        "role": "router",
+        "domains": [
+          "public"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "fast"
+        },
+        "enabled": false
+      }
+    },
+    {
+      "name": "unknown memory use",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        },
+        "memory": {
+          "use": "some"
+        }
+      }
+    },
+    {
+      "name": "unknown top-level field",
+      "valid": false,
+      "document": {
+        "schemaVersion": "vaultix.ai-persona.v1",
+        "slug": "secrets",
+        "name": "S",
+        "description": "d",
+        "role": "specialist",
+        "domains": [
+          "secrets"
+        ],
+        "instructions": "x",
+        "model": {
+          "tier": "standard"
+        },
+        "temperature": 1
+      }
+    }
+  ]
+}

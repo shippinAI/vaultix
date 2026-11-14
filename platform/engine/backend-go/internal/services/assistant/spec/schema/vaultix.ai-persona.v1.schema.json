@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vaultix.cloud/schemas/vaultix.ai-persona.v1.schema.json",
+  "title": "Vaultix AI persona",
+  "description": "One persona of the in-app assistant (docs/0126). A persona narrows what the assistant does and never grants anything: its tools are the person's own. Default personas are PERSONA.md files whose front matter is this document without instructions, which is the body. Every length is in characters.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "slug", "name", "description", "role", "domains", "instructions", "model"],
+  "properties": {
+    "schemaVersion": { "const": "vaultix.ai-persona.v1" },
+    "slug": { "title": "Short name", "description": "Used in @mentions. Cannot change.", "type": "string", "pattern": "^[a-z][a-z0-9-]{1,31}$" },
+    "name": { "title": "Name", "type": "string", "minLength": 1, "maxLength": 64, "pattern": "\\S" },
+    "description": { "title": "When to use it", "description": "The router reads this to choose a persona.", "type": "string", "minLength": 1, "maxLength": 300, "pattern": "\\S" },
+    "role": { "title": "Role", "enum": ["router", "specialist", "guard"], "description": "router: picks who answers. specialist: answers within its areas. guard: reviews proposed changes." },
+    "domains": {
+      "title": "Areas",
+      "type": "array", "minItems": 1, "maxItems": 8, "uniqueItems": true,
+      "items": { "enum": ["public", "auth", "workspace", "secrets", "access", "automation", "connect", "pki", "kms", "pam", "detect", "ai", "governance", "operate", "experience"] }
+    },
+    "instructions": { "title": "Instructions", "description": "The persona's system prompt, after the instance's standing rules.", "type": "string", "minLength": 1, "maxLength": 16384, "pattern": "\\S" },
+    "model": {
+      "title": "Model",
+      "type": "object", "additionalProperties": false, "required": ["tier"],
+      "properties": {
+        "connectionId": { "title": "Connection", "description": "Omit to use the connection in use.", "type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" },
+        "tier": { "title": "Tier", "enum": ["fast", "standard", "deep"] },
+        "id": { "title": "Model ID", "description": "Pins one model instead of the connection's model for the tier.", "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._:/@-]+$" }
+      }
+    },
+    "modelSettings": {
+      "title": "Model settings",
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "temperature": { "title": "Temperature", "type": "number", "minimum": 0, "maximum": 2 },
+        "topP": { "title": "Top-p", "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+        "maxOutputTokens": { "title": "Longest answer (tokens)", "type": "integer", "minimum": 1, "maximum": 32000 },
+        "stopSequences": { "title": "Stop sequences", "type": "array", "maxItems": 4, "items": { "type": "string", "minLength": 1, "maxLength": 64 } },
+        "toolChoice": { "title": "Tool use", "enum": ["auto", "none"] }
+      }
+    },
+    "tools": {
+      "title": "Tools",
+      "description": "null: every read-only tool of the persona's areas. A list narrows that to the named tools.",
+      "oneOf": [
+        { "type": "null" },
+        { "type": "array", "maxItems": 64, "uniqueItems": true, "items": { "type": "string", "maxLength": 128, "pattern": "^vaultix(\\.[a-z][a-z0-9-]*)+$" } }
+      ]
+    },
+    "handoffs": {
+      "title": "Hands off to",
+      "description": "router only. The specialists it may choose; omit for every enabled specialist.",
+      "type": "array", "maxItems": 16, "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,31}$" }
+    },
+    "memory": {
+      "title": "Memories",
+      "type": "object", "additionalProperties": false, "required": ["use"],
+      "properties": { "use": { "enum": ["all", "instance", "none"], "description": "all: instance and the person's own. instance: instance memories only. none: no memories." } }
+    },
+    "enabled": { "title": "Enabled", "type": "boolean" }
+  },
+  "allOf": [
+    { "if": { "properties": { "role": { "const": "router" } } }, "then": { "properties": { "enabled": { "const": true } } }, "else": { "not": { "required": ["handoffs"] } } }
+  ]
+}

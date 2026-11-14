@@ -38,15 +38,25 @@ reads naturally in the others: OpenAI Agents SDK (`name`, `instructions`, `model
 `top_p`, `stop_sequences`, `tools`, `tool_choice`), Google ADK (`name`, `description`,
 `instruction`, `sub_agents`) and the A2A agent card (`name`, `description`, `version`, `skills`).
 
-Two JSON Schemas (draft 2020-12) are the single source of truth:
+Two JSON Schemas (draft 2020-12) are the single source of truth. They live with the engine, in
+`platform/engine/backend-go/internal/services/assistant/spec/schema/`, because the engine image
+and its Go tests see only `platform/engine`:
 
-- `contracts/vaultix.ai-connection.v1.schema.json`
-- `contracts/vaultix.ai-persona.v1.schema.json`
+- `vaultix.ai-connection.v1.schema.json`
+- `vaultix.ai-persona.v1.schema.json`
 
-Every length is in Unicode characters. Go validates with the same rules and a contract test feeds
-both Go and the UI one fixture set of valid and invalid documents. The UI builds its form rules
-from the schema file (no Zod). Default `PERSONA.md` front matter is checked against the persona
-schema in CI.
+The Go service embeds them and serves them to the UI at `GET /api/vx/v1/ai/schema`. The UI builds
+its form rules from that response (no Zod).
+
+Every length is in Unicode characters. `spec/testdata/` holds one fixture set of valid and invalid
+documents. Each fixture says whether the schema accepts it and whether the server does: a few
+cases, such as a key pasted into an extra header, are refused only by server rules. Go checks the
+fixtures in `assistant/documents_test.go`. Ajv checks them against the schemas in
+`scripts/test-ai-contracts.mjs`, which is a canonical build step.
+
+Default `PERSONA.md` files are v1 documents. The front matter holds every field except
+`instructions`, which is the body. The loader reads the front matter strictly, so an unknown key
+is refused, and it validates the file with the same rules as the API.
 
 ### Connection
 
@@ -134,8 +144,10 @@ The same test applies.
 
 Each step is one commit, verified before the next.
 
-1. **Contracts.** Both schemas, a shared fixture set, and Go validation rewritten to the same
-   rules in characters. `PERSONA.md` files are checked in CI.
+1. **Contracts. Done 2026-11-13.**
+   - Both schemas and 77 shared fixtures; Go and Ajv agree on every one.
+   - The `spec` package and `CheckConnection` / `CheckPersona`.
+   - The default personas are converted to v1 and loaded through the same rules.
 2. **Store and runtime.** A migration that maps stored rows to v1 (`openai-compatible` becomes
    `custom` with `openai-chat` and `bearer`), plus columns for the new fields. Clients for
    Hugging Face, Hugging Face endpoints and Custom. The test checks every model and whether tool

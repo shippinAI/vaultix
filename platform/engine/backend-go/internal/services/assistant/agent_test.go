@@ -269,12 +269,18 @@ func TestLoadDefaultPersonas_ShippedFolder(t *testing.T) {
 }
 
 func TestParsePersona_Rejects(t *testing.T) {
+	front := func(fields string) string {
+		return "---\nschemaVersion: vaultix.ai-persona.v1\nname: X\ndescription: d\n" + fields + "---\nbody"
+	}
 	cases := map[string]string{
-		"no front matter": "hello",
-		"wrong id":        "---\nid: vaultix.persona.other\nname: X\nrole: specialist\ndomains: [secrets]\ntier: fast\n---\nbody",
-		"unknown domain":  "---\nid: vaultix.persona.x1\nname: X\nrole: specialist\ndomains: [identity]\ntier: fast\n---\nbody",
-		"no body":         "---\nid: vaultix.persona.x1\nname: X\nrole: specialist\ndomains: [secrets]\ntier: fast\n---\n",
-		"bad role":        "---\nid: vaultix.persona.x1\nname: X\nrole: boss\ndomains: [secrets]\ntier: fast\n---\nbody",
+		"no front matter":   "hello",
+		"slug not folder":   front("slug: other\nrole: specialist\ndomains: [secrets]\nmodel:\n  tier: fast\n"),
+		"unknown domain":    front("slug: x1\nrole: specialist\ndomains: [identity]\nmodel:\n  tier: fast\n"),
+		"no body":           "---\nschemaVersion: vaultix.ai-persona.v1\nslug: x1\nname: X\ndescription: d\nrole: specialist\ndomains: [secrets]\nmodel:\n  tier: fast\n---\n",
+		"bad role":          front("slug: x1\nrole: boss\ndomains: [secrets]\nmodel:\n  tier: fast\n"),
+		"old id field":      front("id: vaultix.persona.x1\nslug: x1\nrole: specialist\ndomains: [secrets]\nmodel:\n  tier: fast\n"),
+		"missing model":     front("slug: x1\nrole: specialist\ndomains: [secrets]\n"),
+		"no schema version": "---\nslug: x1\nname: X\ndescription: d\nrole: specialist\ndomains: [secrets]\nmodel:\n  tier: fast\n---\nbody",
 	}
 	for name, raw := range cases {
 		t.Run(name, func(t *testing.T) {
