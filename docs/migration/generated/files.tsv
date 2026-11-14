@@ -9780,7 +9780,7 @@ scripts/test-owned-dependencies.mjs	scripts	delivery	supporting-tooling-or-contr
 scripts/test-owned-ldap.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	4ffcea280e03a61df6bbf49eaa76ef193b99514d	reviewed
 scripts/test-owned-quic-linux.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1604f83aaccf8fdc9bcfbfdcac938155d10eba4e	reviewed
 scripts/test-owned-quic.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	c494e92818de5fffd35b332554dc419a54aabcb2	reviewed
-scripts/test-password-reset-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	e8f1086e4aa2c8e6fe12f1dd1193af7464cf9f3d	unread
+scripts/test-password-reset-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	79a2ba2bd5ec91b88985dcc0573d14ea6ba0c398	unread
 scripts/test-platform-boundary.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	077e9dd3d811e998531186786c38f0bbbbc4f87c	unread
 scripts/test-product-guidance.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	2cf39791d9af8696484eae899707c2271a22adda	unread
 scripts/test-production-admission.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	938354dca96cbfaa75e5d693aed14592ce7bf11d	verified
