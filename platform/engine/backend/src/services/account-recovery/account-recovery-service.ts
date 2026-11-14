@@ -1,3 +1,5 @@
+import { FastifyRequest } from "fastify";
+
 import { AccessScope } from "@app/db/schemas";
 import { getConfig } from "@app/lib/config/env";
 import { crypto } from "@app/lib/crypto/cryptography";
@@ -10,7 +12,6 @@ import { TokenType } from "@app/services/auth-token/auth-token-types";
 import { TMembershipUserDALFactory } from "@app/services/membership-user/membership-user-dal";
 import { SmtpTemplates, TSmtpService } from "@app/services/smtp/smtp-service";
 import { TUserDALFactory } from "@app/services/user/user-dal";
-import { AuditLogInfo, EventType, TAuditLogServiceFactory } from "@app/shippin/services/audit-log/audit-log-types";
 
 import { validatePasswordResetAuthorization } from "../auth/auth-fns";
 import { consumeHostRecoveryCode } from "./host-recovery-code";
@@ -20,10 +21,17 @@ type TAccountRecoveryServiceFactoryDep = {
   membershipUserDAL: Pick<TMembershipUserDALFactory, "find">;
   tokenService: TAuthTokenServiceFactory;
   smtpService: TSmtpService;
-  auditLogService: Pick<TAuditLogServiceFactory, "createAuditLog">;
+  recordResetLinkIssued: (issue: TResetLinkIssued) => Promise<void>;
 };
 
 export type TPasswordResetLinkOrigin = "administrator" | "host";
+type TAuditInfo = Omit<FastifyRequest["auditLogInfo"], "orgId">;
+// Wired to the audit log in routes/index.ts as issue-password-reset-link; never carries the token.
+export type TResetLinkIssued = {
+  orgId: string;
+  auditLogInfo: TAuditInfo;
+  metadata: { userId: string; username: string; origin: TPasswordResetLinkOrigin };
+};
 
 export type TAccountRecoveryServiceFactory = ReturnType<typeof accountRecoveryServiceFactory>;
 const DUMMY_USER_ID = "00000000-0000-0000-0000-000000000000";
@@ -35,7 +43,7 @@ export const accountRecoveryServiceFactory = ({
   membershipUserDAL,
   tokenService,
   smtpService,
-  auditLogService
+  recordResetLinkIssued
 }: TAccountRecoveryServiceFactoryDep) => {
   /*
    * Account recovery flow via email. Step 1: send recovery email
@@ -158,7 +166,7 @@ export const accountRecoveryServiceFactory = ({
   }: {
     user: { id: string; username: string };
     origin: TPasswordResetLinkOrigin;
-    auditLogInfo: AuditLogInfo;
+    auditLogInfo: TAuditInfo;
   }) => {
     const cfg = getConfig();
     if (!cfg.SITE_URL) {
@@ -175,13 +183,10 @@ export const accountRecoveryServiceFactory = ({
     const orgs = await membershipUserDAL.find({ actorUserId: user.id, scope: AccessScope.Organization });
     await Promise.all(
       [...new Set(orgs.map((membership) => membership.scopeOrgId))].map((orgId) =>
-        auditLogService.createAuditLog({
-          ...auditLogInfo,
+        recordResetLinkIssued({
           orgId,
-          event: {
-            type: EventType.ISSUE_PASSWORD_RESET_LINK,
-            metadata: { userId: user.id, username: user.username, origin }
-          }
+          auditLogInfo,
+          metadata: { userId: user.id, username: user.username, origin }
         })
       )
     );
@@ -205,7 +210,7 @@ export const accountRecoveryServiceFactory = ({
   };
 
   // An instance administrator issues a link for anyone on the instance.
-  const createResetLinkForUser = async ({ userId, auditLogInfo }: { userId: string; auditLogInfo: AuditLogInfo }) => {
+  const createResetLinkForUser = async ({ userId, auditLogInfo }: { userId: string; auditLogInfo: TAuditInfo }) => {
     const user = await userDAL.findById(userId);
     if (!user || user.isGhost) throw new NotFoundError({ message: `User '${userId}' was not found.` });
     return issueResetLink({ user: resettableUser(user), origin: "administrator", auditLogInfo });
@@ -220,7 +225,7 @@ export const accountRecoveryServiceFactory = ({
   }: {
     hostCode: string;
     email?: string;
-    auditLogInfo: Omit<AuditLogInfo, "actor">;
+    auditLogInfo: Omit<TAuditInfo, "actor">;
   }) => {
     await consumeHostRecoveryCode(hostCode);
     const owners = (await userDAL.find({ superAdmin: true, isGhost: false }, { sort: [["createdAt", "asc"]] })).filter(

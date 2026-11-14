@@ -210,6 +210,13 @@ Go or Rust handler, the `/api/vx/v1` route, and every caller moved onto it in th
 the old route deleted (rule 4). The behavior is proven on the new route, not kept on the old one. This is by far the largest
 stage and gets a per-domain ledger of its own.
 
+## The hosted service
+
+Hosted customers each get their own instance, run from the private `vaultix-control` console in
+`platform/shippin/`. Its domains and their build order are in
+[0125](0125-hosted-control-panel.md); the fleet record and the console exist, backups, quotas,
+sign-up and billing do not.
+
 ## Decisions only the owner can make
 
 | Decision | Needed before |

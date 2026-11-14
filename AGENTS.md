@@ -16,7 +16,7 @@ the engine never depends on it (`node scripts/test-platform-boundary.mjs`). `pla
 name, not a tier: nothing under `platform/engine/` is paid. The older `shippin` folders inside the
 engine are debt to sort per domain, not the commercial boundary. Read `platform/README.md`. Older
 dated notes below that say `core` mean `platform/engine`. Each hosted customer gets their own
-instance (owner decision; the ADR replacing the shared-deployment paragraph of 0054 is not written).
+instance, operated from the private `vaultix-control` console (`docs/0125-hosted-control-panel.md`).
 
 API changes (2026-11-11): Vaultix is evolving. When an API changes, update every caller (UI, CLI,
 MCP tools, scripts, tests, docs) in the same change and delete the old route: no aliases, shims or
@@ -194,6 +194,7 @@ the plan. Passing a schema or selected test is not whole-implementation proof.
 | Enterprise capability convergence | `docs/0023-capability-convergence.md` |
 | Signal fabric, outcome receipts, rehearsal demo, hosted agent | `docs/0123-signal-fabric.md` + `platform/engine/frontend/src/components/vaultix/` |
 | AI providers, personas and specialists, value requests, inject/redeem, local endpoint | `docs/0124-ai-personas-and-machine-loops.md` + `platform/engine/ai/personas/` + `platform/engine/backend-go/internal/services/assistant/` |
+| Hosted instances, the private control panel (`platform/shippin/`) | `docs/0125-hosted-control-panel.md` + `platform/shippin/README.md` |
 | Provider import (Doppler, Infisical/Vaultix instances) | `docs/0121-provider-import.md` + `services/external-migration/provider-import.ts` |
 | Estate / Nomen sibling | `nomen/Nomen/docs/product/estate.md` (sibling tree; do not edit it from here) |
 | Public API | `contracts/shippin.vaultix.panel.v1.json` |

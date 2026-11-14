@@ -2,7 +2,6 @@ import { beforeEach, expect, test, vi } from "vitest";
 
 import { BadRequestError, ForbiddenRequestError, NotFoundError } from "@app/lib/errors";
 import { ActorType } from "@app/services/auth/auth-type";
-import { EventType } from "@app/shippin/services/audit-log/audit-log-types";
 
 import { accountRecoveryServiceFactory } from "./account-recovery-service";
 
@@ -33,15 +32,15 @@ const person = { id: "u-1", username: "a+b@vaultix.invalid", email: "a+b@vaultix
 const service = ({ user, owners = [] }: { user?: object; owners?: object[] }) => {
   const tokenService = { createTokenForUser: vi.fn().mockResolvedValue("one-use-token") };
   const smtpService = { sendMail: vi.fn() };
-  const auditLogService = { createAuditLog: vi.fn().mockResolvedValue(undefined) };
+  const recordResetLinkIssued = vi.fn().mockResolvedValue(undefined);
   const factory = accountRecoveryServiceFactory({
     userDAL: { findById: vi.fn().mockResolvedValue(user), find: vi.fn().mockResolvedValue(owners) } as never,
     membershipUserDAL: { find: vi.fn().mockResolvedValue([{ scopeOrgId: "org-1" }, { scopeOrgId: "org-1" }]) },
     tokenService: tokenService as never,
     smtpService: smtpService as never,
-    auditLogService
+    recordResetLinkIssued
   });
-  return { factory, tokenService, smtpService, auditLogService };
+  return { factory, tokenService, smtpService, recordResetLinkIssued };
 };
 
 beforeEach(() => {
@@ -68,18 +67,15 @@ test("an administrator gets a one-use link to the reset page without any email",
 });
 
 test("each organization the person belongs to records who issued the link, once", async () => {
-  const { factory, auditLogService } = service({ user: { ...person, isGhost: false } });
+  const { factory, recordResetLinkIssued } = service({ user: { ...person, isGhost: false } });
   await factory.createResetLinkForUser({ userId: "u-1", auditLogInfo: administrator });
-  expect(auditLogService.createAuditLog).toHaveBeenCalledTimes(1);
-  const [entry] = auditLogService.createAuditLog.mock.calls[0] as [
-    { orgId: string; actor: { type: string }; event: { type: string; metadata: object } }
+  expect(recordResetLinkIssued).toHaveBeenCalledTimes(1);
+  const [entry] = recordResetLinkIssued.mock.calls[0] as [
+    { orgId: string; auditLogInfo: { actor: { type: string } }; metadata: object }
   ];
   expect(entry.orgId).toBe("org-1");
-  expect(entry.actor.type).toBe(ActorType.USER);
-  expect(entry.event).toEqual({
-    type: EventType.ISSUE_PASSWORD_RESET_LINK,
-    metadata: { userId: "u-1", username: "a+b@vaultix.invalid", origin: "administrator" }
-  });
+  expect(entry.auditLogInfo.actor.type).toBe(ActorType.USER);
+  expect(entry.metadata).toEqual({ userId: "u-1", username: "a+b@vaultix.invalid", origin: "administrator" });
   expect(JSON.stringify(entry)).not.toContain("one-use-token");
 });
 
@@ -105,13 +101,15 @@ test("an instance without a site address cannot issue a link", async () => {
 });
 
 test("the host recovers the only instance administrator, recorded as the platform", async () => {
-  const { factory, auditLogService } = service({ owners: [person] });
+  const { factory, recordResetLinkIssued } = service({ owners: [person] });
   const link = await factory.createOwnerResetLinkFromHost({ hostCode: "code", auditLogInfo: host });
   expect(mocks.consumeHostRecoveryCode).toHaveBeenCalledWith("code");
   expect(new URL(link.url).searchParams.get("to")).toBe("a+b@vaultix.invalid");
-  const [entry] = auditLogService.createAuditLog.mock.calls[0] as [{ actor: { type: string }; event: object }];
-  expect(entry.actor.type).toBe(ActorType.PLATFORM);
-  expect(entry.event).toMatchObject({ metadata: { origin: "host" } });
+  const [entry] = recordResetLinkIssued.mock.calls[0] as [
+    { auditLogInfo: { actor: { type: string } }; metadata: object }
+  ];
+  expect(entry.auditLogInfo.actor.type).toBe(ActorType.PLATFORM);
+  expect(entry.metadata).toMatchObject({ origin: "host" });
 });
 
 test("several instance administrators need an email to choose one", async () => {
