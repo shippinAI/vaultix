@@ -92,6 +92,14 @@ How it should work:
 - **AI sessions.** The Go service has the device flow (off by default, 60-minute access). Still
   needed: the browser page where a person approves an AI, `vaultix login` support for it, MCP
   admission for delegated sessions, CLI renewal, then turning it on.
+- **Account recovery works without email.** The forgot-password email needs a mail server
+  (`SMTP_HOST` and the other `SMTP_*` settings on the host). Without one, an instance administrator
+  uses Admin → Resource overview → Users → Create Password Reset Link
+  (`POST /api/vx/v1/access/users/{userId}/password-reset-links`). The link carries the same one-use,
+  24-hour token the email would, opens the same reset page, and replaces any earlier link. Issuing
+  one is logged with who issued it for whom. Built 2026-11-13; unit tests pass, and the image test
+  (`scripts/test-password-reset-image.mjs`) waits on a build. Still to build: owner recovery from
+  the host for when no administrator can sign in, and an audit-log event for issued links.
 
 Needed outside this repository: Google configured as an upstream provider in Nomen, and
 vaultix.cloud registered there as a client. Nomen is a sibling tree and is not edited from here.

@@ -100,6 +100,7 @@ try {
   node("proxy-boundary", "scripts/test-proxy-boundary.mjs", report.imageId);
   node("provider-import", "scripts/test-provider-import-image.mjs", report.imageId);
   node("assistant", "scripts/test-assistant-image.mjs", report.imageId);
+  node("password-reset", "scripts/test-password-reset-image.mjs", report.imageId);
   node("setup-code", "scripts/test-setup-code.mjs", report.imageId);
   for (const cache of ["dragonfly", "redis"]) node(`admission-${cache}`, "scripts/test-production-admission.mjs", report.imageId, cache);
   if (mode === "--capabilities") {

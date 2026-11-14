@@ -294,3 +294,17 @@ export const useAdminDeleteEmailDomain = () => {
     }
   });
 };
+
+export type TPasswordResetLink = { url: string; username: string; expiresAt: string };
+
+// Issues a one-use reset link for a person; shown once, works without email.
+export const useCreatePasswordResetLink = () =>
+  useMutation({
+    mutationFn: async (userId: string) => {
+      const { data } = await apiRequest.post<{ passwordResetLink: TPasswordResetLink }>(
+        `/api/vx/v1/access/users/${userId}/password-reset-links`,
+        {}
+      );
+      return data.passwordResetLink;
+    }
+  });
