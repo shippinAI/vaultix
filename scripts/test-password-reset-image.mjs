@@ -40,6 +40,24 @@ function raw(app, path, { method = "GET", body, token } = {}) {
   return response;
 }
 
+// Sign-in routes share a per-address limit of a few calls a minute, and this proof makes more than
+// a person would, so it waits the window out as a person would.
+async function signIn(app, path, { body, token, status = 200 } = {}) {
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const response = raw(app, path, { method: "POST", body, token });
+    if (response.status !== 429) {
+      if (status === "refused") {
+        assert.ok(response.status >= 400, `${path} was accepted during ${phase}`);
+        return {};
+      }
+      assert.equal(response.status, status, `Unexpected HTTP status from ${path} during ${phase}`);
+      return response.body ? JSON.parse(response.body) : {};
+    }
+    await new Promise(done => setTimeout(done, 15_000));
+  }
+  throw new Error(`${path} stayed rate limited during ${phase}`);
+}
+
 try {
   phase = "instance";
   harness.createNetwork(run);
@@ -66,20 +84,23 @@ try {
     body: { email, password: original, firstName: "Reset", organizationName: "Reset Org" } });
   const userId = owner.user?.id;
   assert.match(userId ?? "", /^[0-9a-f-]{36}$/, "the signup did not return the owner's user ID");
+  const organizationId = owner.organization.id;
+  const session = async token => (await signIn(app, "/api/v3/auth/select-organization", { token, body: { organizationId } })).token;
+  const ownerToken = await session(owner.token);
   check("an owner exists on an instance with no mail server");
 
   phase = "refusals";
   const path = `/api/vx/v1/access/users/${userId}/password-reset-links`;
   assert.equal(raw(app, path, { method: "POST", body: {} }).status, 401);
-  const badId = await api("/api/vx/v1/access/users/not-an-id/password-reset-links", { method: "POST", token: owner.token, body: {}, status: 400 });
+  const badId = await api("/api/vx/v1/access/users/not-an-id/password-reset-links", { method: "POST", token: ownerToken, body: {}, status: 400 });
   assert.equal(typeof badId.error, "string");
   const missing = await api(`/api/vx/v1/access/users/${"0".repeat(8)}-0000-4000-8000-${"0".repeat(12)}/password-reset-links`,
-    { method: "POST", token: owner.token, body: {}, status: 404 });
+    { method: "POST", token: ownerToken, body: {}, status: 404 });
   assert.match(missing.message, /was not found/);
   check("signed-out requests, malformed IDs and unknown people are refused with a reason");
 
   phase = "issue";
-  const issued = await api(path, { method: "POST", token: owner.token, body: {}, status: 201 });
+  const issued = await api(path, { method: "POST", token: ownerToken, body: {}, status: 201 });
   const link = new URL(issued.passwordResetLink.url);
   assert.equal(`${link.origin}${link.pathname}`, `${siteUrl}/account-recovery-reset`);
   assert.equal(link.searchParams.get("to"), email);
@@ -89,16 +110,16 @@ try {
   check("an instance administrator gets a one-use link to the reset page, valid for a day");
 
   phase = "reset";
-  const verified = await api("/api/v1/account-recovery/verify-email", { method: "POST", body: { email, code } });
+  const verified = await signIn(app, "/api/v1/account-recovery/verify-email", { body: { email, code } });
   assert.equal(typeof verified.token, "string");
-  await api("/api/v2/password/password-reset", { method: "POST", token: verified.token, body: { newPassword: replacement } });
-  const signedIn = await api("/api/v3/auth/login", { method: "POST", body: { email, password: replacement } });
+  await signIn(app, "/api/v2/password/password-reset", { token: verified.token, body: { newPassword: replacement } });
+  const signedIn = await signIn(app, "/api/v3/auth/login", { body: { email, password: replacement } });
   assert.ok(signedIn.accessToken || signedIn.token, "the new password did not sign in");
-  assert.ok(raw(app, "/api/v3/auth/login", { method: "POST", body: { email, password: original } }).status >= 400, "the old password still signs in");
+  await signIn(app, "/api/v3/auth/login", { body: { email, password: original }, status: "refused" });
   check("the link leads through the normal verify and reset routes; the new password signs in and the old one does not");
 
   phase = "reuse";
-  assert.ok(raw(app, "/api/v1/account-recovery/verify-email", { method: "POST", body: { email, code } }).status >= 400, "the link worked twice");
+  await signIn(app, "/api/v1/account-recovery/verify-email", { body: { email, code }, status: "refused" });
   check("the link cannot be used a second time");
 
   phase = "host refusal";
@@ -115,20 +136,20 @@ try {
   const hostLink = new URL(hostAnswer.body.passwordResetLink.url);
   assert.equal(hostLink.searchParams.get("to"), email);
   const hostToken = hostLink.searchParams.get("token");
-  const hostVerified = await api("/api/v1/account-recovery/verify-email", { method: "POST", body: { email, code: hostToken } });
-  await api("/api/v2/password/password-reset", { method: "POST", token: hostVerified.token, body: { newPassword: recovered } });
-  const ownerAgain = await api("/api/v3/auth/login", { method: "POST", body: { email, password: recovered } });
+  const hostVerified = await signIn(app, "/api/v1/account-recovery/verify-email", { body: { email, code: hostToken } });
+  await signIn(app, "/api/v2/password/password-reset", { token: hostVerified.token, body: { newPassword: recovered } });
+  const ownerAgain = await signIn(app, "/api/v3/auth/login", { body: { email, password: recovered } });
   assert.ok(ownerAgain.accessToken || ownerAgain.token, "the owner could not sign in after host recovery");
   const unknown = docker(["exec", "-i", app, "node", "-"], { input: hostScript.replace("%s", JSON.stringify({ code: randomBytes(32).toString("hex"), email: "nobody@vaultix.invalid" })), allowFailure: true, timeout: 30_000 });
   assert.equal(JSON.parse(unknown.stdout.toString()).status, 404, "an unknown administrator email was not refused");
   check("the host command's script recovers the owner with no sign-in, and names an unknown administrator");
 
   phase = "audit";
-  const session = ownerAgain.accessToken || ownerAgain.token;
+  const auditToken = await session(ownerAgain.accessToken || ownerAgain.token);
   let entries = [];
   await waitFor(() => {
     const listed = http(app, "/api/v1/organization/audit-logs?eventType=issue-password-reset-link&limit=10",
-      { headers: { Authorization: `Bearer ${session}` } });
+      { headers: { Authorization: `Bearer ${auditToken}` } });
     entries = listed?.status === 200 ? JSON.parse(listed.body).auditLogs : [];
     return entries.length >= 2;
   }, "audit log entries for issued reset links");
