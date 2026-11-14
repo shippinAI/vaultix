@@ -95,7 +95,7 @@ platform/engine/backend-go/internal/queue	foundation	Go-native	3	d3aecb77008e8b6
 platform/engine/backend-go/internal/server	foundation	Go-native	1	cd6a095eb0e72634005bc00ab871fdae089c9060936801e0e9f2f6d9f7bd85bd	0	unassessed
 platform/engine/backend-go/internal/server/api	foundation	Go-native	3	26a876a8e0f7938f64089690326eae3963ad0a16a436c540a553be43ce55dd42	2	unassessed
 platform/engine/backend-go/internal/server/api	secrets	Go-native	2	3c6cd543c6b585ccdfc4ad0e3593123d47d8f69b597c71589019c70a8da0bdf5	2	unassessed
-platform/engine/backend-go/internal/server/api/assistant	foundation	Go-native	2	42fada4161997695866a7e62f8916dd1bc9d989b77c00f0b74819cfd3eac344b	0	unassessed
+platform/engine/backend-go/internal/server/api/assistant	foundation	Go-native	2	1ac6da759abaa6dc0fcdcc328d34bb1f41c7d0d1d261ee5f1bb61d4860d485e6	0	unassessed
 platform/engine/backend-go/internal/server/api/platform/deviceauth	foundation	Go-native	3	9ac5cbe9018684f3fb0a504febe8a557a358cae6695c9bc2904d9d2b21164db6	3	unassessed
 platform/engine/backend-go/internal/server/api/platform/projects	secrets	Go-native	4	0212c003f416c06322b25931ab4a08e7dcd9c25956768e0552b5634c58ee2259	3	unassessed
 platform/engine/backend-go/internal/server/api/platform/usersessions	identity	Go-native	2	e7edf4160276f4485dc7433c705c78f51beecb3b7bff0724490847808c8f1715	0	unassessed
@@ -105,7 +105,7 @@ platform/engine/backend-go/internal/server/api/templates	foundation	Go-native	1	
 platform/engine/backend-go/internal/server/api/validator	foundation	Go-native	1	ab3bc71ff0bcc595b4b94c6e1bb3b1cfb9485d494ee9b3df1b936dbce053f94d	0	unassessed
 platform/engine/backend-go/internal/server/api/vaultixref	foundation	Go-native	4	8b3f088be76436b216f2d930545d515c72b074fb905797a3b659add0e4ef3995	4	unassessed
 platform/engine/backend-go/internal/server/middlewares	foundation	Go-native	5	3d3328f055d8785f23b5cf0812cc11bb42d595f2fae5005de24549b28fe97906	0	unassessed
-platform/engine/backend-go/internal/services/assistant	foundation	Go-native	9	2f1359bd32dc7892e9bc22e0283154aea2bc3d8cf75091e6ac7bd3e8feb352e9	0	unassessed
+platform/engine/backend-go/internal/services/assistant	foundation	Go-native	16	6b9c42cec217de098066e9d344aeb33ecfc53eff5f77571a2f95409aea1e802b	0	unassessed
 platform/engine/backend-go/internal/services/assumeprivilege	authorization	Go-native	4	6ab594ed64dcbfa57fe695639d0da9be597737566109cbee6cbd7e078b9ad604	4	unassessed
 platform/engine/backend-go/internal/services/auditlog	audit	Go-native	8	da4168c54a6477600084ca395e8cb97b030b992281648d4ac0f889b7ecfc2ee1	5	unassessed
 platform/engine/backend-go/internal/services/auth	identity	Go-native	45	410390517de5e9968d6aeb95d44c3c0c5cca8ee6ddb491e772e0c441f624708a	42	unassessed
@@ -301,7 +301,7 @@ platform/engine/backend/src/server/routes/v3	identity	Go-domain-migration	2	391e
 platform/engine/backend/src/server/routes/v3	pki	Go-domain-migration	1	73ddd98aba53691336382fb0f949e2224954f18dc1cc92fb22946fc4bf87e48b	0	unassessed
 platform/engine/backend/src/server/routes/v4	foundation	Go-domain-migration	1	522daae29b7de7361853b5caa4d14e8a823ce359556c9e3074945108d520d664	0	unassessed
 platform/engine/backend/src/server/routes/v4	secrets	Go-domain-migration	1	c6960c04b1c487224ba174ee3202a7fbc596f3975856983b15eb5d26dd832b47	0	unassessed
-platform/engine/backend/src/server/routes/vx	foundation	Go-domain-migration	5	c5874c326fa85a80a0c0ff62a9b76f1c43badbf02d91547b1045b96f7c32689c	0	unassessed
+platform/engine/backend/src/server/routes/vx	foundation	Go-domain-migration	5	98e975ababc1ed6b797fc8096646bbffd7e237571a19ca5f0b46de653d58a4da	0	unassessed
 platform/engine/backend/src/services/access-token-queue	foundation	Go-domain-migration	1	78fe83c16f31bbd6ea5016cfd82c07a603a7703dbff975d7c4904d9cd19e69ad	0	unassessed
 platform/engine/backend/src/services/account-recovery	identity	Go-domain-migration	4	87065e628d7cdd821f4be1ed0474974ab407c04e8a6cd90ae7ede05d02a25ac3	0	unassessed
 platform/engine/backend/src/services/additional-privilege	authorization	Go-domain-migration	5	5774c016aaa7e580d0ed9776cd026a07a65d7f47e3d8f64602e8a7c9041dc12d	0	unassessed
@@ -1095,7 +1095,7 @@ platform/shippin/cmd/vaultix-control	hosted-service	Go-hosted-service	1	2f43f1d5
 platform/shippin/console	hosted-service	Go-hosted-service	3	43190eb6519717e7717f83fcf04a180117b919bc86af938ae7187f1526adc88c	0	unassessed
 platform/shippin/fleet	hosted-service	Go-hosted-service	2	d1b1550ad8014a22c430dbe01228fbcb20e06c1c5edfa828004aa72e92fad073	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	144	7c1d770006c50c32b6c31c23253562171231d948ffd4ef89cb2d2ebb519140b9	111	unassessed
+scripts	delivery	supporting-tooling-or-contract	145	c13c148bb28bcddb142ed18c5a3bda6812a3595df6716109f40a8f8739b5f664	111	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	3	1d2aff89334f56081fcbebbab47c6ff9f8f2ef514fd4bc927067e3d6fe619259	3	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	d2d724187d04f25b91851d774d02663e060f51a9fe26b9203b393beb175ed3d5	2	unassessed
 scripts/fixtures/windows-install	delivery	supporting-tooling-or-contract	2	ec46359d82e85605c79c1f82b5dc1754d959eafcb99ee59868c36d43d5253d61	0	unassessed

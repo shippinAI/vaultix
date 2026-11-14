@@ -2674,10 +2674,10 @@
     },
     {
       "path": "scripts/build-self-hosted.mjs",
-      "blob": "a57bb34c452d6f54995b3f7a061a73272c498fbc",
+      "blob": "74cba51d363a6382d4e25825d28267a1e301b854",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete canonical build/acceptance orchestration; insert offline action-contract and existing-reference compatibility gates before image construction. Existing image gates unchanged; current candidate image acceptance remains pending. 2026-11-13: account recovery without email (admin reset link, owner recovery from the host, issue-password-reset-link audit event, password-reset image step) authored and re-read.",
+      "scope": "Read complete canonical build/acceptance orchestration; insert offline action-contract and existing-reference compatibility gates before image construction. Existing image gates unchanged; current candidate image acceptance remains pending. 2026-11-13: account recovery without email (admin reset link, owner recovery from the host, issue-password-reset-link audit event, password-reset image step) authored and re-read. 2026-11-13: authored the AI v1 schema notes (docs/0126): router row, backend-go guidance, and the ai-contracts build step.",
       "evidence": [
         "docs/0114-domain-scripted-ui-standard.md",
         "scripts/ui-action-standard.test.mjs",
@@ -4979,10 +4979,10 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "f6384667a58e93749ab5b255be076b0329c6862b",
+      "blob": "5dcc86fc085a4ee794fd8c9cb5830d0c954d21ee",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete merged router including invite-only, early-access and lifecycle corrections. Add domain-event routing while preserving all authority and release boundaries. 2026-11-13: re-read the diff; changes are the platform/engine layout only (path patterns, link depth, ee to shippin pattern, layout note). 2026-11-13: authored the hosted-instance note and router row for docs/0125.",
+      "scope": "Read complete merged router including invite-only, early-access and lifecycle corrections. Add domain-event routing while preserving all authority and release boundaries. 2026-11-13: re-read the diff; changes are the platform/engine layout only (path patterns, link depth, ee to shippin pattern, layout note). 2026-11-13: authored the hosted-instance note and router row for docs/0125. 2026-11-13: authored the AI v1 schema notes (docs/0126): router row, backend-go guidance, and the ai-contracts build step.",
       "evidence": [
         "docs/0114-domain-scripted-ui-standard.md",
         "scripts/ui-action-standard.test.mjs",
@@ -8866,10 +8866,10 @@
     },
     {
       "path": "platform/engine/backend-go/CLAUDE.md",
-      "blob": "67706cc5b469604ceeeb9f7614ba2e3f3ebc7ce0",
+      "blob": "40d27ed74af74e515cd6dfc4b4f5ff3d485e3134",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship. 2026-11-11: the assistant paragraph adds tier models, memories, LooksLikeSecret and the write-free propose_memory tool, matching docs/0124.",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship. 2026-11-11: the assistant paragraph adds tier models, memories, LooksLikeSecret and the write-free propose_memory tool, matching docs/0124. 2026-11-13: authored the AI v1 schema notes (docs/0126): router row, backend-go guidance, and the ai-contracts build step.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "scripts/test-vaultix-policy.mjs",
